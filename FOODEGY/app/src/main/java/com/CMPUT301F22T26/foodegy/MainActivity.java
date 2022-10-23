@@ -2,7 +2,10 @@ package com.CMPUT301F22T26.foodegy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +13,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button buttonToIngredientActivity = (Button) findViewById(R.id.buttonToIngredientActivity);
+        buttonToIngredientActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), IngredientsActivity.class);
+                view.getContext().startActivity(intent);}
+        });
+
+        Button buttonToMealPlanActivity = (Button) findViewById(R.id.buttonToMealPlanActivity);
+        buttonToMealPlanActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MealPlansActivity.class);
+                view.getContext().startActivity(intent);}
+        });
+
+        Button buttonRecipesActivity = (Button) findViewById(R.id.buttonToRecipesActivity);
+        buttonRecipesActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), RecipesActivity.class);
+                view.getContext().startActivity(intent);}
+        });
+
+        Button buttonToShoppingListActivity = (Button) findViewById(R.id.buttonToShoppingListActivity);
+        buttonToShoppingListActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ShoppingListActivity.class);
+                view.getContext().startActivity(intent);}
+        });
     }
 }
