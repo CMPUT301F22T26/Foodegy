@@ -33,6 +33,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/title_text"
                 android:layout_width="205dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edit_text_border"
@@ -59,6 +60,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/hour_text"
                 android:layout_width="103dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_border"
@@ -70,6 +72,7 @@
                 android:textSize="13sp" />
 
             <EditText
+                android:id="@+id/minute_text"
                 android:layout_width="102dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_border"
@@ -95,6 +98,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/servings_text"
                 android:layout_width="205dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_border"
@@ -121,6 +125,7 @@
                 android:textSize="15sp" />
 
             <Spinner
+                android:id="@+id/category_spinner"
                 android:layout_width="205dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_border"
@@ -141,6 +146,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/amount_text"
                 android:layout_width="205dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_border"
@@ -167,6 +173,7 @@
                 android:textSize="15sp" />
 
             <Button
+                android:id="@+id/image_button"
                 android:layout_width="205dp"
                 android:layout_height="40dp"
                 android:hint="Select from gallery"
@@ -188,6 +195,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/comment_text"
                 android:layout_width="205dp"
                 android:layout_height="60dp"
                 android:background="@drawable/edit_text_border"
@@ -215,6 +223,7 @@
                 android:textSize="15sp" />
 
             <Button
+                android:id="@+id/ingredient_button"
                 android:layout_width="205dp"
                 android:layout_height="40dp"
                 android:hint="Add an ingredient"
@@ -231,6 +240,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/submit_button"
                 android:layout_width="195dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="3dp"
@@ -239,6 +249,7 @@
                 android:textSize="11sp" />
 
             <Button
+                android:id="@+id/cancel_button"
                 android:layout_width="195dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="3dp"
