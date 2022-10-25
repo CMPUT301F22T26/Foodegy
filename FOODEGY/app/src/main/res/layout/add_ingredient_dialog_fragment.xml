@@ -40,27 +40,29 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:textSize="20sp"
-            android:text="Best Before Date" />
+            android:text="Best Before" />
 
         <Spinner
             android:id="@+id/addIngredientDaySpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".167" />
+            android:layout_weight=".167"
+            android:entries="@array/days_array"/>
 
         <Spinner
             android:id="@+id/addIngredientMonthSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".167" />
+            android:layout_weight=".167"
+            android:entries="@array/months_array" />
 
         <Spinner
             android:id="@+id/addIngredientYearSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".167" />
+            android:layout_weight=".167"
+            android:entries="@array/years_array"/>
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +75,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight=".5"
             android:textSize="20sp"
             android:text="Location" />
 
@@ -81,7 +83,8 @@
             android:id="@+id/addIngredientLocationSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".5" />
+            android:layout_weight=".5"
+            android:entries="@array/locations_array"/>
     </LinearLayout>
 
     <LinearLayout
@@ -102,7 +105,8 @@
             android:id="@+id/addIngredientCategorySpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".5" />
+            android:layout_weight=".5"
+            android:entries="@array/categories_array"/>
     </LinearLayout>
 
     <LinearLayout

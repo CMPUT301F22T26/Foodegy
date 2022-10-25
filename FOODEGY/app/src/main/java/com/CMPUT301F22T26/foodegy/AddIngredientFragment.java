@@ -2,12 +2,12 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -26,7 +26,6 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     private Spinner year;
 
     private OnFragmentInteractionListener listener;
-
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(StorageIngredient newIngredient);
@@ -47,9 +46,20 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_ingredient_dialog_fragment, null);
-    ingredientDescription = view.findViewById(R.id.editTextIngredientDescription);
-    ingredientAmount = view.findViewById(R.id.editTextIngredientAmount);
-    ingredientUnitCost = view.findViewById(R.id.editTextIngredientUnitCost);
+        ingredientDescription = view.findViewById(R.id.editTextIngredientDescription);
+        ingredientAmount = view.findViewById(R.id.editTextIngredientAmount);
+        ingredientUnitCost = view.findViewById(R.id.editTextIngredientUnitCost);
+
+        // note that the spinners are populated in the add_ingredient_dialog_fragment.xml already
+        //  from the arrays declared in strings.xml (located in res/values/strings.xml)
+        // CONSIDER: may fit nicer on the screen to use a date picker dialog!
+        day = view.findViewById(R.id.addIngredientDaySpinner);
+        month = view.findViewById(R.id.addIngredientMonthSpinner);
+        year = view.findViewById(R.id.addIngredientYearSpinner);
+        location = view.findViewById(R.id.addIngredientLocationSpinner);
+        category = view.findViewById(R.id.addIngredientCategorySpinner);
+
+
 
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(getContext());
@@ -67,8 +77,17 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String description = ingredientDescription.getText().toString();
-                    //listener.onOkPressed(new StorageIngredient("h", "hh", "hhh", 3, 1, "dd"));
-                    // not complete
+                    String d = day.getSelectedItem().toString();
+                    String m = month.getSelectedItem().toString();
+                    String y = year.getSelectedItem().toString();
+                    listener.onOkPressed(new StorageIngredient(
+                            description,
+                            y+"-"+m+"-"+d,
+                            location.getSelectedItem().toString(),
+                            Integer.parseInt(ingredientAmount.getText().toString()),
+                            Integer.parseInt(ingredientUnitCost.getText().toString()),
+                            category.getSelectedItem().toString()));
+
                 };
                 // removed both of the original buttons with these default ones
                 // because these were quicker to implement

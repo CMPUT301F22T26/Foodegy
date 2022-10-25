@@ -104,8 +104,8 @@
             android:id="@+id/ingredientCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15sp"
             android:layout_weight="0.5"
-            android:layout_marginRight="10sp"
             android:text="Category"
             android:textAlignment="textEnd"
             android:textSize="20sp" />
