@@ -10,29 +10,25 @@ public class MealPlanItem {
      * if item is StorageIngredient, 'StorageIngredient' object is initialised and 'Recipe' object is
      * initialised to a null value (vice versa for 'Recipe' item).
      */
-    private int date;
+    private String date;
     private int month;
     private int year;
-    private String type;
-    private StorageIngredient ingredient;
-    private Recipe mealRecipe;
+    private FoodItems foodItem; //abstract class object
     private int servings;
 
-    public MealPlanItem(int date, int month, int year, String type, StorageIngredient ingredient, Recipe mealRecipe, int servings){
+    public MealPlanItem(String date, int month, int year, FoodItems foodItem, int servings){
         this.date = date;
         this.month = month;
         this.year = year;
-        this.type = type;
-        this.ingredient = ingredient;
-        this.mealRecipe = mealRecipe;
+        this.foodItem = foodItem;
         this.servings = servings;
     }
 
-    public int getDate() {
+    public String  getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -52,28 +48,14 @@ public class MealPlanItem {
         this.year = year;
     }
 
-    public String getType() {
-        return type;
+    public String getFoodItem() {
+        String name = foodItem.getName();
+        return (name);
+//        return foodItem;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public StorageIngredient getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(StorageIngredient ingredient) {
-        this.ingredient = ingredient;
-    }
-
-    public Recipe getMealRecipe() {
-        return mealRecipe;
-    }
-
-    public void setMealRecipe(Recipe mealRecipe) {
-        this.mealRecipe = mealRecipe;
+    public void setFoodItem(FoodItems foodItem) {
+        this.foodItem = foodItem;
     }
 
     public int getServings() {
