@@ -7,6 +7,7 @@ public class StorageIngredient {
     private int amount;
     private int unitCost;
     private String category;
+    private String id;
 
     StorageIngredient(String description, String bestBeforeDate, String location, int amount, int unitCost, String category){
         this.description = description;
@@ -15,6 +16,7 @@ public class StorageIngredient {
         this.amount = amount;
         this.unitCost = unitCost;
         this.category = category;
+        // dont need id in the constructor
     }
 
     public String getDescription() {
@@ -64,4 +66,8 @@ public class StorageIngredient {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getId() {return this.id;}
+
+    public void setId(String id) {this.id = id;}
 }
