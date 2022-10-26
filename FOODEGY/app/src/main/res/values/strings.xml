@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Foodegy</string>
+    <string-array name="test_array">
+        <item>Test 1</item>
+        <item>Test 2</item>
+        <item>Test 3</item>
+    </string-array>
 </resources>
