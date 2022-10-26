@@ -72,13 +72,6 @@ public class Recipe {
         this.comments = comments;
     }
 
-    public Ingredient getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Ingredient ingredients) {
-        this.ingredients = ingredients;
-    }
 
     private String title;
     private String hours;
@@ -88,6 +81,13 @@ public class Recipe {
     private String amount;
     private Image recipeImage;
     private String comments;
-    private Ingredient ingredients;
+    private ArrayList<Ingredients> ingredients;
 
+    public ArrayList<Ingredients> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredients> ingredients) {
+        this.ingredients = ingredients;
+    }
 }
