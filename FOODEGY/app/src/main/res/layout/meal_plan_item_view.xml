@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:padding="4dp"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:text="TextView" />
 
     <TextView
@@ -19,7 +19,32 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="4dp"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textAlignment="textEnd"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textAlignment="textEnd"
+        android:text="TextView" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/text4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:textSize="15sp"-->
+<!--        android:text="TextView" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/text5"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:textSize="15sp"-->
+<!--        android:text="TextView" />-->
 </LinearLayout>

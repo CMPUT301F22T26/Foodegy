@@ -13,6 +13,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Intent myIntent = new Intent(MainActivity.this, MealPlanActivity.class);
+//        myIntent.putExtra("key", value); //Optional parameters
+//        MainActivity.this.startActivity(myIntent);
+
         Button buttonToActivity = (Button) findViewById(R.id.button);
         buttonToActivity.setOnClickListener(view -> {
             Intent intent;

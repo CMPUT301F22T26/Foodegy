@@ -11,12 +11,12 @@ public class MealPlanItem {
      * initialised to a null value (vice versa for 'Recipe' item).
      */
     private String date;
-    private int month;
-    private int year;
+    private String month;
+    private String year;
     private FoodItems foodItem; //abstract class object
-    private int servings;
+    private String servings;
 
-    public MealPlanItem(String date, int month, int year, FoodItems foodItem, int servings){
+    public MealPlanItem(String date, String month, String year, FoodItems foodItem, String servings){
         this.date = date;
         this.month = month;
         this.year = year;
@@ -25,26 +25,32 @@ public class MealPlanItem {
     }
 
     public String  getDate() {
+
         return date;
     }
 
     public void setDate(String date) {
+
         this.date = date;
     }
 
-    public int getMonth() {
+    public String getMonth() {
+
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
+
         this.month = month;
     }
 
-    public int getYear() {
+    public String getYear() {
+
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
+
         this.year = year;
     }
 
@@ -55,14 +61,17 @@ public class MealPlanItem {
     }
 
     public void setFoodItem(FoodItems foodItem) {
+
         this.foodItem = foodItem;
     }
 
-    public int getServings() {
+    public String getServings() {
+
         return servings;
     }
 
-    public void setServings(int servings) {
+    public void setServings(String servings) {
+
         this.servings = servings;
     }
 }

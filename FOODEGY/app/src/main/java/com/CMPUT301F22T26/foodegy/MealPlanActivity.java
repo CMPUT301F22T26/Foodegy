@@ -1,5 +1,6 @@
 package com.CMPUT301F22T26.foodegy;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
@@ -28,14 +29,15 @@ public class MealPlanActivity extends AppCompatActivity {
 
     //giving some initial values
     List<String> dates = Arrays.asList("3", "23", "32");
-    int[] months = new int[]{2, 3, 1};
-    List<Integer> years = Arrays.asList(2022, 2022, 2023);
+//    int[] months = new int[]{2, 3, 1};
+    List<String> months = Arrays.asList("12", "11", "1");
+    List<String> years = Arrays.asList("2022", "2022", "2023");
         //initializing some FoodItems objects
         FoodItems foodItem1 = new TempIngredients("Apple");
         FoodItems foodItem2 = new TempIngredients("Avocado");
         FoodItems foodItem3 = new TempIngredients("Mango");
     List<FoodItems> foodItems = Arrays.asList(foodItem1, foodItem2, foodItem3);
-    List<Integer> servings = Arrays.asList(3, 4, 2);
+    List<String> servings = Arrays.asList("3", "4", "2");
 
 
     @Override
@@ -48,20 +50,31 @@ public class MealPlanActivity extends AppCompatActivity {
         mealPlanItemsView = findViewById(R.id.meal_plan_items);
 
             //populate the list
-        for (int i = 0; i < 3; i++){
-            mealPlanData.add(new MealPlanItem(dates.get(i), months[i], years.get(i), foodItems.get(i), servings.get(i)));
-        }
+            for (int j = 0; j < 3; j++){
+                mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
+            }
         mealPlanItemsAdapter = new MealPlanItemsList(this, mealPlanData);
         mealPlanItemsView.setAdapter(mealPlanItemsAdapter);
 
         //creating the calendar
         calendarView = findViewById(R.id.calendar_view);
         headerText = findViewById(R.id.meal_plan_header);
+        headerText.setText("Heyo!");
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 String date = (i1 + 1) + "/" + i2 + "/" + i;
+                headerText.setText(date);
+//                for (int k = 0; k < 3; k++) {
+//                    mealPlanData.remove(k);
+//                }
+//                mealPlanItemsAdapter.notifyDataSetChanged();
+                for (int j = 0; j < 3; j++){
+                    mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
+                }
+                mealPlanItemsAdapter.notifyDataSetChanged();
             }
         });
 

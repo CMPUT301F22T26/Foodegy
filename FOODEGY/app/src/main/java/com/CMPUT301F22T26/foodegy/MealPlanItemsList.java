@@ -35,20 +35,21 @@ public class MealPlanItemsList extends ArrayAdapter<MealPlanItem> {
         //finding views to fill up the FoodItem object
         TextView itemName = view.findViewById(R.id.item_name);
         TextView servings = view.findViewById(R.id.item_servings);
-//        TextView date = view.findViewById(R.id.date);
-//        TextView month = view.findViewById(R.id.month);
-//        TextView year = view.findViewById(R.id.year);
+        TextView date = view.findViewById(R.id.text3);
+//        TextView month = view.findViewById(R.id.text4);
+//        TextView year = view.findViewById(R.id.text5);
 
         //get FoodItem object
         MealPlanItem mealPlanItem = itemsList.get(position);
 
         //filling the FoodItem object in view
-//        String date_s = String.valueOf(mealPlanItem.getDate());
-        String month_s = String.valueOf(mealPlanItem.getMonth());
-        String year_s = String.valueOf(mealPlanItem.getYear());
+        String date_s = mealPlanItem.getDate();
+        String month_s = mealPlanItem.getMonth();
+        String year_s = mealPlanItem.getYear();
         itemName.setText(mealPlanItem.getFoodItem());
         servings.setText(mealPlanItem.getServings());
-//        date.setText(mealPlanItem.getDate());
+        String date_f = date_s + "/" + month_s + "/" + year_s;
+        date.setText(date_f);
 //        month.setText(month_s);
 //        year.setText(year_s);
 
