@@ -28,16 +28,21 @@ public class MealPlanActivity extends AppCompatActivity {
     TextView headerText;
 
     //giving some initial values
-    List<String> dates = Arrays.asList("3", "23", "32");
+    List<String> dates = Arrays.asList("29", "23", "30", "30", "23", "23", "30", "30");
 //    int[] months = new int[]{2, 3, 1};
-    List<String> months = Arrays.asList("12", "11", "1");
-    List<String> years = Arrays.asList("2022", "2022", "2023");
+    List<String> months = Arrays.asList("10", "10", "10", "10", "10", "10", "10", "10");
+    List<String> years = Arrays.asList("2022", "2022", "2022", "2022", "2022", "2022", "2022", "2022");
         //initializing some FoodItems objects
         FoodItems foodItem1 = new TempIngredients("Apple");
         FoodItems foodItem2 = new TempIngredients("Avocado");
         FoodItems foodItem3 = new TempIngredients("Mango");
-    List<FoodItems> foodItems = Arrays.asList(foodItem1, foodItem2, foodItem3);
-    List<String> servings = Arrays.asList("3", "4", "2");
+        FoodItems foodItem4 = new TempIngredients("Bread");
+        FoodItems foodItem5 = new TempIngredients("Ham");
+        FoodItems foodItem6 = new TempIngredients("Bagel");
+        FoodItems foodItem7 = new TempIngredients("Butter");
+        FoodItems foodItem8 = new TempIngredients("Mayo");
+    List<FoodItems> foodItems = Arrays.asList(foodItem1, foodItem2, foodItem3, foodItem4, foodItem5, foodItem6, foodItem7, foodItem8);
+    List<String> servings = Arrays.asList("3", "4", "2", "2", "1", "3", "9", "4");
 
 
     @Override
@@ -50,9 +55,9 @@ public class MealPlanActivity extends AppCompatActivity {
         mealPlanItemsView = findViewById(R.id.meal_plan_items);
 
             //populate the list
-            for (int j = 0; j < 3; j++){
-                mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
-            }
+//            for (int j = 0; j < 3; j++){
+//                mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
+//            }
         mealPlanItemsAdapter = new MealPlanItemsList(this, mealPlanData);
         mealPlanItemsView.setAdapter(mealPlanItemsAdapter);
 
@@ -67,12 +72,14 @@ public class MealPlanActivity extends AppCompatActivity {
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 String date = (i1 + 1) + "/" + i2 + "/" + i;
                 headerText.setText(date);
-//                for (int k = 0; k < 3; k++) {
-//                    mealPlanData.remove(k);
-//                }
-//                mealPlanItemsAdapter.notifyDataSetChanged();
-                for (int j = 0; j < 3; j++){
-                    mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
+                for (int k = 0; k < mealPlanData.size(); k ++){
+                    mealPlanData.remove(k);
+                }
+                for (int j = 0; j < months.size(); j++){
+                    String currDate = months.get(j) + "/" + dates.get(j) + "/" + years.get(j);
+                    if (currDate.equals(date)) {
+                        mealPlanData.add(new MealPlanItem(dates.get(j), months.get(j), years.get(j), foodItems.get(j), servings.get(j)));
+                    }
                 }
                 mealPlanItemsAdapter.notifyDataSetChanged();
             }
