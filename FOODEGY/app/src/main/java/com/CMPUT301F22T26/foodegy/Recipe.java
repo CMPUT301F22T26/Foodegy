@@ -1,12 +1,28 @@
 package com.CMPUT301F22T26.foodegy;
 
 import android.media.Image;
+import android.net.Uri;
+
+import java.util.ArrayList;
 
 /**
  * The recipe class is used to hold the user input data of the recipe which the user adds on when using the Recipe view and edit
  * feature of the app.
  */
 public class Recipe {
+
+    public Recipe(String title, String hours, String minutes, String servingValue, String category,
+                  String amount, Uri recipeImage, String comments, ArrayList<RecipeIngredient> ingredients) {
+        this.title = title;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.servingValue = servingValue;
+        this.category = category;
+        this.amount = amount;
+        this.recipeImage = recipeImage;
+        this.comments = comments;
+        this.ingredients = ingredients;
+    }
 
     public String getTitle() {
         return title;
@@ -56,11 +72,11 @@ public class Recipe {
         this.amount = amount;
     }
 
-    public Image getRecipeImage() {
+    public Uri getRecipeImage() {
         return recipeImage;
     }
 
-    public void setRecipeImage(Image recipeImage) {
+    public void setRecipeImage(Uri recipeImage) {
         this.recipeImage = recipeImage;
     }
 
@@ -79,15 +95,15 @@ public class Recipe {
     private String servingValue;
     private String category;
     private String amount;
-    private Image recipeImage;
+    private Uri recipeImage;
     private String comments;
-    private ArrayList<Ingredients> ingredients;
+    private ArrayList<RecipeIngredient> ingredients;
 
-    public ArrayList<Ingredients> getIngredients() {
+    public ArrayList<RecipeIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<Ingredients> ingredients) {
+    public void setIngredients(ArrayList<RecipeIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 }

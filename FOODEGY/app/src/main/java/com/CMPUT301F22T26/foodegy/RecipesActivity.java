@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class RecipesActivity extends AppCompatActivity {
     Button sortbutton;
     Button categorybutton;
-    Button addbutton;
+    FloatingActionButton addbutton;
     Button viewmorebutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

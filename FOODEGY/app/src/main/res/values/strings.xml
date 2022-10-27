@@ -5,4 +5,9 @@
         <item>Test 2</item>
         <item>Test 3</item>
     </string-array>
+    <string-array name="quick_add_ingredient_array">
+        <item>Meat</item>
+        <item>Dairy</item>
+        <item>Vegetable</item>
+    </string-array>
 </resources>
