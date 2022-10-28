@@ -10,6 +10,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +21,14 @@ import android.widget.Spinner;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -49,6 +57,10 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     ListView ingredientsListView;
     RecipeIngredientListAdapter ingredientsAdapter;
 
+    private String android_id = "TEST_ID";
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private CollectionReference RecipesCollection = firestore.collection("users")
+            .document(android_id).collection("Recipes");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +93,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         spinnerAdapter.setDropDownViewResource(R.layout.category_dropdown_items);
         // Apply the adapter to the spinner
         categorySpinner.setAdapter(spinnerAdapter);
-
         // View Listeners -----------------------
 
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +129,21 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
 
                 Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
                         selectedImage, comments, ingredientsList);
-                // Implement adding recipe to firebase here
+                // Add recipe to firebase
+                RecipesCollection.add(recipe)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("AddRecipe", "Successfully added recipe "+documentReference.getId());
+                                recipe.setId(documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("AddRecipe", "Could not add recipe, "+e);
+                            }
+                        });
             }
         });
 

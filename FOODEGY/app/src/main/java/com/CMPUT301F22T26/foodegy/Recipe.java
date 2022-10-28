@@ -88,6 +88,10 @@ public class Recipe {
         this.comments = comments;
     }
 
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id;}
+
 
     private String title;
     private String hours;
@@ -98,6 +102,7 @@ public class Recipe {
     private Uri recipeImage;
     private String comments;
     private ArrayList<RecipeIngredient> ingredients;
+    private String id;
 
     public ArrayList<RecipeIngredient> getIngredients() {
         return ingredients;
