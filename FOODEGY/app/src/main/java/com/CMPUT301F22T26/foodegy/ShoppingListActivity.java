@@ -1,5 +1,6 @@
 package com.CMPUT301F22T26.foodegy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,6 +22,10 @@ public class ShoppingListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list_activity);
+
+        //Get the intent that started this activity and extract the String
+        Intent intent = getIntent();
+//        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         //Initialize list variables
         shoppingListData = new ArrayList<ShoppingListItem>();
