@@ -13,7 +13,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="84dp"
+            android:layout_height="75dp"
             android:gravity="center"
             android:text="Add Recipe"
             android:textColor="@color/yellow"
@@ -234,6 +234,26 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <ListView
+                android:longClickable="true"
+                android:id="@+id/ingredients_listview"
+                android:layout_width="match_parent"
+                android:layout_height="162dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

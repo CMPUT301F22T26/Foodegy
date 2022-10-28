@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870599742282",
+    "project_id": "foodegy-edaf5",
+    "storage_bucket": "foodegy-edaf5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870599742282:android:43c3dd8ca7ff1295d9e7b3",
+        "android_client_info": {
+          "package_name": "com.CMPUT301F22T26.foodegy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870599742282-2ni4kar8f5pom0uomd3g2e534k3guajq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkzUesKkFgmVyfYyaRXqo3YW48I9SY2Z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870599742282-2ni4kar8f5pom0uomd3g2e534k3guajq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
