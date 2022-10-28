@@ -81,7 +81,7 @@ public class Recipe {
     private String amount;
     private Image recipeImage;
     private String comments;
-    private ArrayList<Ingredients> ingredients;
+/*    private ArrayList<Ingredients> ingredients;
 
     public ArrayList<Ingredients> getIngredients() {
         return ingredients;
@@ -89,5 +89,5 @@ public class Recipe {
 
     public void setIngredients(ArrayList<Ingredients> ingredients) {
         this.ingredients = ingredients;
-    }
+    }*/
 }
