@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <style name="CustomCalendarMonth" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/yellow_text_app_default</item>
+        <item name="android:fontFamily">@font/akaya_telivigala</item>
+    </style>
+
+    <style name="CustomCalendarDay" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/yellow_text_app_default</item>
+        <item name="android:fontFamily">@font/akaya_telivigala</item>
+    </style>
+
+    <style name="CustomCalendarWeek" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/yellow_text_app_default</item>
+        <item name="android:fontFamily">@font/akaya_telivigala</item>
+    </style>
+</resources>

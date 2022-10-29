@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#000000"
+    >
 
 
     <TextView
@@ -15,22 +17,31 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:text="Current Meal Plans" />
+        android:text="Current Meal Plan"
+        android:textColor="#E6AF2E"
+        android:fontFamily="@font/akaya_telivigala"/>
 
 
     <CalendarView
         android:id="@+id/calendar_view"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="320dp" />
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/bg_calendar"
+        android:dateTextAppearance="@style/CustomCalendarDay"
+        android:theme="@style/CustomCalendarMonth"
+        android:weekDayTextAppearance="@style/CustomCalendarWeek" />
 
     <ListView
         android:id="@+id/meal_plan_items"
-        android:layout_width="370dp"
-        android:layout_height="320dp"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="center" />
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:textColor="#E6AF2E"
+        android:fontFamily="@font/akaya_telivigala"
+        />
 
 </LinearLayout>
