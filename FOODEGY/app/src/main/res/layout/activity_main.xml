@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
 
     <TextView
         android:id="@+id/FrontPageTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="30dp"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/akaya_telivigala"
         android:text="FOODEGY"
         android:textAlignment="center"
         android:textColor="#E6AF2E"
-        android:textSize="48sp"
+        android:textSize="40dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,63 +31,77 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="4dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="4dp"
+        android:fontFamily="@font/akaya_telivigala"
         android:text=" Your meal prep journey starts here."
+        android:textSize="20dp"
         android:textColor="#E6AF2E"
+        android:textAlignment="center"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FrontPageTitle" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
-    <Button
-        android:id="@+id/buttonToIngredientActivity"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="INGREDIENTS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <Button
+            android:id="@+id/buttonToIngredientActivity"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:text="INGREDIENTS" />
 
-    <Button
-        android:id="@+id/buttonToMealPlanActivity"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="MEAL PLANS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToIngredientActivity"
-        />
+        <Button
+            android:id="@+id/buttonToMealPlanActivity"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:text="MEAL PLANS"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonToIngredientActivity" />
 
-    <Button
-        android:id="@+id/buttonToRecipesActivity"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="RECIPES"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToMealPlanActivity"
-        />
+        <Button
+            android:id="@+id/buttonToRecipesActivity"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:text="RECIPES"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonToMealPlanActivity" />
 
-    <Button
-        android:id="@+id/buttonToShoppingListActivity"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="SHOPPING LIST"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToRecipesActivity"
-        />
+        <Button
+            android:id="@+id/buttonToShoppingListActivity"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/akaya_telivigala"
+            android:text="SHOPPING LIST"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonToRecipesActivity" />
+
+    </LinearLayout>
 
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
