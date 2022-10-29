@@ -8,9 +8,9 @@
 
 
     <TextView
-        android:id="@+id/recipehighlight"
-        android:layout_width="232dp"
-        android:layout_height="33dp"
+        android:id="@+id/recipeHighlight"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
@@ -20,24 +20,49 @@
         android:textSize="15sp" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="237dp"
-        android:layout_height="52dp"
+        android:id="@+id/recipeDescription"
+        android:layout_width="273dp"
+        android:layout_height="31dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="46dp"
-        android:text="Recipe description" />
+        android:layout_marginTop="28dp"
+        android:text="Recipe description"
+        android:textColor="@color/black"/>
+
+
+    <TextView
+        android:id="@+id/recipePrice"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="60dp"
+        android:textColor="@color/black"
+        android:text="Price: " />
+
+    <TextView
+        android:id="@+id/recipeUnit"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="83dp"
+        android:textColor="@color/black"
+        android:text="Unit: " />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="160dp"
-        android:layout_height="86dp"
+        android:id="@+id/foodimageView"
+        android:layout_width="120dp"
+        android:layout_height="94dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="8dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="5dp"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
 
 
 </RelativeLayout>

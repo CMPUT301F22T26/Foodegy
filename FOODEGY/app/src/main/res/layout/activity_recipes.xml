@@ -49,6 +49,7 @@
     </RelativeLayout>
 
     <ListView
+        android:id="@+id/foodList"
         android:layout_width="match_parent"
         android:layout_height="413dp"
         android:layout_alignParentStart="true"
