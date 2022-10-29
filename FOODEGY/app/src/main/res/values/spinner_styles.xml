@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/spinner_text_color</item>
+        <item name="android:fontFamily">@font/akaya_telivigala</item>
+        <item name="android:colorBackground">@color/black</item>
+    </style>
+</resources>

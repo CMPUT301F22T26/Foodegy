@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <style name="MyDatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorControlNormal">@color/gray_textHint_app_default</item>
+        <item name="colorControlActivated">@color/gray_textHint_app_default</item>
+        <item name="android:textColorPrimary">@color/yellow_text_app_default</item>
+        <item name="android:fontFamily">@font/akaya_telivigala</item>
+    </style>
+</resources>

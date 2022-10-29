@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <TextView
@@ -17,7 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
     </LinearLayout>
 
     <LinearLayout
@@ -33,7 +36,9 @@
             android:layout_height="wrap_content"
 
             android:text="Best Before: "
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
 
         <TextView
             android:id="@+id/ingredientDate"
@@ -41,7 +46,9 @@
             android:layout_height="wrap_content"
             android:text="YYYY-MM-DD"
             android:layout_weight=".5"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,11 +57,23 @@
         android:layout_marginTop="5dp">
 
         <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location: "
+
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
+
+        <TextView
             android:id="@+id/ingredientLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[location]"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,14 +88,18 @@
             android:layout_height="wrap_content"
             android:text="Quantity: "
 
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
 
         <TextView
             android:id="@+id/ingredientQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[amount]"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
     </LinearLayout>
 
     <LinearLayout
@@ -91,14 +114,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Unit Cost: "
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
 
         <TextView
             android:id="@+id/ingredientUnitCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[amount]"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
 
         <TextView
             android:id="@+id/ingredientCategory"
@@ -108,7 +135,9 @@
             android:layout_weight="0.5"
             android:text="Category"
             android:textAlignment="textEnd"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="#E6AF2E"
+            android:fontFamily="@font/akaya_telivigala"/>
     </LinearLayout>
 
 

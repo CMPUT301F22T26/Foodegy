@@ -72,11 +72,12 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
         String label;
         if (ingredient == null) {
             // we are adding a new food
-            label = "Add ingredient";
+            label = "Add Ingredient";
+
         }
         else {
             // editing a food
-            label = "Edit ingredient";
+            label = "Edit Ingredient";
 
             // want fill in all the options from the data in the food
             ingredientDescription.setText(ingredient.getDescription());
