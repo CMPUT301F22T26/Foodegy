@@ -23,7 +23,7 @@
 
     <RelativeLayout
         android:layout_width="411dp"
-        android:layout_height="245dp"
+        android:layout_height="247dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="-2dp"
@@ -48,27 +48,31 @@
                 android:layout_marginEnd="5dp"
                 android:orientation="horizontal">
 
+
                 <TextView
                     android:id="@+id/titleTag"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Title:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
 
-
                 <TextView
-                    android:id="@+id/recipeText"
+                    android:id="@+id/titleText"
                     android:layout_width="204dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="-2dp"
+                    android:text="Title"
                     android:textColor="@color/white"
-                    android:layout_marginEnd="0dp"
-                    android:text="Title" />
+                    android:textSize="15sp" />
 
 
             </RelativeLayout>
@@ -86,7 +90,10 @@
                     android:id="@+id/timeTag"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="-4dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Time:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
@@ -98,10 +105,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="Hours: Minutes"
                     android:textColor="@color/white"
-                    android:text="Hours: Minutes" />
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -118,6 +126,7 @@
                     android:layout_width="100dp"
                     android:layout_height="20dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Servings:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
@@ -129,10 +138,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="1dp"
                     android:text="Servings"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -149,6 +159,7 @@
                     android:layout_width="100dp"
                     android:layout_height="20dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Category:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
@@ -162,7 +173,8 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="3dp"
                     android:text="Category"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
 
             </RelativeLayout>
@@ -180,7 +192,10 @@
                     android:id="@+id/amountTag"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Amount:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
@@ -191,10 +206,11 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="104dp"
+                    android:layout_marginStart="102dp"
                     android:layout_marginTop="0dp"
+                    android:text="amount"
                     android:textColor="@color/white"
-                    android:text="amount" />
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -202,13 +218,14 @@
                 android:layout_height="69dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp" >
+                android:layout_marginBottom="0dp">
 
                 <TextView
                     android:id="@+id/commentTag"
                     android:layout_width="100dp"
                     android:layout_height="20dp"
                     android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
                     android:text="Comment:"
                     android:textColor="@color/yellow"
                     android:textSize="15sp" />
@@ -220,9 +237,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="0dp"
-                    android:textColor="@color/white"
                     android:layout_marginEnd="0dp"
-                    android:text="Long Description" />
+                    android:text="Long Description"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
 
@@ -234,8 +252,8 @@
             android:layout_height="86dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="127dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="140dp"
             tools:srcCompat="@tools:sample/avatars" />
 
 
@@ -248,23 +266,23 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="387dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="336dp"
         android:text="Ingredients:"
         android:textColor="@color/yellow"
         android:textSize="15sp" />
 
     <ListView
         android:id="@+id/ingredientsList"
-        android:layout_width="match_parent"
-        android:layout_height="266dp"
+        android:layout_width="411dp"
+        android:layout_height="207dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="-2dp"
-        android:layout_marginTop="352dp"
-        android:layout_marginBottom="113dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="403dp"
+        android:layout_marginBottom="120dp"
         tools:listitem="@layout/recipe_ingredient_list_content" />
 
     <Button

@@ -24,6 +24,31 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    /**
+     * The second constructor is a temporary constructor used to test the display of Recipe's Image in RecipesActivity.java
+     * @param title
+     * @param hours
+     * @param minutes
+     * @param servingValue
+     * @param category
+     * @param amount
+     * @param imageId
+     * @param comments
+     * @param ingredients
+     */
+    public Recipe(String title, String hours, String minutes, String servingValue, String category,
+                  String amount, int imageId, String comments, ArrayList<RecipeIngredient> ingredients) {
+        this.title = title;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.servingValue = servingValue;
+        this.category = category;
+        this.amount = amount;
+        this.imageId = imageId;
+        this.comments = comments;
+        this.ingredients = ingredients;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -103,6 +128,11 @@ public class Recipe {
     private String comments;
     private ArrayList<RecipeIngredient> ingredients;
     private String id;
+    private int imageId;
+
+    public int getImageId() {
+        return imageId;
+    }
 
     public ArrayList<RecipeIngredient> getIngredients() {
         return ingredients;

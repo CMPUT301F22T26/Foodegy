@@ -42,13 +42,14 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         ImageView foodpic = listview.findViewById(R.id.foodimageView);
 
         title.setText(currentRecipe.getTitle());
-        price.setText(currentRecipe.getAmount());
-        unit.setText(currentRecipe.getServingValue());
+        price.setText("Price: "+currentRecipe.getAmount());
+        unit.setText("Unit: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());
-        foodpic.setImageURI(currentRecipe.getRecipeImage());
+       // foodpic.setImageURI(currentRecipe.getRecipeImage());
+        foodpic.setImageResource(currentRecipe.getImageId());
 
 
-        return convertView;
+        return listview;
 
     }
 }
