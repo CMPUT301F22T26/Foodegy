@@ -36,14 +36,7 @@ public class RecipesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
-        addbutton = findViewById(R.id.addRecipe);
-        addbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RecipesActivity.this, AddRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
 
         RecipesCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -105,6 +98,15 @@ public class RecipesActivity extends AppCompatActivity {
 
 
         );
+
+        addbutton = findViewById(R.id.addRecipe);
+        addbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipesActivity.this, AddRecipeActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
