@@ -5,6 +5,7 @@
         <item>Meat</item>
         <item>Grain</item>
         <item>Dairy</item>
+        <item>Fruits</item>
     </string-array>
 
     <string-array name="locations_array">

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,7 +18,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class ShoppingList extends ArrayAdapter<ShoppingListItem> implements FragmentCompleteIngredient.OnFragmentInteractionListener {
+public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
 
     private ArrayList<ShoppingListItem> itemsList;
     private Context context;
@@ -56,6 +57,24 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem> implements Frag
                     buyIngredient.setVisibility(View.VISIBLE);
                     buyIngredient.setClickable(true);
 
+                    buyIngredient.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            MainActivity myActivity = (MainActivity) context;
+
+                            Bundle args = new Bundle();
+                            args.putInt("pos", position);
+
+                            FragmentCompleteIngredient editFragment = new FragmentCompleteIngredient();
+                            editFragment.setArguments(args);
+                            editFragment.show(myActivity.getSupportFragmentManager(), "EDIT ITEM");
+
+                            bought.setChecked(false);
+                        }
+                    });
+
+
                 } else {
                     buyIngredient.setVisibility(View.INVISIBLE);
                     buyIngredient.setClickable(false);
@@ -81,8 +100,5 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem> implements Frag
 
     }
 
-    @Override
-    public void onOkPressed(int newFood) {
 
-    }
 }

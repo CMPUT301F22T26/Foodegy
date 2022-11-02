@@ -1,6 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
-public class ShoppingListItem {
+import java.io.Serializable;
+
+public class ShoppingListItem implements Serializable {
     /*
     This is a class for an ingredient that is to be bought, it is made when
     an ingredient is needed in meal plan (directly) or in a recipe which is
