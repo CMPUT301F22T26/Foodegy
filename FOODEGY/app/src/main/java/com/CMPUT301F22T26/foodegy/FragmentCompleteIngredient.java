@@ -65,7 +65,7 @@ public class FragmentCompleteIngredient extends DialogFragment {
         locationText = view.findViewById(R.id.addIngredientLocationSpinner);
         amountText = view.findViewById(R.id.editTextIngredientAmount);
         unitCostText = view.findViewById(R.id.editTextIngredientUnitCost);
-        categoryText = view.findViewById(R.id.addIngredientLocationSpinner);
+        categoryText = view.findViewById(R.id.addIngredientCategorySpinner);
 
         Bundle mArgs =getArguments();
         int pos = mArgs.getInt("pos");
@@ -76,21 +76,22 @@ public class FragmentCompleteIngredient extends DialogFragment {
         unitCostText.setText(editItem.getUnitCost());
 
         //setting category text
-        ArrayAdapter<CharSequence> adapter_cat = ArrayAdapter.createFromResource(getContext(), R.array.categories_array, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter_cat = ArrayAdapter.createFromResource(getContext(), R.array.categories_array, R.layout.category_spinner);
         adapter_cat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryText.setAdapter(adapter_cat);
         String curr_cat = editItem.getCategory();
         ArrayAdapter cat_adapter = (ArrayAdapter) categoryText.getAdapter();
         int catSpinnerPos = cat_adapter.getPosition(curr_cat);
         categoryText.setSelection(catSpinnerPos);
+        System.out.println(catSpinnerPos);
 
         //setting location text
-        ArrayAdapter<CharSequence> adapter_loc = ArrayAdapter.createFromResource(getContext(), R.array.locations_array, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter_loc = ArrayAdapter.createFromResource(getContext(), R.array.locations_array, R.layout.category_spinner);
         adapter_loc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationText.setAdapter(adapter_loc);
         String curr_loc = editItem.getLocation();
         ArrayAdapter loc_adapter = (ArrayAdapter) locationText.getAdapter();
-        int locSpinnerPos = loc_adapter.getPosition(curr_cat);
+        int locSpinnerPos = loc_adapter.getPosition(curr_loc);
         locationText.setSelection(locSpinnerPos);
 
 
