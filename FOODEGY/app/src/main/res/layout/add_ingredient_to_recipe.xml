@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/add_ingredient_title"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Quick Add Ingredient"
+        android:textSize="25sp"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Description"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/quick_add_ingredient_description"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter Description..."
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textSize="15sp"
+            android:background="@drawable/edit_text_border_black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Category"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:paddingLeft="20dp"/>
+
+        <Spinner
+            android:id="@+id/quick_add_ingredient_category"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_border_black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingLeft="20dp"
+            android:text="Amount"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/quick_add_ingredient_amount"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter Amount..."
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:background="@drawable/edit_text_border_black"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Unit"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:paddingLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/quick_add_ingredient_unit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter Unit..."
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textSize="15sp"
+            android:background="@drawable/edit_text_border_black"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

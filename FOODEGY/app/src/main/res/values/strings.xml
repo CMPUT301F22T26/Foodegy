@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Foodegy</string>
+
+    <string-array name="categories_array">
+        <item>Vegetable</item>
+        <item>Meat</item>
+        <item>Grain</item>
+        <item>Dairy</item>
+    </string-array>
+
+    <string-array name="locations_array">
+        <item>Pantry</item>
+        <item>Fridge</item>
+        <item>Freezer</item>
+    </string-array>
+
+    <string-array name="test_array">
+        <item>Test 1</item>
+        <item>Test 2</item>
+        <item>Test 3</item>
+    </string-array>
+    <string-array name="quick_add_ingredient_array">
+        <item>Meat</item>
+        <item>Dairy</item>
+        <item>Vegetable</item>
+    </string-array>
 </resources>

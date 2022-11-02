@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:fillViewport="true">
+
+
+    <TextView
+        android:id="@+id/viewRecipeTag"
+        android:layout_width="288dp"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="20dp"
+        android:text="View Recipe"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="411dp"
+        android:layout_height="247dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="75dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="309dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/titleTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Title:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="204dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="-2dp"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="-2dp"
+                android:layout_marginBottom="107dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timeTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="-4dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Time:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="204dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="Hours: Minutes"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="139dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/servingsTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Servings:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/servingsText"
+                    android:layout_width="204dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:text="Servings"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/categoryTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Category:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/categoryText"
+                    android:layout_width="198dp"
+                    android:layout_height="27dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Category"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="73dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/amountTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Amount:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/amountText"
+                    android:layout_width="204dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="102dp"
+                    android:layout_marginTop="0dp"
+                    android:text="amount"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="305dp"
+                android:layout_height="69dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp">
+
+                <TextView
+                    android:id="@+id/commentTag"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="173dp"
+                    android:paddingLeft="5dp"
+                    android:text="Comment:"
+                    android:textColor="@color/yellow"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/commentText"
+                    android:layout_width="204dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:text="Long Description"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/foodImage"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="140dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ingredientsTag"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="336dp"
+        android:text="Ingredients:"
+        android:textColor="@color/yellow"
+        android:textSize="15sp" />
+
+    <ListView
+        android:id="@+id/ingredientsList"
+        android:layout_width="411dp"
+        android:layout_height="207dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="403dp"
+        android:layout_marginBottom="120dp"
+        tools:listitem="@layout/recipe_ingredient_list_content" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="145dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="59dp"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="145dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="59dp"
+        android:backgroundTint="@color/dark_grey"
+        android:hint="Delete"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:backgroundTint="@color/dark_grey"
+        android:textColorHint="@color/white"
+        android:hint="Cancel" />
+
+</RelativeLayout>
+
+
+
+

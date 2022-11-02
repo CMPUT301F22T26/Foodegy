@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ingredientViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:text="[ingredient Name]"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ingredientViewBestBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="147dp"
+        android:text="Best before:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ingredientViewLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="23dp"
+        android:text="Location: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewBestBefore" />
+
+    <TextView
+        android:id="@+id/ingredientViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="31dp"
+        android:text="Category: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewLocation" />
+
+    <TextView
+        android:id="@+id/ingredientViewAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="28dp"
+        android:text="Amount: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewCategory" />
+
+    <TextView
+        android:id="@+id/ingredientViewUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="29dp"
+        android:text="Unit: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewAmount" />
+
+    <TextView
+        android:id="@+id/ingredientViewThisBestBeforeDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="59dp"
+        android:text="[best before date]"
+        app:layout_constraintStart_toEndOf="@+id/ingredientViewBestBefore"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewName" />
+
+    <TextView
+        android:id="@+id/ingredientViewThisLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="28dp"
+        android:text="[location]"
+        app:layout_constraintStart_toEndOf="@+id/ingredientViewLocation"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewThisBestBeforeDate" />
+
+    <TextView
+        android:id="@+id/ingredientViewThisCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="33dp"
+        android:text="[category]"
+        app:layout_constraintStart_toEndOf="@+id/ingredientViewCategory"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewThisLocation" />
+
+    <TextView
+        android:id="@+id/ingredientViewThisAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="24dp"
+        android:text="[amount]"
+        app:layout_constraintStart_toEndOf="@+id/ingredientViewAmount"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewThisCategory" />
+
+    <TextView
+        android:id="@+id/ingredientViewThisUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="171dp"
+        android:layout_marginTop="31dp"
+        android:text="[unit]"
+        app:layout_constraintStart_toEndOf="@+id/ingredientViewUnit"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientViewThisAmount" />
+</androidx.constraintlayout.widget.ConstraintLayout>
