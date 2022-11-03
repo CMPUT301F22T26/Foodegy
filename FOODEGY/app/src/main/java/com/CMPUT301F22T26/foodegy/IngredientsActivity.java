@@ -107,7 +107,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     @Override
     public void addIngredientToDatabase(StorageIngredient newIngredient){
         // add an ingredient
-        ingredientAdapter.add(newIngredient);
+        // NOTE: we do not need to add the newIngredient to the ingredientData list, as that is handled
+        //   in the IngredientStorage.addSnapshotListener above!!!
         IngredientStorage
                 .add(newIngredient)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
