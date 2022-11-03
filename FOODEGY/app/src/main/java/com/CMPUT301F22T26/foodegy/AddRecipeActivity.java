@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -48,6 +49,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     EditText servingsText;
     EditText amountText;
     EditText commentText;
+    ImageView activityBackground;
 
     Button imageButton;
     private Uri selectedImage;
@@ -73,6 +75,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe_activity);
+
+        activityBackground = findViewById(R.id.add_recipe_background);
 
         ingredientsListView = findViewById(R.id.ingredients_listview);
         ingredientsList = new ArrayList<>();
@@ -222,16 +226,20 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     if (data != null
                             && data.getData() != null) {
                         selectedImage = data.getData();
-                        Bitmap selectedImageBitmap;
+                        Bitmap selectedImageBitmap = null;
                         try {
                             selectedImageBitmap
                                     = MediaStore.Images.Media.getBitmap(
                                     this.getContentResolver(),
                                     selectedImage);
+
+
                         }
                         catch (IOException e) {
                             e.printStackTrace();
                         }
+
+                        activityBackground.setImageBitmap(selectedImageBitmap);
                     }
                 }
             });
