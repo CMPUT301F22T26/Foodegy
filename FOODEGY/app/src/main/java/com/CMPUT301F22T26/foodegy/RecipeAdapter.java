@@ -1,6 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +33,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 
     }
 
+    private String android_id = "TEST_ID";
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
     @NonNull
     @Override
@@ -45,8 +57,20 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         price.setText("Price: "+currentRecipe.getAmount());
         unit.setText("Unit: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());
-       // foodpic.setImageURI(currentRecipe.getRecipeImage());
-        foodpic.setImageResource(currentRecipe.getImageId());
+
+        // load in the image
+        String imageFileName = currentRecipe.getImageFileName();
+        if (imageFileName != null && !"".equals(imageFileName)) {
+            Context context = getContext();
+            userFilesRef.child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+                    String url = uri.toString();
+                    Glide.with(context).load(url).into(foodpic);
+                }
+            });
+        }
 
 
         return listview;
