@@ -35,7 +35,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     }
 
     public interface OnFragmentInteractionListener {
-        void onAddPressed(StorageIngredient newIngredient);
+        void addIngredientToDatabase(StorageIngredient newIngredient);
         void onEditPressed(StorageIngredient ingredient);
 
     }
@@ -147,7 +147,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         // making a new ingredient
                         // get the date & convert to a string
 
-                        listener.onAddPressed(new StorageIngredient(
+                        listener.addIngredientToDatabase(new StorageIngredient(
                                 description,
                                 day+"-"+month+"-"+year,
                                 location.getSelectedItem().toString(),
