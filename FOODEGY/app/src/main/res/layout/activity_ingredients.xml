@@ -4,8 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".IngredientsActivity">
+    android:background="#131313"
+    tools:context=".IngredientsActivity"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ingredients_activity_background"
+            android:alpha="0.5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:gravity="center"
+                android:text="Ingredients"
+                android:textColor="#D2FFFFFF"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,7 +43,7 @@
         <ListView
             android:id="@+id/ingredientList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="5.0sp"/>
@@ -25,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             app:srcCompat="@android:drawable/ic_input_add"
+            android:backgroundTint="@color/yellow"
             android:clickable="true"
             android:focusable="true"
             android:layout_margin="20dp" />
