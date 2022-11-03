@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,16 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
             throw new RuntimeException(context.toString()
             + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+
+        // remove background dim
+        getDialog().getWindow().setDimAmount((float) 0.8);
     }
 
     @NonNull
