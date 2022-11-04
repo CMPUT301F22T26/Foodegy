@@ -22,12 +22,11 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="52dp"
             android:gravity="center"
-            android:paddingTop="15dp"
             android:text="Add Recipe"
             android:textColor="#A8FFFFFF"
-            android:textSize="25sp" />
+            android:textSize="30sp" />
 
 
         <LinearLayout
@@ -254,7 +253,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:hint="Select from gallery"
+                android:hint="Select from gallery..."
+                android:backgroundTint="#36707070"
                 android:textColorHint="@color/white"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -312,7 +312,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:hint="Add an ingredient"
+                android:hint="Add an ingredient..."
+                android:backgroundTint="#36707070"
                 android:textColorHint="@color/white"
                 android:textSize="11sp" />
 

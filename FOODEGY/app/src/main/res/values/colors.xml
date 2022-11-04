@@ -13,4 +13,10 @@
     <color name="yellow_text_app_default">#E6AF2E</color>
     <color name="gray_textHint_app_default">#B1AFA9</color>
     <color name="spinner_text_color">#E6AF2E</color>
+    <color name="meat">#B94E54</color>
+    <color name="vegetable">#8AB94E</color>
+    <color name="dairy">#6D72EA</color>
+    <color name="grain">#ffae6b</color>
+    <color name="translucent_bright">#C1FFFFFF</color>
+
 </resources>

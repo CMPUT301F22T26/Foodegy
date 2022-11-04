@@ -4,8 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/black"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/add_recipe_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:scaleType="centerCrop"
+        android:src="@drawable/main_background"
+        android:alpha="0.9"/>
 
     <TextView
         android:id="@+id/FrontPageTitle"
@@ -15,17 +24,17 @@
 
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="sans-serif-black"
-        android:text="FOODEGY"
+        android:fontFamily="@font/playfair_display_regular"
+        android:text="Foodegy"
         android:textAlignment="center"
         android:textColor="#E6AF2E"
-        android:textSize="48sp"
-        android:textStyle="bold"
+        android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.21" />
+        app:layout_constraintVertical_bias="0.103" />
 
     <TextView
         android:id="@+id/textView"
@@ -41,43 +50,47 @@
         app:layout_constraintTop_toBottomOf="@+id/FrontPageTitle" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonToIngredientActivity"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="252dp"
+        android:background="@drawable/main_menu_buttons"
         android:text="INGREDIENTS"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonToMealPlanActivity"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="6dp"
+        android:background="@drawable/main_menu_buttons"
         android:text="MEAL PLANS"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonToIngredientActivity"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonToRecipesActivity"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/main_menu_buttons"
         android:text="RECIPES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToMealPlanActivity"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/buttonToMealPlanActivity" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonToShoppingListActivity"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/main_menu_buttons"
         android:layout_marginTop="7dp"
         android:text="SHOPPING LIST"
         app:layout_constraintEnd_toEndOf="parent"
