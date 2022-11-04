@@ -162,6 +162,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         ingredient.setAmount(amount);
                         ingredient.setUnitCost(unitCost);
                         ingredient.setCategory(category.getSelectedItem().toString());
+                        ingredient.setLocation(location.getSelectedItem().toString());
                         ((IngredientsActivity) getActivity()).editIngredientInDatabase(ingredient.getId(), ingredient);
                     }
 

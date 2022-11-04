@@ -4,14 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.app.Fragment;
-import android.provider.Settings;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -34,8 +28,11 @@ public class IngredientsActivityTest {
     private Solo solo;
     private FloatingActionButton addButton;
     private IngredientsActivity activity;
-    private StorageIngredient mockIngredient;
-
+    private StorageIngredient mockIngredientView;
+    private StorageIngredient mockIngredientDelete;
+    private StorageIngredient mockIngredientEdit;
+    private String[] locations;
+    private String[] categories;
     @Rule
     public ActivityTestRule<IngredientsActivity> rule =
             new ActivityTestRule<>(IngredientsActivity.class, true, true);
@@ -50,9 +47,16 @@ public class IngredientsActivityTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
         addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
 
+        locations = activity.getResources().getStringArray(R.array.locations_array);
+        categories = activity.getResources().getStringArray(R.array.categories_array);
+
         // create a mock ingredient that we can use to test viewing
-        mockIngredient = new StorageIngredient("Mock Ingredient", "31-12-2020", "Freezer", 18, 1, "Dairy");
-        activity.addIngredientToDatabase(mockIngredient);
+        mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, 1, categories[0]);
+        mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, 1, categories[0]);
+        mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, 1, categories[0]);
+        activity.addIngredientToDatabase(mockIngredientView);
+        activity.addIngredientToDatabase(mockIngredientDelete);
+        activity.addIngredientToDatabase(mockIngredientEdit);
     }
 
     /**
@@ -62,7 +66,9 @@ public class IngredientsActivityTest {
     @After
     public void takedown() throws Exception {
         // remove the mock ingredient from the database afterwards<3
-        activity.deleteIngredientFromDatabase(mockIngredient.getId());
+        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
+        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
     }
 
     /**
@@ -137,12 +143,12 @@ public class IngredientsActivityTest {
         TextView unitView = (TextView) solo.getView(R.id.ingredientViewThisUnit);
 
         // make sure they all match up
-        assertEquals("Description incorrect", mockIngredient.getDescription(), descView.getText().toString());
-        assertEquals("Amount incorrect", mockIngredient.getAmount(), Integer.parseInt(amountView.getText().toString()));
-        assertEquals("Best before incorrect", mockIngredient.getBestBeforeDate(), bestBeforeView.getText().toString());
-        assertEquals("Location incorrect", mockIngredient.getLocation(), locationView.getText().toString());
-        assertEquals("Category incorrect", mockIngredient.getCategory(), categoryView.getText().toString());
-        assertEquals("Unit incorrect", mockIngredient.getUnitCost(), Integer.parseInt(unitView.getText().toString()));
+        assertEquals("Description incorrect", mockIngredientView.getDescription(), descView.getText().toString());
+        assertEquals("Amount incorrect", mockIngredientView.getAmount(), Integer.parseInt(amountView.getText().toString()));
+        assertEquals("Best before incorrect", mockIngredientView.getBestBeforeDate(), bestBeforeView.getText().toString());
+        assertEquals("Location incorrect", mockIngredientView.getLocation(), locationView.getText().toString());
+        assertEquals("Category incorrect", mockIngredientView.getCategory(), categoryView.getText().toString());
+        assertEquals("Unit incorrect", mockIngredientView.getUnitCost(), Integer.parseInt(unitView.getText().toString()));
     }
 
     /**
@@ -150,11 +156,7 @@ public class IngredientsActivityTest {
      */
     @Test
     public void deleteIngredientTest() {
-        // make a new ingredient to add to the database (dont mess with the mockingredient)
-        StorageIngredient newIngredient = new StorageIngredient("Test delete ingredient", "01-11-1999", "Pantry", 10, 1, "Vegetable");
-        activity.addIngredientToDatabase(newIngredient);
-
-        // wait for it to be added
+        // wait for ingredient to be added
         solo.waitForText("Test delete ingredient", 1, 2000);
 
         // find the position of it in the list
@@ -184,10 +186,70 @@ public class IngredientsActivityTest {
                 break;
             }
         }
-        if (found) {
-            // test failed, delete it manually
-            activity.deleteIngredientFromDatabase(newIngredient.getId());
-        }
         assertFalse("Ingredient was not deleted", found);
+    }
+
+    /**
+     * Test editing an ingredient
+     */
+    @Test
+    public void editIngredientTest() {
+        // wait for it to be added
+        solo.waitForText("Test edit ingredient", 1, 2000);
+        // find the ingredient in the list
+        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        int pos = 1;  // clickInList is indexed by 1 for some reason
+        for (StorageIngredient ing : ingredients) {
+            if ("Test edit ingredient".equals(ing.getDescription())) {
+                break;
+            }
+            pos++;
+        }
+
+        // click on the mock ingredient
+        if (pos>=3)
+            solo.scrollDown();
+        solo.clickInList(pos);
+        solo.sleep(500);
+        solo.clickOnButton("Edit");
+
+        EditText editDescription = (EditText)solo.getView(R.id.editTextIngredientDescription);
+        EditText editAmount = (EditText)solo.getView(R.id.editTextIngredientAmount);
+        EditText editUnit = (EditText)solo.getView(R.id.editTextIngredientUnitCost);
+        DatePicker datePicker = (DatePicker)solo.getView(R.id.addIngredientDatePicker);
+
+        // clear data
+        solo.clearEditText(editDescription);
+        solo.clearEditText(editAmount);
+        solo.clearEditText(editUnit);
+
+        // enter dummy data
+        solo.enterText(editDescription, "Edited the ingredient!");
+        solo.pressSpinnerItem(0,1);  // location
+        solo.pressSpinnerItem(1,1);  // category
+        solo.enterText(editAmount, "333");
+        solo.enterText(editUnit, "183");
+        solo.setDatePicker(datePicker, 2020, 4, 2);
+        solo.clickOnButton("Submit");
+
+        solo.waitForText("Edited the ingredient!", 1, 2000);
+        // find the ingredient again
+        ingredients = activity.getIngredientData();
+        StorageIngredient newIngredient = null;
+        for (int i=0; i<ingredients.size(); i++) {
+            StorageIngredient ing = ingredients.get(i);
+            if ("Edited the ingredient!".equals(ing.getDescription())) {
+                newIngredient = ing;
+            }
+        }
+
+        // give it a second for it to update
+        solo.waitForText("Edited the ingredient!", 1, 2000);
+        assertEquals("Description not edited", "Edited the ingredient!", newIngredient.getDescription());
+        assertEquals("Location not edited", locations[1], newIngredient.getLocation());
+        assertEquals("Category not edited", categories[1], newIngredient.getCategory());
+        assertEquals("Amount not edited", 333, newIngredient.getAmount());
+        assertEquals("Unit not edited", 183, newIngredient.getUnitCost());
+        assertEquals("Best Before Date not edited", "02-04-2020", newIngredient.getBestBeforeDate());
     }
 }
