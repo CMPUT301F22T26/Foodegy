@@ -80,8 +80,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp">
+>
 
         <ListView
             android:id="@+id/foodList"
@@ -90,7 +89,9 @@
             tools:listitem="@layout/recipe_activity_listview"
             android:divider="@android:color/transparent"
             android:paddingBottom="50dp"
-            android:dividerHeight="5.0sp"/>
+            android:dividerHeight="5.0sp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addRecipe"

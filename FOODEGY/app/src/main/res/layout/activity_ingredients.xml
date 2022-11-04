@@ -56,11 +56,10 @@
             android:layout_gravity="bottom|end"
             app:srcCompat="@android:drawable/ic_input_add"
             android:backgroundTint="@color/yellow"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="50dp"
             app:useCompatPadding="true"
             android:clickable="true"
-            android:focusable="true"
-            android:layout_margin="20dp" />
+            android:focusable="true" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
