@@ -31,7 +31,7 @@ public class FragmentCompleteIngredient extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener{
-        void onOkPressed(ShoppingListItem newFood, ShoppingListItem newItem);
+        void onOkPressed(ShoppingListItem newFood, StorageIngredient newItem);
     }
 
     @Override
@@ -115,26 +115,12 @@ public class FragmentCompleteIngredient extends DialogFragment {
                         String itemName = editItem.getItemName();
 
                         //new food item to be added in storage ingredient
-                        ShoppingListItem newItem = new ShoppingListItem(itemName, itemDescription, bestBeforeDate, location, amount, unitCost, category);
+                        StorageIngredient newItem = new StorageIngredient( itemDescription, bestBeforeDate, location, Integer.parseInt(amount), Integer.parseInt(unitCost), category);
 
                         //removing the edit item from shopping list
                         listener.onOkPressed(editItem, newItem);
 
 
                     }).create();
-//        }
-//        else{
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//            return builder
-//                    .setView(view)
-//                    .setTitle("Edit Food")
-//                    .setNegativeButton("Cancel", null)
-//
-//                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                        }
-//                    }).create();
-//        }
     }
 }

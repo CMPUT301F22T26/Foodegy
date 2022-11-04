@@ -1,12 +1,20 @@
 package com.CMPUT301F22T26.foodegy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +25,11 @@ public class MainActivity extends AppCompatActivity implements FragmentCompleteI
     ListView shoppingListView;
     ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
     public static ArrayList<ShoppingListItem> shoppingListData;
+
+    final private String android_id = "TEST_ID";
+    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    final private CollectionReference IngredientStorage = firestore.collection("users")
+            .document(android_id).collection("IngredientStorage");
 
     //giving some inital values
     List<String> names = Arrays.asList("Apple", "Bread", "Cream cheese");
@@ -32,11 +45,6 @@ public class MainActivity extends AppCompatActivity implements FragmentCompleteI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list_activity);
 
-//        Button buttonToActivity = (Button) findViewById(R.id.button);
-//        buttonToActivity.setOnClickListener(view -> {
-//            Intent intent;
-//            intent = new Intent(view.getContext(), ShoppingListActivity.class);
-//            view.getContext().startActivity(intent);});
 
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
@@ -51,9 +59,30 @@ public class MainActivity extends AppCompatActivity implements FragmentCompleteI
     }
 
     @Override
-    public void onOkPressed(ShoppingListItem boughtFood, ShoppingListItem newFood) {
+    public void onOkPressed(ShoppingListItem boughtFood, StorageIngredient newIngredient) {
         shoppingListData.remove(boughtFood);
         shoppingListItemArrayAdapter.notifyDataSetChanged();
+
+        IngredientStorage
+                .add(newIngredient)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // get the auto-generated ID for the item
+                        Log.d("MainActivity",
+                                "Added storage ingredient "+newIngredient.getDescription()+", id="+documentReference.getId());
+                        newIngredient.setId(documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("MainActivity",
+                                "Failed to add storage ingredient "+newIngredient.getDescription());
+                    }
+                })
+        ;
+
 
 
 
