@@ -72,6 +72,48 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_plan_activity);
 
+        // find the items planned for today
+        Calendar calendar = Calendar.getInstance();
+        timeStampDate = String.valueOf(calendar.getTimeInMillis());
+
+
+        MealPlans.whereLessThanOrEqualTo("startDate", timeStampDate).orderBy("startDate").get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (DocumentSnapshot doc : task.getResult()){
+                                try {
+                                    // now must manually filter by endDate
+                                    Map data = doc.getData();
+                                    String endDate = (String) data.get("endDate");
+                                    if (Long.parseLong(endDate) >= Long.parseLong(timeStampDate)) {
+                                        String id = (String) data.get("id");
+                                        String startDate = (String) data.get("startDate");
+                                        String name = (String) data.get("name");
+                                        Long servings = (Long) data.get("servings");
+                                        Map ingredients = (Map) data.get("ingredients");
+
+                                        mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
+                                        mealPlanItemsAdapter.notifyDataSetChanged();
+
+
+                                    }
+                                } catch (Exception e) {
+                                    Log.d("Query", "Error reading document", e);
+                                }
+                            }
+
+
+                        } else {
+                            Log.d("Query", "Error getting documents: ", task.getException());
+                        }
+                    }
+                }
+
+
+        );
+
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -153,6 +195,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                 // grab all, sort by endDate
                 // append to list until endDate is past the currentDate
                 mealPlanData.clear();
+                mealPlanItemsAdapter.notifyDataSetChanged();
                 // query mealPlans & order by endDate
 
                 // must call endAt to limit
