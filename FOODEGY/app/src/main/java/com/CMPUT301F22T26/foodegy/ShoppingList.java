@@ -2,6 +2,7 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -44,11 +51,11 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         ShoppingListItem currentItem = itemsList.get(position);
 
         //finding views to fill up the FoodItem object
-        TextView itemName = view.findViewById(R.id.item_name);
-        TextView itemDescription = view.findViewById(R.id.item_description);
-        TextView itemAmount = view.findViewById(R.id.item_amount);
-        TextView itemUnitCost = view.findViewById(R.id.item_unit_cost);
-        TextView itemCategory = view.findViewById(R.id.item_category);
+        TextView itemNameView = view.findViewById(R.id.item_name);
+        TextView itemAmountView = view.findViewById(R.id.item_amount);
+        TextView itemUnitCostView = view.findViewById(R.id.item_unit_cost);
+        TextView itemCategoryView = view.findViewById(R.id.item_category);
+
         CheckBox bought = view.findViewById(R.id.Bought);
         Button buyIngredient = view.findViewById(R.id.remove_ingredient);
 
@@ -63,17 +70,15 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
                         @Override
                         public void onClick(View view) {
 
-                            MainActivity myActivity = (MainActivity) context;
-
                             Bundle args = new Bundle();
                             args.putInt("pos", position);
 
-//                            FragmentCompleteIngredient editFragment = new FragmentCompleteIngredient();
-//                            editFragment.setArguments(args);
-//                            editFragment.show(myActivity.getSupportFragmentManager(), "EDIT ITEM");
-
-                            bought.setChecked(false);
+                            AddIngredientFragment editFragment = new AddIngredientFragment();
+                            ShoppingListActivity myActivity = (ShoppingListActivity) context;
+                            myActivity.inflateFragment(currentItem);
                         }
+
+
                     });
 
 
@@ -92,15 +97,12 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         });
 
         //filling up the object in view
-        itemName.setText(currentItem.getItemName());
-        itemDescription.setText(currentItem.getDescription());
-        itemAmount.setText(currentItem.getAmount());
-        itemUnitCost.setText(currentItem.getUnitCost());
-        itemCategory.setText(currentItem.getCategory());
-
+        itemNameView.setText(currentItem.getItemName());
+        itemAmountView.setText(String.valueOf(currentItem.getAmount()));
+        itemUnitCostView.setText(String.valueOf(currentItem.getUnitCost()));
+        itemCategoryView.setText(currentItem.getCategory());
         return view;
 
     }
-
 
 }

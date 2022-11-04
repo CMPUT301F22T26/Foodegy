@@ -31,6 +31,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     private OnFragmentInteractionListener listener;
 
     private StorageIngredient ingredient;
+    private ShoppingListItem shopListItem;
     /**
      * Constructor for adding a StorageIngredient
      */
@@ -46,6 +47,17 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     public AddIngredientFragment(StorageIngredient ingredient) {
         super();
         this.ingredient = ingredient;
+    }
+
+
+    /**
+     * Constructor for adding a StorageIngredient once it's been bought (from shopping cart)
+     * @param shopListItem
+     *  The ShoppingListItem that the user has purchased
+     */
+    public AddIngredientFragment(ShoppingListItem shopListItem){
+        super();
+        this.shopListItem = shopListItem;
     }
 
     /**
@@ -86,11 +98,24 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
         builder = new AlertDialog.Builder(getContext());
 
         String label;
-        if (ingredient == null) {
+        if (ingredient == null && shopListItem == null) {
             // we are adding a new food
             label = "Add ingredient";
         }
-        else {
+        else if (shopListItem != null){
+            label = "Add ingredient";
+            ingredientDescription.setText(shopListItem.getItemName());
+            ingredientAmount.setText(Integer.toString(shopListItem.getAmount()));
+            ingredientUnitCost.setText(Integer.toString(shopListItem.getUnitCost()));
+
+            // get string array from resources
+            String[] categories = getResources().getStringArray(R.array.categories_array);
+            int i=0;
+            while (!categories[i].equals(shopListItem.getCategory()))
+                i++;
+            category.setSelection(i);
+
+        } else{
             // editing a food
             label = "Edit ingredient";
 

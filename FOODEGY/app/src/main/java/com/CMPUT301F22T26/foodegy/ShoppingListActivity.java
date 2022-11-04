@@ -5,20 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ShoppingListActivity extends AppCompatActivity  implements AddIngredientFragment.OnFragmentInteractionListener {
+public class ShoppingListActivity extends AppCompatActivity implements AddIngredientFragment.OnFragmentInteractionListener {
     //list view related variables
     private ListView shoppingListView;
     private ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
@@ -26,11 +32,19 @@ public class ShoppingListActivity extends AppCompatActivity  implements AddIngre
 
     private NavigationBarView bottomNavBar;
 
-
     final private String android_id = "TEST_ID";
     final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     final private CollectionReference IngredientStorage = firestore.collection("users")
             .document(android_id).collection("IngredientStorage");
+
+    //giving some inital values
+    List<String> names = Arrays.asList("Apple", "Bread", "Cream cheese");
+    List<Integer> amounts = Arrays.asList(3, 3, 2);
+    List<Integer> units = Arrays.asList(2, 2, 5);
+
+
+    List<String> cates = Arrays.asList("Vegetable", "Grain", "Dairy");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +53,10 @@ public class ShoppingListActivity extends AppCompatActivity  implements AddIngre
 
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
+
+        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
+        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
+        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -68,8 +86,35 @@ public class ShoppingListActivity extends AppCompatActivity  implements AddIngre
         shoppingListView.setAdapter(shoppingListItemArrayAdapter);
     }
 
+    public void inflateFragment(ShoppingListItem bought){
+        shoppingListData.remove(bought);
+        shoppingListItemArrayAdapter.notifyDataSetChanged();
+        new AddIngredientFragment(bought).show(getSupportFragmentManager(), "ADD_INGREDIENT");
+    }
+
+
     @Override
     public void addIngredientToDatabase(StorageIngredient newIngredient) {
+        // add an ingredient
+        IngredientStorage
+                .add(newIngredient)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // get the auto-generated ID for the item
+                        Log.d("MainActivity",
+                                "Added storage ingredient "+newIngredient.getDescription()+", id="+documentReference.getId());
+                        newIngredient.setId(documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("MainActivity",
+                                "Failed to add storage ingredient "+newIngredient.getDescription());
+                    }
+                })
+        ;
 
     }
 
