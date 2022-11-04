@@ -16,8 +16,11 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for displaying the details of a RecipeIngredient as a DialogFragment
+ */
 public class ShowRecipeIngredientFragment extends DialogFragment {
-    ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
+    private ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
     private TextView name;
     private TextView category;
     private TextView amount;
@@ -25,6 +28,11 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
 
     private ShowRecipeIngredientFragment.OnFragmentInteractionListener listener;
 
+    /**
+     * Functions handling Interactions with the RecipeIngredient
+     * (user may either click ok, and close the fragment, or they may choose
+     * to delete the ingredient)
+     */
     public interface OnFragmentInteractionListener {
         void onShowRecipeIngredientOkPressed(int pos);
         void onShowRecipeIngredientDeletePressed(int pos);
@@ -73,7 +81,8 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onShowRecipeIngredientOkPressed(pos);
+                    listener.onShowRecipeIngredientOkPressed(pos);
+
                     }
                 }).create();
     }

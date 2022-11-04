@@ -14,16 +14,29 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Class responsible for rendering the MealPlanItems within the app
+ */
 public class MealPlanItemsList extends ArrayAdapter<MealPlanItem> {
     private ArrayList<MealPlanItem> itemsList;
     private Context context;
 
+    /**
+     * Initialize a MealPlanItemsList
+     * @param context the context where the MealPlanItemsList was initialized
+     * @param itemsList list of Items we wish to display in the app
+     */
     public MealPlanItemsList(Context context, ArrayList<MealPlanItem> itemsList){
         super(context, 0, itemsList);
         this.itemsList = itemsList;
         this.context = context;
     }
 
+    /**
+     * Converts unix time to string we can display to the user
+     * @param timestamp unix time that we wish to display
+     * @return the string representation of time ("DD-MM-YYYY")
+     */
     private String timestampToString(String timestamp) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(timestamp));
@@ -38,6 +51,13 @@ public class MealPlanItemsList extends ArrayAdapter<MealPlanItem> {
 
     }
 
+    /**
+     * Returns the view that will be displayed
+     * @param position the item in ArrayList that we wish to render
+     * @param convertView old view for reuse, if possible
+     * @param parent parent element containing this view
+     * @return the View that will be rendered to user screen
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

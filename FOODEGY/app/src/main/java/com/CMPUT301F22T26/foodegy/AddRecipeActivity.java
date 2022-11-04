@@ -1,17 +1,15 @@
 package com.CMPUT301F22T26.foodegy;
 
-import static java.security.AccessController.getContext;
-
 import android.app.Activity;
-import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,38 +29,45 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Activity to handle adding a recipe
+ */
 public class AddRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener {
+    private EditText titleText;
+    private EditText hourText;
+    private EditText minuteText;
+    private EditText servingsText;
+    private EditText amountText;
+    private EditText commentText;
+    private ImageView activityBackground;
 
-    EditText titleText;
-    EditText hourText;
-    EditText minuteText;
-    EditText servingsText;
-    EditText amountText;
-    EditText commentText;
-    ImageView activityBackground;
-
-    Button imageButton;
+    private Button imageButton;
     private Uri selectedImage;
 
-    Button ingredientsButton;
-    Button submitButton;
-    Button cancelButton;
+    private Button ingredientsButton;
+    private Button submitButton;
+    private Button cancelButton;
 
-    Spinner categorySpinner;
+    private Spinner categorySpinner;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
     public static ArrayList<RecipeIngredient> ingredientsList;
-    ListView ingredientsListView;
-    RecipeIngredientListAdapter ingredientsAdapter;
+    private ListView ingredientsListView;
+    private RecipeIngredientListAdapter ingredientsAdapter;
 
+    // database things
     private String android_id = "TEST_ID";
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference RecipesCollection = firestore.collection("users")
             .document(android_id).collection("Recipes");
+    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         categorySpinner.setAdapter(spinnerAdapter);
         // View Listeners -----------------------
 
+        // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +118,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             }
         });
 
+        // choose an image from gallery
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +126,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             }
         });
 
+        // submit button to create & add the recipe
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,38 +138,25 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String amount = amountText.getText().toString();
                 String comments = commentText.getText().toString();
 
-
+                // upload image to firebase storage
+                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
                 Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
-                        selectedImage, comments, ingredientsList);
-                // Add recipe to firebase
-                RecipesCollection.add(recipe)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("AddRecipe", "Successfully added recipe "+documentReference.getId());
-                                recipe.setId(documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("AddRecipe", "Could not add recipe, "+e);
-                            }
-                        });
+                        imageFilename, comments, ingredientsList);
+                addRecipeToDatabase(recipe);
+                finish();
             }
         });
 
+        // close the activity when cancel pressed
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ingredientsList.clear(); // remove all items from ingredients list
+                finish();
 
-                Intent intent = new Intent( AddRecipeActivity.this, RecipesActivity.class);
-                startActivity(intent);
             }
         });
 
-
+        // long tap on an ingredient to show more details
         ingredientsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -251,5 +246,58 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);
         ingredientsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * returns the file extension of a file
+     * @param uri
+     *  the uri of the file
+     * @return
+     *  file extension as a string
+     */
+    private String getFileExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    /**
+     * Adds a recipe to the Firebase
+     * @param recipe
+     *  The recipe to add
+     */
+    public void addRecipeToDatabase(Recipe recipe) {
+        String imageFilename = recipe.getImageFileName();
+        StorageReference fileRef = userFilesRef.child(imageFilename);
+        // Upload the image to firebase storage
+        fileRef.putFile(selectedImage)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("AddRecipeActivity", "Successfully uploaded image "+imageFilename);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("AddRecipeActivity", "Failed to upload image, "+e);
+                    }
+                });
+
+        // Add recipe to firestore
+        RecipesCollection.add(recipe)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AddRecipe", "Successfully added recipe "+documentReference.getId());
+                        recipe.setId(documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("AddRecipe", "Could not add recipe, "+e);
+                    }
+                });
     }
 }

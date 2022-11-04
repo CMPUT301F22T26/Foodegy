@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +15,9 @@ import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -27,11 +31,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The activity that handles user interactions with their Storage Ingredients.
+ * Includes viewing, adding, editing, deleting Storage Ingredients
+ */
 public class IngredientsActivity extends AppCompatActivity implements AddIngredientFragment.OnFragmentInteractionListener {
 
-    ListView ingredientListView;
-    ArrayAdapter<StorageIngredient> ingredientAdapter;
-    ArrayList<StorageIngredient> ingredientData;
+    private ListView ingredientListView;
+    private ArrayAdapter<StorageIngredient> ingredientAdapter;
+    private ArrayList<StorageIngredient> ingredientData;
 
     // each device has a unique id, use that as their own personal collection name
     final private String android_id = "TEST_ID";
@@ -39,11 +47,34 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     final private CollectionReference IngredientStorage = firestore.collection("users")
             .document(android_id).collection("IngredientStorage");
 
+    private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
+        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ingredients:
+                        break;
+                    case R.id.meal_plan:
+                        startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
+                        break;
+                    case R.id.shopping_cart:
+                        startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
+                        break;
+                    case R.id.recipes:
+                        startActivity(new Intent(getBaseContext(), RecipesActivity.class));
+                        break;
+
+                }
+
+                return false;
+            }
+        });
         ingredientData = new ArrayList<StorageIngredient>();
         ingredientListView = findViewById(R.id.ingredientList);
 
@@ -105,9 +136,10 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
      *  The ingredient to be added
      */
     @Override
-    public void onAddPressed(StorageIngredient newIngredient){
+    public void addIngredientToDatabase(StorageIngredient newIngredient){
         // add an ingredient
-        ingredientAdapter.add(newIngredient);
+        // NOTE: we do not need to add the newIngredient to the ingredientData list, as that is handled
+        //   in the IngredientStorage.addSnapshotListener above!!!
         IngredientStorage
                 .add(newIngredient)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -131,6 +163,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     }
 
     /**
+     * Summons the fragment to edit ingredient.
      * Called whenever a StorageIngredient is edited. Updates the firestore accordingly
      * @param ingredient
      *  The ingredient to be updated
@@ -138,22 +171,20 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     @Override
     public void onEditPressed(StorageIngredient ingredient) {
         new AddIngredientFragment(ingredient).show(getSupportFragmentManager(), "EDIT_INGREDIENT");
-        // edit the ingredient
-
     }
+
+    /**
+     * Edits a StorageIngredient in the database
+     * @param id
+     *  The ID of the ingredient to be modified
+     * @param ingredient
+     *  The new ingredient with edited attributes
+     */
     public void editIngredientInDatabase(String id, StorageIngredient ingredient){
         IngredientStorage
                 .document(id)
                 .set(ingredient);
-
     }
-
-    public void deleteIngredient(StorageIngredient ingredient){
-
-                deleteIngredientFromDatabase(ingredient.getId());
-                ingredientAdapter.remove(ingredient);
-    }
-
 
     /**
      * Deletes an ingredient form a user's IngredientStorage
@@ -161,6 +192,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
      *  id of ingredient to be deleted
      */
     public void deleteIngredientFromDatabase(String id) {
+        // Note: we do not need to remove the ingredient from the ingredient list or adapter, that
+        //   is handled with the IngredientStorage.addSnapshotListener above !!!!
         IngredientStorage
                 .document(id)
                 .delete()
@@ -176,5 +209,14 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                         Log.d("MainActivity", "Failed to delete "+id);
                     }
                 });
+    }
+
+    /**
+     * Returns ingredient data, used for testing purposes
+     * @return
+     *  The ArrayList of current storage ingredients
+     */
+    public ArrayList<StorageIngredient> getIngredientData() {
+        return ingredientData;
     }
 }

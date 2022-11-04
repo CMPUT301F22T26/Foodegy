@@ -20,17 +20,26 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment that handles adding a RecipeIngredient to a recipe. Called when a user presses the
+ * button that says "add an ingredient" in the AddRecipeActivity.
+ * The user is able to fill in brief information about the ingredient.
+ */
+
 public class AddIngredientToRecipeFragment extends DialogFragment {
-    ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
+    private ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
     private TextView titleText;
     private EditText descriptionText;
     private Spinner categorySpinner;
     private EditText amountText;
     private EditText unitText;
-    private String title;
 
     private AddIngredientToRecipeFragment.OnFragmentInteractionListener listener;
 
+    /**
+     * Listener for when the user is finished entering information and we can pass it back to
+     * the AddRecipeActivity.
+     */
     public interface OnFragmentInteractionListener {
         void onOkPressed(RecipeIngredient newIngredient);
         void onEditOkPressed(RecipeIngredient newIngredient, int i);
@@ -38,6 +47,7 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
     @Override
     public void onAttach(Context context) {
+        // check whether the appropriate OnFragmentInteractionListener has been implemented
         super.onAttach(context);
         if (context instanceof AddIngredientToRecipeFragment.OnFragmentInteractionListener) {
             listener = (AddIngredientToRecipeFragment.OnFragmentInteractionListener) context;
