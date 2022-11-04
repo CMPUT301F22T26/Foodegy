@@ -45,7 +45,7 @@ import java.util.Map;
 
 /**
  * The activity for viewing & interacting with the user's MealPlans. Handles storing
- * entries in the Firebase and maing queries.
+ * entries in the Firebase and making queries.
  */
 
 public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFragment.OnFragmentInteractionListener {
@@ -216,5 +216,14 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                         Log.d("MealPlanActivity", "Failed to add meal plan item"+mealPlanItem.getName());
                     }
                 });
+    }
+
+    /**
+     * Returns meal plan data, used for testing purposes
+     * @return
+     *  The ArrayList of current meal plans
+     */
+    public ArrayList<MealPlanItem> getMealPlanData() {
+        return mealPlanData;
     }
 }
