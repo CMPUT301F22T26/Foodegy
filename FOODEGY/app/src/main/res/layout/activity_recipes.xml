@@ -56,7 +56,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="69dp"
         android:background="@color/yellow"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_input_add" />
@@ -83,5 +83,18 @@
         android:layout_marginTop="206dp"
         tools:listitem="@layout/recipe_activity_listview" />
 
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#5D03FF"
+        app:itemIconTint="#ffff"
+        app:itemTextColor="#ffff"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>

@@ -1,17 +1,20 @@
 package com.CMPUT301F22T26.foodegy;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,6 +44,7 @@ public class RecipesActivity extends AppCompatActivity {
             .document(android_id).collection("Recipes");
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
+    private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,28 @@ public class RecipesActivity extends AppCompatActivity {
 
         binding = ActivityRecipesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ingredients:
+                        startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
+                        break;
+                    case R.id.meal_plan:
+                        startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
+                        break;
+                    case R.id.shopping_cart:
+                        startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
+                        break;
+                    case R.id.recipes:
+                        break;
+
+                }
+
+                return false;
+            }
+        });
 
         listViewRecipe = new ArrayList<Recipe>();
         RecipeAdapter listadapter = new RecipeAdapter(RecipesActivity.this,listViewRecipe);
