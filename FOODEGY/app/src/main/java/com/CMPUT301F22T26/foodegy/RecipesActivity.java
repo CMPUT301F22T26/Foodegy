@@ -154,4 +154,12 @@ public class RecipesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Returns the ArrayList of recipes, used for testing purposes
+     * @return
+     *  the list of current recipes
+     */
+    public ArrayList<Recipe> getListViewRecipe() {
+        return listViewRecipe;
+    }
 }
