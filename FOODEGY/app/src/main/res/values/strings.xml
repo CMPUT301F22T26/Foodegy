@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Foodegy</string>
     <string-array name="categories_array">
-        <item>Vegetable</item>
         <item>Meat</item>
-        <item>Grain</item>
         <item>Dairy</item>
+        <item>Vegetable</item>
+        <item>Grain</item>
+        <item>Condiment</item>
+        <item>Fruit</item>
+        <item>Protein</item>
+        <item>Drink</item>
+        <item>Fish</item>
+        <item>Egg</item>
     </string-array>
 
     <string-array name="locations_array">
@@ -14,13 +20,22 @@
     </string-array>
 
     <string-array name="test_array">
-        <item>Test 1</item>
-        <item>Test 2</item>
-        <item>Test 3</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Dessert</item>
+        <item>Snack</item>
     </string-array>
     <string-array name="quick_add_ingredient_array">
         <item>Meat</item>
         <item>Dairy</item>
         <item>Vegetable</item>
+        <item>Grain</item>
+        <item>Condiment</item>
+        <item>Fruit</item>
+        <item>Protein</item>
+        <item>Drink</item>
+        <item>Fish</item>
+        <item>Egg</item>
     </string-array>
 </resources>

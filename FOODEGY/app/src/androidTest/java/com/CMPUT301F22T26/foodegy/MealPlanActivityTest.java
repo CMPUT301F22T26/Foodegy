@@ -43,23 +43,13 @@ public class MealPlanActivityTest {
             new ActivityTestRule<>(MealPlanActivity.class, true, true);
 
     /**
-     * Runs before all the tests. Creates solo in
+     * Runs before all the tests. Creates an instance of Solo
+     * @throws Exception
      */
     @Before
     public void setup() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
         addButton = (FloatingActionButton) solo.getView(R.id.addMealPlanButton);
-
-//        Map<String, Integer> firstMealPlanIngredients = new HashMap<>();
-//        firstMealPlanIngredients.put("pepperoni pizza", 1);
-//        firstMealPlanIngredients.put("sprite", 1);
-//        mockRecipeMealPlanItemVisible = new MealPlanItem("1667301624000", "1730460024000", "Frozen pizza",Long.parseLong("6"), firstMealPlanIngredients);
-//
-//
-//        Map<String, Integer> secondMealPlanIngredients = new HashMap<>();
-//        firstMealPlanIngredients.put("cereal", 2);
-//        firstMealPlanIngredients.put("milk", 1);
-//        mockMealPlanItemNonVisible = new MealPlanItem("1698837624000", "1856690424000", "Milk and cereal",Long.parseLong("6"), secondMealPlanIngredients);
     }
 
     /**
@@ -68,7 +58,7 @@ public class MealPlanActivityTest {
      */
     @After
     public void takedown() throws Exception {
-        // remove the mock ingredient from the database afterwards<3
+        // no cleanup needed
     }
 
 
