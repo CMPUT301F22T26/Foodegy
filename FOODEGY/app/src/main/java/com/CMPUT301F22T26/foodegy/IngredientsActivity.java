@@ -29,9 +29,9 @@ import java.util.Map;
 
 public class IngredientsActivity extends AppCompatActivity implements AddIngredientFragment.OnFragmentInteractionListener {
 
-    ListView ingredientListView;
-    ArrayAdapter<StorageIngredient> ingredientAdapter;
-    ArrayList<StorageIngredient> ingredientData;
+    private ListView ingredientListView;
+    private ArrayAdapter<StorageIngredient> ingredientAdapter;
+    private ArrayList<StorageIngredient> ingredientData;
 
     // each device has a unique id, use that as their own personal collection name
     final private String android_id = "TEST_ID";
@@ -105,9 +105,10 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
      *  The ingredient to be added
      */
     @Override
-    public void onAddPressed(StorageIngredient newIngredient){
+    public void addIngredientToDatabase(StorageIngredient newIngredient){
         // add an ingredient
-        ingredientAdapter.add(newIngredient);
+        // NOTE: we do not need to add the newIngredient to the ingredientData list, as that is handled
+        //   in the IngredientStorage.addSnapshotListener above!!!
         IngredientStorage
                 .add(newIngredient)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -176,5 +177,14 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                         Log.d("MainActivity", "Failed to delete "+id);
                     }
                 });
+    }
+
+    /**
+     * Returns ingredient data, used for testing purposes
+     * @return
+     *  The ArrayList of current storage ingredients
+     */
+    public ArrayList<StorageIngredient> getIngredientData() {
+        return ingredientData;
     }
 }
