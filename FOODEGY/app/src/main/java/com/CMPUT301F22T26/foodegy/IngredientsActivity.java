@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +15,9 @@ import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -43,11 +47,34 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     final private CollectionReference IngredientStorage = firestore.collection("users")
             .document(android_id).collection("IngredientStorage");
 
+    private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
+        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ingredients:
+                        break;
+                    case R.id.meal_plan:
+                        startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
+                        break;
+                    case R.id.shopping_cart:
+                        startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
+                        break;
+                    case R.id.recipes:
+                        startActivity(new Intent(getBaseContext(), RecipesActivity.class));
+                        break;
+
+                }
+
+                return false;
+            }
+        });
         ingredientData = new ArrayList<StorageIngredient>();
         ingredientListView = findViewById(R.id.ingredientList);
 
