@@ -10,46 +10,35 @@ import java.util.ArrayList;
  * feature of the app.
  */
 
-/**
- * The recipe class is used to hold the user input data of the recipe which the user adds on when using the Recipe view and edit
- * feature of the app.
- */
 public class Recipe {
+    private String title;
+    private String hours;
+    private String minutes;
+    private String servingValue;
+    private String category;
+    private String amount;
+    private Uri recipeImage;
+    private String comments;
+    private ArrayList<RecipeIngredient> ingredients;
+    private String id;
+    private int imageId;
+    private String imageFileName;
 
-    public Recipe(String title, String hours, String minutes, String servingValue, String category,
-                  String amount, Uri recipeImage, String comments, ArrayList<RecipeIngredient> ingredients) {
-        this.title = title;
-        this.hours = hours;
-        this.minutes = minutes;
-        this.servingValue = servingValue;
-        this.category = category;
-        this.amount = amount;
-        this.recipeImage = recipeImage;
-        this.comments = comments;
-        this.ingredients = ingredients;
-    }
 
     /**
-     * The second constructor is a temporary constructor used to test the display of Recipe's Image in RecipesActivity.java
-     * @param title
-     * @param hours
-     * @param minutes
-     * @param servingValue
-     * @param category
-     * @param amount
-     * @param imageId
-     * @param comments
-     * @param ingredients
+     * temp constructor to test using a file
+     * @return
      */
     public Recipe(String title, String hours, String minutes, String servingValue, String category,
-                  String amount, int imageId, String comments, ArrayList<RecipeIngredient> ingredients) {
+                  String amount, String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
+
         this.title = title;
         this.hours = hours;
         this.minutes = minutes;
         this.servingValue = servingValue;
         this.category = category;
         this.amount = amount;
-        this.imageId = imageId;
+        this.imageFileName = imageFileName;
         this.comments = comments;
         this.ingredients = ingredients;
     }
@@ -122,18 +111,11 @@ public class Recipe {
 
     public void setId(String id) { this.id = id;}
 
+    public String getImageFileName() {return imageFileName;}
 
-    private String title;
-    private String hours;
-    private String minutes;
-    private String servingValue;
-    private String category;
-    private String amount;
-    private Uri recipeImage;
-    private String comments;
-    private ArrayList<RecipeIngredient> ingredients;
-    private String id;
-    private int imageId;
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
 
     public int getImageId() {
         return imageId;

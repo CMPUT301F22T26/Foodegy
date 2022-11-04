@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +14,8 @@
         android:theme="@style/Theme.Foodegy"
         tools:targetApi="31">
         <activity
+
+            android:name=".RecipesActivity"
             android:name=".IngredientsActivity"
             android:exported="false">
             <meta-data
@@ -20,13 +23,26 @@
                 android:value="" />
         </activity>
         <activity
+
+            android:name=".ViewRecipeActivity"
             android:name=".ShoppingListActivity"
+
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        
         <activity
+            android:name=".AddRecipeActivity"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity>
             android:name=".RecipesActivity"
             android:exported="false">
             <meta-data

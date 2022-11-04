@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Foodegy</string>
-
     <string-array name="categories_array">
         <item>Vegetable</item>
         <item>Meat</item>

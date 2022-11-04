@@ -4,7 +4,8 @@ package com.CMPUT301F22T26.foodegy;
 /**
  * RecipeIngredient is used when the "quick add ingredient" from AddRecipeActivity is used
  */
-public class RecipeIngredient{
+
+public class RecipeIngredient {
 
     private String description;
     private String category;

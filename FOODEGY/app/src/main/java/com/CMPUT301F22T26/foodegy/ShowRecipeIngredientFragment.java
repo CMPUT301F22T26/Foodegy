@@ -73,7 +73,8 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onShowRecipeIngredientOkPressed(pos);
+                    listener.onShowRecipeIngredientOkPressed(pos);
+
                     }
                 }).create();
     }

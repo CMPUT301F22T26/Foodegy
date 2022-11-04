@@ -3,6 +3,7 @@ package com.CMPUT301F22T26.foodegy;
 import static java.security.AccessController.getContext;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +32,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -63,6 +71,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference RecipesCollection = firestore.collection("users")
             .document(android_id).collection("Recipes");
+    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +140,26 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String amount = amountText.getText().toString();
                 String comments = commentText.getText().toString();
 
+                // upload image to firebase storage
+                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
+                StorageReference fileRef = userFilesRef.child(imageFilename);
+                fileRef.putFile(selectedImage)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Log.d("AddRecipeActivity", "Successfully uploaded image "+imageFilename);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("AddRecipeActivity", "Failed to upload image, "+e);
+                            }
+                        });
 
                 Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
-                        selectedImage, comments, ingredientsList);
+                        imageFilename, comments, ingredientsList);
+
                 // Add recipe to firebase
                 RecipesCollection.add(recipe)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -148,16 +175,16 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                                 Log.d("AddRecipe", "Could not add recipe, "+e);
                             }
                         });
+                finish();
+
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ingredientsList.clear(); // remove all items from ingredients list
+                finish();
 
-                Intent intent = new Intent( AddRecipeActivity.this, RecipesActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -251,5 +278,18 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);
         ingredientsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * returns the file extension of a file
+     * @param uri
+     *  the uri of the file
+     * @return
+     *  file extension as a string
+     */
+    private String getFileExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 }
