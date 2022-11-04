@@ -36,7 +36,6 @@ public class RecipesActivity extends AppCompatActivity {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference RecipesCollection = firestore.collection("users")
             .document(android_id).collection("Recipes");
-
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
     @Override
@@ -130,4 +129,5 @@ public class RecipesActivity extends AppCompatActivity {
             }
         });
     }
+
 }

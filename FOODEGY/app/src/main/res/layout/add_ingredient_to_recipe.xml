@@ -123,6 +123,4 @@
             android:textSize="15sp"
             android:background="@drawable/edit_text_border_black"/>
     </LinearLayout>
-
-
 </LinearLayout>

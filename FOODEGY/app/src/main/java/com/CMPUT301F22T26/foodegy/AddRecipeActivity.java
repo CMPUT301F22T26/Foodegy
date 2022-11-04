@@ -32,11 +32,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -70,6 +72,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private CollectionReference RecipesCollection = firestore.collection("users")
             .document(android_id).collection("Recipes");
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +159,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
 
                 Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
                         imageFilename, comments, ingredientsList);
+
                 // Add recipe to firebase
                 RecipesCollection.add(recipe)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -172,17 +176,15 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                             }
                         });
                 finish();
+
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ingredientsList.clear(); // remove all items from ingredients list
-
-                //Intent intent = new Intent( AddRecipeActivity.this, RecipesActivity.class);
-                //startActivity(intent);
                 finish();
+
             }
         });
 

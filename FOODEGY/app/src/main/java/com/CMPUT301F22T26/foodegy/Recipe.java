@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * The recipe class is used to hold the user input data of the recipe which the user adds on when using the Recipe view and edit
  * feature of the app.
  */
+
 public class Recipe {
     private String title;
     private String hours;
@@ -30,6 +31,7 @@ public class Recipe {
      */
     public Recipe(String title, String hours, String minutes, String servingValue, String category,
                   String amount, String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
+
         this.title = title;
         this.hours = hours;
         this.minutes = minutes;
@@ -40,6 +42,7 @@ public class Recipe {
         this.comments = comments;
         this.ingredients = ingredients;
     }
+
     public String getTitle() {
         return title;
     }
@@ -113,8 +116,6 @@ public class Recipe {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
-
-
 
     public int getImageId() {
         return imageId;

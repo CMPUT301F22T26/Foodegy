@@ -1,8 +1,10 @@
 package com.CMPUT301F22T26.foodegy;
 
 import android.content.Context;
+
 import android.net.Uri;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

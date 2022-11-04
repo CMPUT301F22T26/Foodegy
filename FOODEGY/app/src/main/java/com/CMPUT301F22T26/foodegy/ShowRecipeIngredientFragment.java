@@ -74,6 +74,7 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     listener.onShowRecipeIngredientOkPressed(pos);
+
                     }
                 }).create();
     }

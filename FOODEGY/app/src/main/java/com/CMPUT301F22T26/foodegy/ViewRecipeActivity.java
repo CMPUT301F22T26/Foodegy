@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 
@@ -45,7 +46,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_recipe);
         binding = ActivityViewRecipeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         final Intent intent = this.getIntent();
 
         if(intent==null) {
@@ -136,6 +136,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 }
