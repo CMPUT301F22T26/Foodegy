@@ -1,10 +1,16 @@
 package com.CMPUT301F22T26.foodegy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +18,11 @@ import java.util.List;
 
 public class ShoppingListActivity extends AppCompatActivity {
     //list view related variables
-    ListView shoppingListView;
-    ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
-    ArrayList<ShoppingListItem> shoppingListData;
+    private ListView shoppingListView;
+    private ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
+    private ArrayList<ShoppingListItem> shoppingListData;
+
+    private NavigationBarView bottomNavBar;
 
     //giving some inital values
     List<String> names = Arrays.asList("Apple", "Bread");
@@ -29,6 +37,29 @@ public class ShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list_activity);
+
+        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ingredients:
+                        startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
+                        break;
+                    case R.id.meal_plan:
+                        startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
+                        break;
+                    case R.id.shopping_cart:
+                        break;
+                    case R.id.recipes:
+                        startActivity(new Intent(getBaseContext(), RecipesActivity.class));
+                        break;
+
+                }
+
+                return false;
+            }
+        });
 
 //        Button buttonToActivity = (Button) findViewById(R.id.button);
 //        buttonToActivity.setOnClickListener(view -> {

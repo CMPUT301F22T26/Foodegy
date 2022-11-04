@@ -1,8 +1,10 @@
 package com.CMPUT301F22T26.foodegy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ListView;
@@ -14,11 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import org.checkerframework.checker.units.qual.C;
 
+import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,12 +60,36 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
     //calendar related variables
     private CalendarView calendarView;
     private TextView headerText;
+    private NavigationBarView bottomNavBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_plan_activity);
 
+
+        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ingredients:
+                        startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
+                        break;
+                    case R.id.meal_plan:
+                        break;
+                    case R.id.shopping_cart:
+                        startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
+                        break;
+                    case R.id.recipes:
+                        startActivity(new Intent(getBaseContext(), RecipesActivity.class));
+                        break;
+
+                }
+
+                return false;
+            }
+        });
 
         //setting up list view
         mealPlanData = new ArrayList<MealPlanItem>();
