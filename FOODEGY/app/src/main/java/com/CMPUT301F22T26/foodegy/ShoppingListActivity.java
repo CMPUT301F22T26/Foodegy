@@ -11,12 +11,14 @@ import android.widget.ListView;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends AppCompatActivity  implements AddIngredientFragment.OnFragmentInteractionListener {
     //list view related variables
     private ListView shoppingListView;
     private ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
@@ -24,19 +26,19 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     private NavigationBarView bottomNavBar;
 
-    //giving some inital values
-    List<String> names = Arrays.asList("Apple", "Bread");
-    List<String> des = Arrays.asList("healthy", "whole wheat");
-    List<String> bbda = Arrays.asList("1-11-2022", "2-11-2022");
-    List<String> locations = Arrays.asList("fridge", "bakery");
-    List<String> amounts = Arrays.asList("3", "3");
-    List<String> units = Arrays.asList("2", "2");
-    List<String> cates = Arrays.asList("fruits", "breads");
+
+    final private String android_id = "TEST_ID";
+    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    final private CollectionReference IngredientStorage = firestore.collection("users")
+            .document(android_id).collection("IngredientStorage");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list_activity);
+
+        shoppingListData = new ArrayList<ShoppingListItem>();
+        shoppingListView = findViewById(R.id.shopping_list);
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -61,20 +63,18 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
 
-//        Button buttonToActivity = (Button) findViewById(R.id.button);
-//        buttonToActivity.setOnClickListener(view -> {
-//            Intent intent;
-//            intent = new Intent(view.getContext(), ShoppingListActivity.class);
-//            view.getContext().startActivity(intent);});
-
-        shoppingListData = new ArrayList<ShoppingListItem>();
-        shoppingListView = findViewById(R.id.shopping_list);
-
-        //populating the list with two initial values
-        shoppingListData.add(new ShoppingListItem(names.get(0), des.get(0), bbda.get(0), locations.get(0), amounts.get(0), units.get(0), cates.get(0)));
-        shoppingListData.add(new ShoppingListItem(names.get(1), des.get(1), bbda.get(1), locations.get(1), amounts.get(1), units.get(1), cates.get(1)));
 
         shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
         shoppingListView.setAdapter(shoppingListItemArrayAdapter);
+    }
+
+    @Override
+    public void addIngredientToDatabase(StorageIngredient newIngredient) {
+
+    }
+
+    @Override
+    public void onEditPressed(StorageIngredient ingredient) {
+
     }
 }

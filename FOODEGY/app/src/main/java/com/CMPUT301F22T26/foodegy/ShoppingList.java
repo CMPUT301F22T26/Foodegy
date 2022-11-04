@@ -1,10 +1,14 @@
 package com.CMPUT301F22T26.foodegy;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +17,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class ShoppingList extends ArrayAdapter<ShoppingListItem> {
+
+import java.util.ArrayList;
+
+public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
 
     private ArrayList<ShoppingListItem> itemsList;
     private Context context;
@@ -42,6 +49,47 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem> {
         TextView itemAmount = view.findViewById(R.id.item_amount);
         TextView itemUnitCost = view.findViewById(R.id.item_unit_cost);
         TextView itemCategory = view.findViewById(R.id.item_category);
+        CheckBox bought = view.findViewById(R.id.Bought);
+        Button buyIngredient = view.findViewById(R.id.remove_ingredient);
+
+        bought.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    buyIngredient.setVisibility(View.VISIBLE);
+                    buyIngredient.setClickable(true);
+
+                    buyIngredient.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            MainActivity myActivity = (MainActivity) context;
+
+                            Bundle args = new Bundle();
+                            args.putInt("pos", position);
+
+//                            FragmentCompleteIngredient editFragment = new FragmentCompleteIngredient();
+//                            editFragment.setArguments(args);
+//                            editFragment.show(myActivity.getSupportFragmentManager(), "EDIT ITEM");
+
+                            bought.setChecked(false);
+                        }
+                    });
+
+
+                } else {
+                    buyIngredient.setVisibility(View.INVISIBLE);
+                    buyIngredient.setClickable(false);
+                }
+            }
+        });
+
+        buyIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         //filling up the object in view
         itemName.setText(currentItem.getItemName());
@@ -53,4 +101,6 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem> {
         return view;
 
     }
+
+
 }
