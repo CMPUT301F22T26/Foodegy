@@ -1,9 +1,11 @@
 package com.CMPUT301F22T26.foodegy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Fragment;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -114,15 +116,17 @@ public class IngredientsActivityTest {
         // find the position of mockIngredient in the list view
         solo.waitForText("Mock Ingredient", 1, 2000);
         ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
-        int pos = 0;
+        int pos = 1;  // clickInList is indexed by 1 for some reason
         for (StorageIngredient ing : ingredients) {
-            if (ing.getDescription().equals("Mock Ingredient")) {
+            if ("Mock Ingredient".equals(ing.getDescription())) {
                 break;
             }
             pos++;
         }
 
         // click on the mock ingredient
+        if (pos>3)
+            solo.scrollDown();
         solo.clickInList(pos);
         // read the fragment that pops up
         TextView descView = (TextView) solo.getView(R.id.ingredientViewName);
@@ -139,5 +143,51 @@ public class IngredientsActivityTest {
         assertEquals("Location incorrect", mockIngredient.getLocation(), locationView.getText().toString());
         assertEquals("Category incorrect", mockIngredient.getCategory(), categoryView.getText().toString());
         assertEquals("Unit incorrect", mockIngredient.getUnitCost(), Integer.parseInt(unitView.getText().toString()));
+    }
+
+    /**
+     * Test deleting an ingredient
+     */
+    @Test
+    public void deleteIngredientTest() {
+        // make a new ingredient to add to the database (dont mess with the mockingredient)
+        StorageIngredient newIngredient = new StorageIngredient("Test delete ingredient", "01-11-1999", "Pantry", 10, 1, "Vegetable");
+        activity.addIngredientToDatabase(newIngredient);
+
+        // wait for it to be added
+        solo.waitForText("Test delete ingredient", 1, 2000);
+
+        // find the position of it in the list
+        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        int pos = 1;  // for some reason clickInList is indexed by 1???????? ;(
+        for (StorageIngredient ing : ingredients) {
+            if ("Test delete ingredient".equals(ing.getDescription())) {
+                break;
+            }
+            pos++;
+        }
+        if (pos>3)
+            solo.scrollDown();
+        solo.clickInList(pos);
+        solo.sleep(500);
+        // delete >:D
+        solo.clickOnButton("Delete");
+
+        // give it 1 second to update
+        solo.sleep(1000);
+        // try to find the ingredient in the datalist again! (shouldnt be able to, because its gone)
+        ingredients = activity.getIngredientData();
+        boolean found = false;
+        for (StorageIngredient ing : ingredients) {
+            if ("Test delete ingredient".equals(ing.getDescription())) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            // test failed, delete it manually
+            activity.deleteIngredientFromDatabase(newIngredient.getId());
+        }
+        assertFalse("Ingredient was not deleted", found);
     }
 }
