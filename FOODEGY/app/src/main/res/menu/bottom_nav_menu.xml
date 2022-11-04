@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+        android:id="@+id/ingredients"
+        android:title="Ingredients"
+        android:icon="@drawable/ingredients_image_foreground"/>
+    <item
+        android:id="@+id/recipes"
+        android:title="Recipes"
+        android:icon="@drawable/recipes_image_foreground" />
+    <item
+        android:id="@+id/meal_plan"
+        android:title="Meal Plan"
+        android:icon="@drawable/meal_plan_image_foreground" />
+    <item
+        android:id="@+id/shopping_cart"
+        android:title="Shopping Cart"
+        android:icon="@drawable/shopping_cart_image_foreground" />
+</menu>
