@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,28 +14,25 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:textSize="20sp"
             android:text="Description"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala"
-            />
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editTextIngredientDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:ems="8"
             android:inputType="textPersonName"
-            android:textSize="20sp"
-            android:textColor="#E6AF2E"
-            android:hint="Enter your description"
-            android:fontFamily="@font/akaya_telivigala"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:hint="Enter description..."
             android:textColorHint="@color/gray_textHint_app_default"
-            android:paddingLeft="5dp"
+            android:paddingLeft="15dp"
             android:background="@drawable/border"/>
     </LinearLayout>
 
@@ -50,22 +46,20 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".3"
+            android:layout_weight="1"
             android:textSize="20sp"
             android:text="Location"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala"
-            />
+            android:textColor="@color/black" />
 
         <Spinner
             android:id="@+id/addIngredientLocationSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:entries="@array/locations_array"
-            android:paddingLeft="5dp"
+            android:paddingLeft="3dp"
             android:background="@drawable/border"
             android:theme="@style/mySpinnerItemStyle"/>
     </LinearLayout>
@@ -78,21 +72,20 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".3"
+            android:layout_weight="1"
             android:textSize="20sp"
             android:text="Category"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="@color/black" />
 
         <Spinner
             android:id="@+id/addIngredientCategorySpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:entries="@array/categories_array"
-            android:paddingLeft="5dp"
+            android:paddingLeft="3dp"
             android:background="@drawable/border"
             android:theme="@style/mySpinnerItemStyle"/>
     </LinearLayout>
@@ -105,27 +98,25 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".2"
+            android:layout_weight="1"
             android:textSize="20sp"
             android:text="Quantity "
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editTextIngredientAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:ems="5"
             android:inputType="number"
-            android:textSize="20sp"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala"
-            android:hint="Enter the quantity"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:hint="Enter quantity..."
             android:textColorHint="@color/gray_textHint_app_default"
-            android:paddingLeft="5dp"
+            android:paddingLeft="15dp"
             android:background="@drawable/border"/>
     </LinearLayout>
 
@@ -137,28 +128,26 @@
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".2"
+            android:layout_weight="1"
             android:textSize="20sp"
             android:text="Unit Cost"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editTextIngredientUnitCost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:background="@drawable/border"
             android:ems="5"
-            android:fontFamily="@font/akaya_telivigala"
-            android:hint="Enter the unit price"
+            android:hint="Enter unit price..."
             android:inputType="number"
-            android:paddingLeft="5dp"
-            android:textColor="#E6AF2E"
+            android:paddingLeft="15dp"
+            android:textColor="@color/black"
             android:textColorHint="@color/gray_textHint_app_default"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,10 +159,11 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:text="Best Before"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="@color/black" />
+
         <DatePicker
             android:id="@+id/addIngredientDatePicker"
             android:layout_width="match_parent"

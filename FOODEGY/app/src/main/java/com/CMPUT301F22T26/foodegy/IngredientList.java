@@ -43,9 +43,8 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         View view = convertView;
         if (view==null){
             view = LayoutInflater.from(context).inflate(R.layout.ingredient_item, parent, false);
-
         }
-        // get the views to fill in
+
         StorageIngredient ingredient = ingredientList.get(position);
         TextView ingredientItemDescription = view.findViewById(R.id.IngredientItemDescription);
         TextView ingredientDate = view.findViewById(R.id.ingredientDate);
@@ -53,8 +52,11 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         TextView ingredientQuantity = view.findViewById(R.id.ingredientQuantity);
         TextView ingredientUnitCost = view.findViewById(R.id.ingredientUnitCost);
         TextView ingredientCategory = view.findViewById(R.id.ingredientCategory);
+        View indicator = view.findViewById(R.id.cat_indicator);
 
-        // fill in the views based on ingredient data
+
+        String category = ingredient.getCategory();
+
         ingredientItemDescription.setText(ingredient.getDescription());
         ingredientDate.setText(ingredient.getBestBeforeDate());
         ingredientLocation.setText(ingredient.getLocation());
@@ -62,11 +64,21 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         ingredientCategory.setText(ingredient.getCategory());
         ingredientUnitCost.setText(String.valueOf(ingredient.getUnitCost()));
 
+        System.out.println(category.getClass());
+        if (category.equals("Vegetable")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));
+        } else if (category.equals("Dairy")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.dairy));
+        } else if (category.equals("Grain")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.grain));
+        } else if (category.equals("Meat")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.meat));
+        }
+
         return view;
 
 
     }
-
 
 
 }
