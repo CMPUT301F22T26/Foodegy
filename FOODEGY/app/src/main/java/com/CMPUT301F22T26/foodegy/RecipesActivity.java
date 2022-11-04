@@ -24,11 +24,14 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Activity for user interacting with recipes.
+ * Shows the list of Recipes and lets the user add or view a Recipe
+ */
 public class RecipesActivity extends AppCompatActivity {
     private Button sortbutton;
     private Button categorybutton;
     private FloatingActionButton addbutton;
-    private Button viewmorebutton;
     private ActivityRecipesBinding binding;
     private ArrayList<Recipe> listViewRecipe;
 
@@ -43,12 +46,7 @@ public class RecipesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
 
-/**
- * The following lines of code is used to check if the listView displays the contents of the Recipe class with appropriate image.
- */
-        RecipeIngredient cinnamon = new RecipeIngredient("The spice is used to enhance flavours","indian spices","5","2");
-        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<RecipeIngredient>();
-        recipeIngredients.add(cinnamon);
+
         binding = ActivityRecipesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -74,8 +72,6 @@ public class RecipesActivity extends AppCompatActivity {
                    leaving the line below as a commented line since we are not dealing with viewing list of ingredients.
                        */
                 //intent.putExtra("ingredients",listViewRecipe.get(position).getIngredients());
-
-
                 startActivity(intent);
                 return true;
             }

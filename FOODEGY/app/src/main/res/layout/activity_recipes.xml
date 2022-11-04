@@ -49,17 +49,6 @@
     </RelativeLayout>
 
 
-
-    <Button
-        android:id="@+id/viewmore_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="65dp"
-        android:text="View More"
-        android:textSize="15sp" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addRecipe"
         android:layout_width="wrap_content"
