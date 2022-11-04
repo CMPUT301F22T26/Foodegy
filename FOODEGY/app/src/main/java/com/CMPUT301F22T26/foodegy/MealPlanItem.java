@@ -22,6 +22,15 @@ public class MealPlanItem {
     private String name;
     private Map ingredients;
 
+    /**
+     * Initialize an instance of a MealPlanItem
+     * @param startDate (String) unix time, when the MealPlan is supposed to begin
+     * @param endDate (String) unix time, when the user plans to finish eating their MealPlanItem
+     * @param name (String) Meal Plan Item name
+     * @param servings (Long) Number of servings the user is planning to make
+     * @param ingredients (Map) Ingredients and their respective amounts, making up this
+     *                    MealPlanItem
+     */
     public MealPlanItem( String startDate, String endDate, String name, Long servings, Map ingredients){
         this.startDate = startDate;
         this.endDate = endDate;
@@ -30,49 +39,99 @@ public class MealPlanItem {
         this.ingredients = ingredients;
     }
 
+    /**
+     * Get MealPlanItem start time (unix, String)
+     * @return the time when user plans to start eating
+     */
     public String  getStartDate() {
 
         return startDate;
     }
 
+    /**
+     * Set a new MealPlanItem start time (unix, String)
+     * @param date the new time this MealPlanItem will be made
+     */
     public void setStartDate(String date) {
 
         this.startDate = date;
     }
 
+    /**
+     * Set a new MealPlanItem end time (unix, String)
+     * @param date the new time this MealPlanItem will be done
+     */
     public void setEndDate(String date) {
 
         this.endDate = date;
     }
 
+    /**
+     * Get MealPlanItem end time (unix, String)
+     * @return the time when user plans to finish eating
+     */
     public String  getEndDate() {
 
 
         return endDate;
     }
 
+    /**
+     * Get MealPlanItem's number of servings (Long)
+     * @return how many servings will be made
+     */
     public Long getServings() {
 
         return servings;
     }
 
+    /**
+     * Set MealPlanItem's number of servings
+     * @param servings (Long) how many servings will be made
+     */
     public void setServings(Long servings) {
 
         this.servings = servings;
     }
 
+    /**
+     * get MealPlanItem's id in the FireBase
+     * @return the Id(String) of the MealPlanItem
+     */
     public String getId(){ return this.id; }
+
+    /**
+     * set the MealPlanItem's id in the FireBase
+     * @param newId (String) the new id of the MealPlanItem
+     */
     public void setId(String newId) {this.id = newId; }
 
+    /**
+     * get the MealPlanItem's name
+     * @return the name (String)
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     * set the MealPlanItem's name
+     * @param name (String) name of item
+     */
     public void setName(String name){
         this.name = name;
     }
 
+    /**
+     * get the ingredients, mapped to their respective amounts, of the MealPlanItem
+     * @return Map: ingredients and their amounts
+     */
     public Map getIngredients(){return ingredients; }
+
+    /**
+     * set a new bunch of ingredients of this MealPlanItem
+     * @param newIngredients: the new ingredients, and their amounts
+     */
     public void setIngredients(Map newIngredients){this.ingredients = newIngredients; }
 
 }

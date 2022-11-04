@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
  * Fragment that handles adding/editing a StorageIngredient. Called when a user presses the + button
  * in IngredientsActivity or the Edit button when viewing the ingredient, respectively.
  * Each behaviour is handled by overloading the constructor
+ *
  */
 public class AddIngredientFragment extends androidx.fragment.app.DialogFragment {
     private EditText ingredientDescription;

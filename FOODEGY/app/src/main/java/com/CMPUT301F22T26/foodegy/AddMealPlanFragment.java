@@ -38,6 +38,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Fragment that handles adding a new MealPlan by the user. Called when a user presses the
+ * Floating Action Button in the MealPlanActivity.
+ */
 public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
     private RadioGroup mealPlanType;
     private Spinner foodSelection;
@@ -47,6 +51,8 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
     private ArrayAdapter<String> adapter; // displays values needed for the spinner
 
     private AddMealPlanFragment.OnFragmentInteractionListener listener;
+
+    // user id
     final private String android_id = "TEST_ID";
     final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     final private CollectionReference IngredientStorage = firestore.collection("users")
@@ -54,8 +60,10 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
     final private CollectionReference RecipeStorage = firestore.collection("users")
             .document(android_id).collection("Recipes");
 
-
-
+    /**
+     * Interface that will allow the fragment to pass information back to the activity
+     * (and subsequently the Firebase)
+     */
     public interface OnFragmentInteractionListener {
         void onSubmitPressed(MealPlanItem mealPlanItem);
 

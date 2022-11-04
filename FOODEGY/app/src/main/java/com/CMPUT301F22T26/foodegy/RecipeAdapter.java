@@ -25,9 +25,18 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for making Recipes render-able on screen
+ */
 public class RecipeAdapter extends ArrayAdapter<Recipe>{
     private Context context;
     private ArrayList<Recipe> recipeArrayList;
+
+    /**
+     * Initialize a RecipeAdapter!
+     * @param context the context from which the Adapter has been initialized
+     * @param recipeArrayList the ArrayList of Recipes we wish to display
+     */
     public RecipeAdapter(Context context, ArrayList<Recipe> recipeArrayList){
         super(context,R.layout.recipe_activity_listview,recipeArrayList);
         this.context = context;
@@ -39,6 +48,13 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
+    /**
+     * Returns a View of a particular Recipe
+     * @param position the position in the ArrayList of which Recipe we wish to see
+     * @param convertView the old view, for reusing if possible
+     * @param parent the parent element where this View will belong
+     * @return the View for Android to display
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

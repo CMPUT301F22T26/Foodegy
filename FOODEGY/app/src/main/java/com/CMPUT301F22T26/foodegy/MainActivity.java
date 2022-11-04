@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Activity that is displayed at the beginning of the app & that will direct the user
+ * to all the other activities & tabs
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -17,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-//Reference: https://stackoverflow.com/questions/4186021/how-to-start-new-activity-on-button-click
+        // locate the 4 buttons & respond to button click by starting the appropriate activity
         Button buttonToIngredientActivity = (Button) findViewById(R.id.buttonToIngredientActivity);
         buttonToIngredientActivity.setOnClickListener(view -> {
             Intent intent;

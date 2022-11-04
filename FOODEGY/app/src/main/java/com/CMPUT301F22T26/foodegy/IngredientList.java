@@ -19,6 +19,11 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
     private ArrayList<StorageIngredient> ingredientList;
     private Context context;
 
+    /**
+     * Constructor for creating an IngredientList
+     * @param context: context from where the IngredientList is being created
+     * @param ingredientList: Array of StorageIngredients to be displayed in IngredientList
+     */
     public IngredientList(Context context, ArrayList<StorageIngredient> ingredientList){
         super(context, 0, ingredientList);
         this.ingredientList = ingredientList;
@@ -26,6 +31,14 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
 
     }
 
+    /**
+     * Returns the View that can be displayed by the app
+     * @param position the StorageIngredient's position inside the ArrayList
+     *                 (ie. StorageIngredient we want to display)
+     * @param convertView the old View to reuse, if possible
+     * @param parent parent ViewGroup that this View will belong to
+     * @return the View that has been created
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         if (view==null){

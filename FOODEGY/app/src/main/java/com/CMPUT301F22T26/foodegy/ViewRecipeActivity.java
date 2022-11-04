@@ -28,6 +28,9 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class allows the user to view the recipe, and all of the data/details that the recipe has
+ */
 public class ViewRecipeActivity extends AppCompatActivity {
 
     private ActivityViewRecipeBinding binding;
@@ -35,6 +38,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private Button edit;
     private Button delete;
 
+    // connect to firebase to get recipe data
     final private String android_id = "TEST_ID";
     final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
             .collection("users").document(android_id).collection("Recipes");

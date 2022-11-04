@@ -13,6 +13,13 @@ public class ShoppingListItem {
     private Integer unitCost;
     private String category;
 
+    /**
+     * Initialize a shopping list item
+     * @param itemName the brief name or description
+     * @param amount the amount of the item, as an integer
+     * @param unitCost the cost of the item, also as an integer
+     * @param category the category of the item, as a String
+     */
     ShoppingListItem(String itemName, Integer amount, Integer unitCost, String category){
         this.itemName = itemName;
         this.amount = amount;
@@ -20,34 +27,66 @@ public class ShoppingListItem {
         this.category = category;
     }
 
+    /**
+     * Get the name of the shopping list item
+     * @return the name, as a string
+     */
     public String getItemName() {
         return itemName;
     }
 
+    /**
+     * Set a new name to the Shopping list item
+     * @param itemName the new name we want to give our item
+     */
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
+    /**
+     * Get how much of an item is required
+     * @return the amount, as an Integer
+     */
     public Integer getAmount() {
         return amount;
     }
 
+    /**
+     * Set a new amount to this shopping list item
+     * @param amount the amount, as an Integer
+     */
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
+    /**
+     * Get how much the item costs
+     * @return the cost, as an Integer
+     */
     public Integer getUnitCost() {
         return unitCost;
     }
 
+    /**
+     * Set the unit cost of this item
+     * @param unitCost the new cost
+     */
     public void setUnitCost(Integer unitCost) {
         this.unitCost = unitCost;
     }
 
+    /**
+     * Get this shopping list item's category
+     * @return the category, as a string
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Set the category of the shopping list item
+     * @param category the new category, as a string
+     */
     public void setCategory(String category) {
         this.category = category;
     }

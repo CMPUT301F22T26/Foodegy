@@ -32,18 +32,18 @@ import java.util.Map;
  * Shows the list of Recipes and lets the user add or view a Recipe
  */
 public class RecipesActivity extends AppCompatActivity {
-    private Button sortbutton;
-    private Button categorybutton;
     private FloatingActionButton addbutton;
     private ActivityRecipesBinding binding;
     private ArrayList<Recipe> listViewRecipe;
 
+    // connect to the firebase & provide a test id
     private String android_id = "TEST_ID";
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference RecipesCollection = firestore.collection("users")
             .document(android_id).collection("Recipes");
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
+    // the navbar for navigating between activities
     private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class RecipesActivity extends AppCompatActivity {
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
+            // see which navbar item has been clicked
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.ingredients:
@@ -76,6 +77,7 @@ public class RecipesActivity extends AppCompatActivity {
             }
         });
 
+        // render the data
         listViewRecipe = new ArrayList<Recipe>();
         RecipeAdapter listadapter = new RecipeAdapter(RecipesActivity.this,listViewRecipe);
         binding.foodList.setAdapter(listadapter);

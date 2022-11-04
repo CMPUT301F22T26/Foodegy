@@ -43,6 +43,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The activity for viewing & interacting with the user's MealPlans. Handles storing
+ * entries in the Firebase and maing queries.
+ */
+
 public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFragment.OnFragmentInteractionListener {
     //list view related variables
     private ListView mealPlanItemsView;

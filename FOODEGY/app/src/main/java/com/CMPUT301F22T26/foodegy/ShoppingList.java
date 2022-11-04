@@ -27,17 +27,34 @@ import java.util.ArrayList;
 
 import java.util.ArrayList;
 
+/**
+ * The ShoppingList class is responsible for generating a view of a shopping list item, based on
+ * an array of shopping list items
+ */
 public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
 
     private ArrayList<ShoppingListItem> itemsList;
     private Context context;
 
+    /**
+     * Initialize a ShoppingList!
+     * @param context the context (usually ShoppingListActivity) from which this ShoppingList
+     *                is being initialized from
+     * @param itemsList the list of shopping list items that will need to be rendered
+     */
     ShoppingList(Context context, ArrayList<ShoppingListItem> itemsList){
         super(context, 0, itemsList);
         this.context = context;
         this.itemsList = itemsList;
     }
 
+    /**
+     * Get the view of a particular shopping list item
+     * @param position the position, as an integer, of this item in the data list
+     * @param convertView the old view, for reuse, if possible
+     * @param parent the parent element to which this view will belong
+     * @return the view of the item
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
