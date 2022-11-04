@@ -12,8 +12,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Custom ArrayAdapter for displaying StorageIngredients. Used in IngredientsActivity
+ */
 public class IngredientList extends ArrayAdapter<StorageIngredient> {
-    private ArrayList<StorageIngredient> ingredientList;// = new ArrayList<StorageIngredient>();
+    private ArrayList<StorageIngredient> ingredientList;
     private Context context;
 
     public IngredientList(Context context, ArrayList<StorageIngredient> ingredientList){
@@ -29,6 +32,7 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
             view = LayoutInflater.from(context).inflate(R.layout.ingredient_item, parent, false);
 
         }
+        // get the views to fill in
         StorageIngredient ingredient = ingredientList.get(position);
         TextView ingredientItemDescription = view.findViewById(R.id.IngredientItemDescription);
         TextView ingredientDate = view.findViewById(R.id.ingredientDate);
@@ -37,7 +41,7 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         TextView ingredientUnitCost = view.findViewById(R.id.ingredientUnitCost);
         TextView ingredientCategory = view.findViewById(R.id.ingredientCategory);
 
-
+        // fill in the views based on ingredient data
         ingredientItemDescription.setText(ingredient.getDescription());
         ingredientDate.setText(ingredient.getBestBeforeDate());
         ingredientLocation.setText(ingredient.getLocation());

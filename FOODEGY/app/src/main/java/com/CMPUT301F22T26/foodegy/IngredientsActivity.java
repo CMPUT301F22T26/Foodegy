@@ -27,6 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The activity that handles user interactions with their Storage Ingredients.
+ * Includes viewing, adding, editing, deleting Storage Ingredients
+ */
 public class IngredientsActivity extends AppCompatActivity implements AddIngredientFragment.OnFragmentInteractionListener {
 
     private ListView ingredientListView;
@@ -132,6 +136,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     }
 
     /**
+     * Summons the fragment to edit ingredient.
      * Called whenever a StorageIngredient is edited. Updates the firestore accordingly
      * @param ingredient
      *  The ingredient to be updated
@@ -139,22 +144,20 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     @Override
     public void onEditPressed(StorageIngredient ingredient) {
         new AddIngredientFragment(ingredient).show(getSupportFragmentManager(), "EDIT_INGREDIENT");
-        // edit the ingredient
-
     }
+
+    /**
+     * Edits a StorageIngredient in the database
+     * @param id
+     *  The ID of the ingredient to be modified
+     * @param ingredient
+     *  The new ingredient with edited attributes
+     */
     public void editIngredientInDatabase(String id, StorageIngredient ingredient){
         IngredientStorage
                 .document(id)
                 .set(ingredient);
-
     }
-
-    public void deleteIngredient(StorageIngredient ingredient){
-
-                deleteIngredientFromDatabase(ingredient.getId());
-                ingredientAdapter.remove(ingredient);
-    }
-
 
     /**
      * Deletes an ingredient form a user's IngredientStorage
@@ -162,6 +165,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
      *  id of ingredient to be deleted
      */
     public void deleteIngredientFromDatabase(String id) {
+        // Note: we do not need to remove the ingredient from the ingredient list or adapter, that
+        //   is handled with the IngredientStorage.addSnapshotListener above !!!!
         IngredientStorage
                 .document(id)
                 .delete()

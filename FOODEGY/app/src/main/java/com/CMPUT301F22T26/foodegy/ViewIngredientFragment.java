@@ -20,13 +20,19 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentResultOwner;
 import androidx.lifecycle.LifecycleOwner;
 
-
-public class ViewIngredientFragment  extends DialogFragment implements FragmentResultOwner {
-
+/**
+ * Fragment for handling viewing ingredients.
+ * Summoned when user selects a StorageIngredient from the list in IngredientsActivity
+ */
+public class ViewIngredientFragment  extends DialogFragment {
     private AddIngredientFragment.OnFragmentInteractionListener listener;
-
     private StorageIngredient ingredient;
 
+    /**
+     * Constructor for the fragment
+     * @param ingredient
+     *  The ingredent whose data we want to display
+     */
     public ViewIngredientFragment(StorageIngredient ingredient) {
         super();
         this.ingredient = ingredient;
@@ -41,6 +47,7 @@ public class ViewIngredientFragment  extends DialogFragment implements FragmentR
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
+        // IngredientsActivity is the listener
         if(context instanceof AddIngredientFragment.OnFragmentInteractionListener){
             listener = (AddIngredientFragment.OnFragmentInteractionListener) context;
         } else {
@@ -52,6 +59,7 @@ public class ViewIngredientFragment  extends DialogFragment implements FragmentR
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
+        // get all the things from the xml
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.ingredient_item_view, null);
         ingredientDescription = view.findViewById(R.id.ingredientViewName);
         ingredientAmount = view.findViewById(R.id.ingredientViewThisAmount);
@@ -63,27 +71,17 @@ public class ViewIngredientFragment  extends DialogFragment implements FragmentR
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(getContext());
 
-        String label;
-        if (ingredient == null) {
-            // we are adding a new food
-            label = "Add ingredient";
-        }
-        else {
-            // editing a food
-            label = "View ingredient";
+        // want fill in all the options from the data in the food
+        ingredientDescription.setText(ingredient.getDescription());
+        ingredientAmount.setText(Integer.toString(ingredient.getAmount()));
+        bestBeforeDate.setText(ingredient.getBestBeforeDate());
+        location.setText(ingredient.getLocation());
+        category.setText(ingredient.getCategory());
+        unit.setText(Integer.toString(ingredient.getUnitCost()));
 
-            // want fill in all the options from the data in the food
-            ingredientDescription.setText(ingredient.getDescription());
-            ingredientAmount.setText(Integer.toString(ingredient.getAmount()));
-            bestBeforeDate.setText(ingredient.getBestBeforeDate());
-            location.setText(ingredient.getLocation());
-            category.setText(ingredient.getCategory());
-            unit.setText(Integer.toString(ingredient.getUnitCost()));
-
-        }
         return builder
                 .setView(view)
-                .setTitle(label)
+                .setTitle("View Ingredient")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -93,7 +91,7 @@ public class ViewIngredientFragment  extends DialogFragment implements FragmentR
                 .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((IngredientsActivity) getActivity()).deleteIngredient(ingredient);
+                        ((IngredientsActivity) getActivity()).deleteIngredientFromDatabase(ingredient.getId());
 
 
                     }
@@ -105,28 +103,5 @@ public class ViewIngredientFragment  extends DialogFragment implements FragmentR
 
                     };
                 }).create();
-
-
-    }
-
-
-    @Override
-    public void setFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-    }
-
-    @Override
-    public void clearFragmentResult(@NonNull String requestKey) {
-
-    }
-
-    @Override
-    public void setFragmentResultListener(@NonNull String requestKey, @NonNull LifecycleOwner lifecycleOwner, @NonNull FragmentResultListener listener) {
-
-    }
-
-    @Override
-    public void clearFragmentResultListener(@NonNull String requestKey) {
-
     }
 }

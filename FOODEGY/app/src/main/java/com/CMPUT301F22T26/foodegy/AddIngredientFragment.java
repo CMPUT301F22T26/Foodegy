@@ -15,6 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Fragment that handles adding/editing a StorageIngredient. Called when a user presses the + button
+ * in IngredientsActivity or the Edit button when viewing the ingredient, respectively.
+ * Each behaviour is handled by overloading the constructor
+ */
 public class AddIngredientFragment extends androidx.fragment.app.DialogFragment {
     private EditText ingredientDescription;
     private EditText ingredientUnitCost;
@@ -26,14 +31,27 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     private OnFragmentInteractionListener listener;
 
     private StorageIngredient ingredient;
+    /**
+     * Constructor for adding a StorageIngredient
+     */
     public AddIngredientFragment() {
         super();
     }
+
+    /**
+     * Constructor for editing a StorageIngredient
+     * @param ingredient
+     *  The ingredient to be edited
+     */
     public AddIngredientFragment(StorageIngredient ingredient) {
         super();
         this.ingredient = ingredient;
     }
 
+    /**
+     * Listener for when the fragment is finished & it is time to pass off the retrieved information
+     * to the firestore
+     */
     public interface OnFragmentInteractionListener {
         void addIngredientToDatabase(StorageIngredient newIngredient);
         void onEditPressed(StorageIngredient ingredient);
@@ -122,6 +140,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
 
 
                     // validate input!
+                    // validate description
                     if (description.length() == 0) {
                         Toast.makeText(getActivity(), "Description cannot be empty", Toast.LENGTH_LONG).show();
                         return;
@@ -145,8 +164,6 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
 
                     if (ingredient == null) {
                         // making a new ingredient
-                        // get the date & convert to a string
-
                         listener.addIngredientToDatabase(new StorageIngredient(
                                 description,
                                 day+"-"+month+"-"+year,
@@ -157,6 +174,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         ));
                     }
                     else {
+                        // editing an ingredient
                         ingredient.setDescription(description);
                         ingredient.setBestBeforeDate(day+"-"+month+"-"+year);
                         ingredient.setAmount(amount);
@@ -165,11 +183,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         ingredient.setLocation(location.getSelectedItem().toString());
                         ((IngredientsActivity) getActivity()).editIngredientInDatabase(ingredient.getId(), ingredient);
                     }
-
                 };
             }).create();
-
-
     }
-
 }
