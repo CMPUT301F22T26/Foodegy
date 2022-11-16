@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_marginBottom="60dp"
+            android:paddingBottom="50dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="5.0sp"/>
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
             android:layout_height="50dp"
-            android:background="#5D03FF"
+            android:background="@color/purple_500"
             app:itemIconTint="#ffff"
             app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"
