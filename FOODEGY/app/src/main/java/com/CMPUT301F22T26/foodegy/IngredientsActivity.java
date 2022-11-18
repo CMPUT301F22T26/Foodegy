@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -36,25 +39,22 @@ import java.util.Map;
  * Includes viewing, adding, editing, deleting Storage Ingredients
  */
 public class IngredientsActivity extends AppCompatActivity implements AddIngredientFragment.OnFragmentInteractionListener {
-
     private ListView ingredientListView;
     private ArrayAdapter<StorageIngredient> ingredientAdapter;
     private ArrayList<StorageIngredient> ingredientData;
-
-    // each device has a unique id, use that as their own personal collection name
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
+    private String sortingAttribute = "description";
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
 
+    private Spinner sortingSpinner;
     private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
+        sortingSpinner = findViewById(R.id.ingredientSortSpinner);
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -98,40 +98,73 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
             }
         });
 
+        // handle sorting
+        sortingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] attributes = getResources().getStringArray(R.array.sort_ingredients);
+                if ("Description".equals(attributes[i])) {
+                    sortingAttribute = "description";
+                }
+                else if ("Best Before Date".equals(attributes[i])) {
+                    sortingAttribute = "bestBeforeDate";
+                }
+                else if ("Location".equals(attributes[i])) {
+                    sortingAttribute = "location";
+                }
+                else if ("Category".equals(attributes[i])) {
+                    sortingAttribute = "category";
+                }
+                // reload the list!!
+                IngredientStorage.orderBy(sortingAttribute).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        reloadIngredients(queryDocumentSnapshots);
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         // when something is changed in the firestore, update the list!
         IngredientStorage
-                .orderBy("description")
+                .orderBy(sortingAttribute)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        ingredientData.clear();
-                        for (QueryDocumentSnapshot doc : value) {
-                            // reinitialize the whole list
-                            String id = doc.getId();
-                            Map<String, Object> data = doc.getData();
-                            String description = (String)data.get("description");
-                            String bestBefore = (String)data.get("bestBeforeDate");
-                            String location = (String)data.get("location");
-                            int amount = doc.getLong("amount").intValue();
-                            int unitCost = doc.getLong("unitCost").intValue();
-                            String category = (String)data.get("category");
-                            StorageIngredient newIngredient = new StorageIngredient(
-                                    description,
-                                    bestBefore,
-                                    location,
-                                    amount,
-                                    unitCost,
-                                    category
-                            );
-                            newIngredient.setId(id);
-                            ingredientData.add(newIngredient);
-                        }
-                        ingredientAdapter.notifyDataSetChanged();
+                        reloadIngredients(value);
                     }
                 });
     };
 
+    public void reloadIngredients(QuerySnapshot snapshot) {
+        ingredientData.clear();
+        for (QueryDocumentSnapshot doc : snapshot) {
+            // reinitialize the whole list
+            String id = doc.getId();
+            Map<String, Object> data = doc.getData();
+            String description = (String)data.get("description");
+            String bestBefore = (String)data.get("bestBeforeDate");
+            String location = (String)data.get("location");
+            int amount = doc.getLong("amount").intValue();
+            int unitCost = doc.getLong("unitCost").intValue();
+            String category = (String)data.get("category");
+            StorageIngredient newIngredient = new StorageIngredient(
+                    description,
+                    bestBefore,
+                    location,
+                    amount,
+                    unitCost,
+                    category
+            );
+            newIngredient.setId(id);
+            ingredientData.add(newIngredient);
+        }
+        ingredientAdapter.notifyDataSetChanged();
+    }
     /**
      * Adds a new StorageIngredient to the firestore
      * @param newIngredient
@@ -172,19 +205,6 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     @Override
     public void onEditPressed(StorageIngredient ingredient) {
         new AddIngredientFragment(ingredient).show(getSupportFragmentManager(), "EDIT_INGREDIENT");
-    }
-
-    /**
-     * Edits a StorageIngredient in the database
-     * @param id
-     *  The ID of the ingredient to be modified
-     * @param ingredient
-     *  The new ingredient with edited attributes
-     */
-    public void editIngredientInDatabase(String id, StorageIngredient ingredient){
-        IngredientStorage
-                .document(id)
-                .set(ingredient);
     }
 
     /**

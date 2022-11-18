@@ -42,15 +42,14 @@ public class DatabaseManager {
         return dbm;
     }
 
+
     // getters for collection references
     public CollectionReference getRecipesCollection() {
         return RecipesCollection;
     }
-
     public CollectionReference getIngredientStorageCollection() {
         return IngredientStorage;
     }
-
     public CollectionReference getMealPlansCollection() {
         return MealPlans;
     }
