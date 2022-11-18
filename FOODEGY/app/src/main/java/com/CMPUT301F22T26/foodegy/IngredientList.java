@@ -64,7 +64,6 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         ingredientCategory.setText(ingredient.getCategory());
         ingredientUnitCost.setText(String.valueOf(ingredient.getUnitCost()));
 
-        System.out.println(category.getClass());
         if (category.equals("Vegetable")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));
         } else if (category.equals("Dairy")) {

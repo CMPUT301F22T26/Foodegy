@@ -62,11 +62,9 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
-    private String android_id = "TEST_ID";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    private CollectionReference RecipesCollection = dbm.getRecipesCollection();
+    private StorageReference userFilesRef = dbm.getUserFilesRef();
 
 
     @Override
@@ -139,10 +137,15 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String comments = commentText.getText().toString();
 
                 // upload image to firebase storage
-                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
+                String imageFilename = null;
+                if (selectedImage != null) {
+                    imageFilename = System.currentTimeMillis() + "." + getFileExtension(selectedImage);
+                }
+
                 Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
                         imageFilename, comments, ingredientsList);
-                addRecipeToDatabase(recipe);
+                dbm.addRecipeToDatabase(recipe, selectedImage);
+                //addRecipeToDatabase(recipe);
                 finish();
             }
         });

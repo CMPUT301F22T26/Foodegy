@@ -131,9 +131,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="Unit Cost"
-            android:textColor="@color/black" />
+            android:text="Unit"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editTextIngredientUnitCost"
@@ -142,7 +142,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:ems="5"
-            android:hint="Enter unit price..."
+            android:hint="Enter unit..."
             android:inputType="number"
             android:paddingLeft="15dp"
             android:textColor="@color/black"

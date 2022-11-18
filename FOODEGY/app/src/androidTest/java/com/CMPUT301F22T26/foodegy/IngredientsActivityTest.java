@@ -33,6 +33,7 @@ public class IngredientsActivityTest {
     private StorageIngredient mockIngredientEdit;
     private String[] locations;
     private String[] categories;
+    private DatabaseManager dbm;
     @Rule
     public ActivityTestRule<IngredientsActivity> rule =
             new ActivityTestRule<>(IngredientsActivity.class, true, true);
@@ -44,6 +45,7 @@ public class IngredientsActivityTest {
     @Before
     public void setup() throws Exception {
         activity = rule.getActivity();
+        dbm = DatabaseManager.getInstance();
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
         addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
 
@@ -85,7 +87,7 @@ public class IngredientsActivityTest {
         DatePicker datePicker = (DatePicker)solo.getView(R.id.addIngredientDatePicker);
 
         // enter dummy data
-        solo.enterText(editDescription, "TestIngredient!!");
+        solo.enterText(editDescription, "aTestIngredient!!");
         solo.pressSpinnerItem(0,1);
         solo.pressSpinnerItem(1,0);
         solo.enterText(editQuantity, "15");
@@ -95,14 +97,14 @@ public class IngredientsActivityTest {
         solo.clickOnButton("Submit");
 
         // give it a second to update properly
-        solo.waitForText("TestIngredient!!", 1, 2000);
+        solo.waitForText("aTestIngredient!!", 1, 2000);
 
         // try to find it
         ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
         boolean found = false;
         String id = "";
         for (StorageIngredient ingredient : ingredients) {
-            if (ingredient.getDescription().equals("TestIngredient!!")) {
+            if (ingredient.getDescription().equals("aTestIngredient!!")) {
                 found = true;
                 id = ingredient.getId();  // save the id of the created food to delete it after
                 break;

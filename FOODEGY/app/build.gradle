@@ -73,5 +73,6 @@ dependencies {
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 }

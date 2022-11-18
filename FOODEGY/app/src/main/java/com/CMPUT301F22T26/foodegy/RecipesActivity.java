@@ -4,28 +4,40 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Activity for user interacting with recipes.
@@ -35,13 +47,14 @@ public class RecipesActivity extends AppCompatActivity {
     private FloatingActionButton addbutton;
     private ActivityRecipesBinding binding;
     private ArrayList<Recipe> listViewRecipe;
+    private RecipeAdapter listadapter;
+    private Spinner sortingSpinner;
+    private String sortingAttribute = "title";
 
     // connect to the firebase & provide a test id
-    private String android_id = "TEST_ID";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference RecipesCollection = dbm.getRecipesCollection();
+    private Query sortedRecipes = RecipesCollection.orderBy(sortingAttribute);
 
     // the navbar for navigating between activities
     private NavigationBarView bottomNavBar;
@@ -79,7 +92,7 @@ public class RecipesActivity extends AppCompatActivity {
 
         // render the data
         listViewRecipe = new ArrayList<Recipe>();
-        RecipeAdapter listadapter = new RecipeAdapter(RecipesActivity.this,listViewRecipe);
+        listadapter = new RecipeAdapter(RecipesActivity.this,listViewRecipe);
         binding.foodList.setAdapter(listadapter);
         binding.foodList.setClickable(true);
 
@@ -111,47 +124,112 @@ public class RecipesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // when a recipe is added, reload the data
-        RecipesCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+        // handle the sorting of the recipe list
+        sortingSpinner = findViewById(R.id.sortRecipesSpinner);
+        sortingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                listViewRecipe.clear();
-                for (QueryDocumentSnapshot doc : value) {
-                    // runs through each recipe
-                    Map<String, Object> data = doc.getData();
-                    // get the ingredients
-                    ArrayList<Map<String, Object>> documentIngredients = (ArrayList<Map<String, Object>>) data.get("ingredients");
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // figure out which item was picked
+                String[] sortingArray = getResources().getStringArray(R.array.sort_recipes);
 
-                    // loop through ingredients from the firestore and put them in ings
-                    ArrayList<RecipeIngredient> ings = new ArrayList<>();
-                    for(Map<String, Object> ingredient : documentIngredients) {
-                        String unit = (String)ingredient.get("unit");
-                        String amount = (String)ingredient.get("amount");
-                        String desc = (String)ingredient.get("description");
-                        String category = (String)ingredient.get("category");
-                        ings.add(new RecipeIngredient(desc, category, amount, unit));
-                    }
-
-                    // get other data fields
-                    String amount = (String)data.get("amount");
-                    String category = (String)data.get("category");
-                    String comments = (String)data.get("comments");
-                    String hours = (String)data.get("hours");
-                    String minutes = (String)data.get("minutes");
-                    String imageFileName = (String)data.get("imageFileName");
-                    String servingValue = (String)data.get("servingValue");
-                    String title = (String)data.get("title");
-
-                    Recipe r = new Recipe(
-                            title, hours, minutes, servingValue, category, amount,
-                            imageFileName, comments, ings
-                    );
-                    r.setId(doc.getId());
-                    listViewRecipe.add(r);
+                // the names in the list are different from the attribute names, switch them
+                if ("Title".equals(sortingArray[i])) {
+                    sortingAttribute = "title";
                 }
-                listadapter.notifyDataSetChanged();
+                else if ("Prep Time".equals(sortingArray[i])) {
+                    // HANDLE THIS BELOW
+                    sortingAttribute = "PREP TIME";
+                }
+                else if ("Servings".equals(sortingArray[i])) {
+                    sortingAttribute = "servingValue";
+                }
+                else if ("Category".equals(sortingArray[i])) {
+                    sortingAttribute = "category";
+                }
+
+                // prep time is stored in two attributes, hours & minutes. we need to sort by both
+                if ("PREP TIME".equals(sortingAttribute)) {
+                    sortedRecipes = RecipesCollection.orderBy("hours").orderBy("minutes");
+                }
+                else {
+                    sortedRecipes = RecipesCollection.orderBy(sortingAttribute);
+                }
+                // THIS IS THE LISTENER FOR THE RECIPE DATABASE CHANGING
+                sortedRecipes.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        reloadRecipes(value);
+                    }
+                });
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    /**
+     * Given a query snapshot, reloads & repopulates the list of recipes.
+     *  Called when a recipe is added, deleted, edited, or the list is sorted
+     * @param snapshot
+     *  The snapshot from the query of the (sorted) recipes collection
+     */
+    public void reloadRecipes(QuerySnapshot snapshot) {
+        listViewRecipe.clear();
+        for (QueryDocumentSnapshot doc : snapshot) {
+            // runs through each recipe
+            Map<String, Object> data = doc.getData();
+            // get the ingredients
+            ArrayList<Map<String, Object>> documentIngredients = (ArrayList<Map<String, Object>>) data.get("ingredients");
+
+            // loop through ingredients from the firestore and put them in ings
+            ArrayList<RecipeIngredient> ings = new ArrayList<>();
+            for(Map<String, Object> ingredient : documentIngredients) {
+                String unit = (String)ingredient.get("unit");
+                String amount = (String)ingredient.get("amount");
+                String desc = (String)ingredient.get("description");
+                String category = (String)ingredient.get("category");
+                ings.add(new RecipeIngredient(desc, category, amount, unit));
+            }
+
+            // get other data fields
+            String amount = (String)data.get("amount");
+            String category = (String)data.get("category");
+            String comments = (String)data.get("comments");
+            String hours = (String)data.get("hours");
+            String minutes = (String)data.get("minutes");
+            String imageFileName = (String)data.get("imageFileName");
+            String servingValue = (String)data.get("servingValue");
+            String title = (String)data.get("title");
+
+
+
+            Recipe r = new Recipe(
+                    title, hours, minutes, servingValue, category, amount,
+                    imageFileName, comments, ings
+            );
+            r.setId(doc.getId());
+            System.out.println("==================================================="+title+imageFileName);
+            // download the image!!!
+            if (imageFileName != null && !"".equals(imageFileName)) {
+                Task t = dbm.getUserFilesRef().child(imageFileName).getDownloadUrl();
+                t.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+                        r.setRecipeImage(uri);
+                        listViewRecipe.add(r);
+                        listadapter.notifyDataSetChanged();
+                    }
+                });
+            }
+            else {
+                listViewRecipe.add(r);
+                listadapter.notifyDataSetChanged();
+            }
+        }
+
     }
 
     /**
