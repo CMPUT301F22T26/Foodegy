@@ -25,8 +25,8 @@ import androidx.lifecycle.LifecycleOwner;
  * Summoned when user selects a StorageIngredient from the list in IngredientsActivity
  */
 public class ViewIngredientFragment  extends DialogFragment {
-    private AddIngredientFragment.OnFragmentInteractionListener listener;
     private StorageIngredient ingredient;
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
 
     /**
      * Constructor for the fragment
@@ -43,18 +43,6 @@ public class ViewIngredientFragment  extends DialogFragment {
     private TextView location;
     private TextView category;
     private TextView unit;
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        // IngredientsActivity is the listener
-        if(context instanceof AddIngredientFragment.OnFragmentInteractionListener){
-            listener = (AddIngredientFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @NonNull
     @Override
@@ -82,25 +70,17 @@ public class ViewIngredientFragment  extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("View Ingredient")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
+                .setNegativeButton("Cancel", null)
                 .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((IngredientsActivity) getActivity()).deleteIngredientFromDatabase(ingredient.getId());
-
-
+                        dbm.deleteIngredientFromDatabase(ingredient.getId());
                     }
                 })
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ((IngredientsActivity) getActivity()).onEditPressed(ingredient);
-
                     };
                 }).create();
     }

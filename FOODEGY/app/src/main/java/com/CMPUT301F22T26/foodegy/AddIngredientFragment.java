@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -31,10 +32,11 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     private Spinner category;
     private DatePicker bestBeforeDate;
 
-    private OnFragmentInteractionListener listener;
-
     private StorageIngredient ingredient;
     private ShoppingListItem shopListItem;
+
+    private DatabaseManager dbm = DatabaseManager.getInstance();
+
     /**
      * Constructor for adding a StorageIngredient
      */
@@ -70,17 +72,6 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
     public interface OnFragmentInteractionListener {
         void addIngredientToDatabase(StorageIngredient newIngredient);
         void onEditPressed(StorageIngredient ingredient);
-
-    }
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        if(context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-            + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
@@ -202,7 +193,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
 
                     if (ingredient == null) {
                         // making a new ingredient
-                        listener.addIngredientToDatabase(new StorageIngredient(
+                        dbm.addIngredientToDatabase(new StorageIngredient(
                                 description,
                                 day+"-"+month+"-"+year,
                                 location.getSelectedItem().toString(),
@@ -219,7 +210,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         ingredient.setUnitCost(unitCost);
                         ingredient.setCategory(category.getSelectedItem().toString());
                         ingredient.setLocation(location.getSelectedItem().toString());
-                        ((IngredientsActivity) getActivity()).editIngredientInDatabase(ingredient.getId(), ingredient);
+                        dbm.editIngredientInDatabase(ingredient);
                     }
                 };
             }).create();

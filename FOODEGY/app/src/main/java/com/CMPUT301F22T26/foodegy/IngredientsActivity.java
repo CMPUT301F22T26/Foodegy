@@ -47,6 +47,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     final private CollectionReference IngredientStorage = firestore.collection("users")
             .document(android_id).collection("IngredientStorage");
 
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+
     private NavigationBarView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.ingredients:
                         break;
                     case R.id.meal_plan:
@@ -84,7 +86,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
 
         // button to add ingredient
         final FloatingActionButton addIngredientButton = findViewById(R.id.floatingActionButton);
-        addIngredientButton.setOnClickListener((v)->{
+        addIngredientButton.setOnClickListener((v) -> {
             new AddIngredientFragment().show(getSupportFragmentManager(), "ADD_INGREDIENT");
         });
 
@@ -99,6 +101,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
 
         // when something is changed in the firestore, update the list!
         IngredientStorage
+                .orderBy("description")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -127,7 +130,6 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                         ingredientAdapter.notifyDataSetChanged();
                     }
                 });
-
     };
 
     /**
@@ -159,7 +161,6 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                     }
                 })
         ;
-
     }
 
     /**
