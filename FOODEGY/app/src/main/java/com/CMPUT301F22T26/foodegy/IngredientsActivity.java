@@ -111,14 +111,15 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                             String bestBefore = (String)data.get("bestBeforeDate");
                             String location = (String)data.get("location");
                             int amount = doc.getLong("amount").intValue();
-                            int unitCost = doc.getLong("unitCost").intValue();
+                            String measurementUnit = (String)doc.get("measurementUnit");
+                            //int unitCost = doc.getLong("unitCost").intValue();
                             String category = (String)data.get("category");
                             StorageIngredient newIngredient = new StorageIngredient(
                                     description,
                                     bestBefore,
                                     location,
                                     amount,
-                                    unitCost,
+                                    measurementUnit,
                                     category
                             );
                             newIngredient.setId(id);

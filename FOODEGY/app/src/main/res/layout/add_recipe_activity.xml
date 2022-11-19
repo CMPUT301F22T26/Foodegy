@@ -213,37 +213,6 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:paddingLeft="20dp"
-                android:text="Amount"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/amount_text"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
-                android:gravity="center"
-                android:hint="Enter value"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#D0000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
                 android:text="Image"
                 android:textColor="@color/yellow"
                 android:textSize="15sp" />

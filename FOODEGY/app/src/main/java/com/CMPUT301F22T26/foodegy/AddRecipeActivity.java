@@ -43,7 +43,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private EditText hourText;
     private EditText minuteText;
     private EditText servingsText;
-    private EditText amountText;
     private EditText commentText;
     private ImageView activityBackground;
 
@@ -85,7 +84,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         hourText = findViewById(R.id.hour_text);
         minuteText = findViewById(R.id.minute_text);
         servingsText = findViewById(R.id.servings_text);
-        amountText = findViewById(R.id.amount_text);
         commentText = findViewById(R.id.comment_text);
 
         imageButton = findViewById(R.id.image_button);
@@ -135,12 +133,11 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String minute = minuteText.getText().toString();
                 String servings = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
-                String amount = amountText.getText().toString();
                 String comments = commentText.getText().toString();
 
                 // upload image to firebase storage
                 String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
-                Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
+                Recipe recipe = new Recipe(title, hour, minute, servings, category,
                         imageFilename, comments, ingredientsList);
                 addRecipeToDatabase(recipe);
                 finish();

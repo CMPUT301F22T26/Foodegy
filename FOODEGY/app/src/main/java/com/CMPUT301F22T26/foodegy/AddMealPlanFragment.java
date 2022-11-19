@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -224,16 +225,19 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                             // query firebase for recipe based on name; (first occurrence)
                             // grab its list of ingredients
                             // & set the current list of ingredients to that list
-
+                            System.out.println("MEAL PLAN QUERY. ABOUT TO EXECUTE");
                             RecipeStorage.whereEqualTo("title", foodSelectionName).get().addOnCompleteListener(
                                     new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 try {
+                                                    System.out.println("MEAL PLAN QUERY WAS ALLEGEDLY SUCCESSFUL");
                                                     // grab first result for simplicity
-                                                    DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+                                                    Map<String, Object> doc = task.getResult().getDocuments().get(0).getData();
+                                                    System.out.println("MEAL PLAN QUERY RETURNED" + doc);
                                                     Map<String, Integer> result = (Map) doc.get("ingredients");
+                                                    System.out.println("MEAL PLAN QUERY " + result);
                                                     for (Map.Entry<String, Integer> entry : result.entrySet()) {
                                                         ingredients.put(entry.getKey(), entry.getValue());
                                                     }

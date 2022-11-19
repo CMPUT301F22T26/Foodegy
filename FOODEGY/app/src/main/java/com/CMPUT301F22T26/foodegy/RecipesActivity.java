@@ -92,7 +92,6 @@ public class RecipesActivity extends AppCompatActivity {
                 intent.putExtra("minutes",listViewRecipe.get(position).getMinutes());
                 intent.putExtra("servingValue",listViewRecipe.get(position).getServingValue());
                 intent.putExtra("category",listViewRecipe.get(position).getCategory());
-                intent.putExtra("amount",listViewRecipe.get(position).getAmount());
                 intent.putExtra("imageFileName", listViewRecipe.get(position).getImageFileName());
                 intent.putExtra("comments",listViewRecipe.get(position).getComments());
                 intent.putExtra("id", listViewRecipe.get(position).getId());
@@ -143,7 +142,7 @@ public class RecipesActivity extends AppCompatActivity {
                     String title = (String)data.get("title");
 
                     Recipe r = new Recipe(
-                            title, hours, minutes, servingValue, category, amount,
+                            title, hours, minutes, servingValue, category,
                             imageFileName, comments, ings
                     );
                     r.setId(doc.getId());

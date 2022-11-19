@@ -13,16 +13,21 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This activity will allow the user to navigate and manage their shopping cart, as well as mark
@@ -36,17 +41,21 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
     private NavigationBarView bottomNavBar;
 
+    ArrayList<StorageIngredient> storageIngredientData;
+
     // initialize the firebase
     final private String android_id = "TEST_ID";
     final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     final private CollectionReference IngredientStorage = firestore.collection("users")
             .document(android_id).collection("IngredientStorage");
+    final private CollectionReference MealPlans = firestore.collection("users")
+            .document(android_id).collection("MealPlans");
 
     //giving some inital values
     // since for now, the ShoppingList is not hooked up to the MealPlan list
     List<String> names = Arrays.asList("Apple", "Bread", "Cream cheese");
     List<Integer> amounts = Arrays.asList(3, 3, 2);
-    List<Integer> units = Arrays.asList(2, 2, 5);
+    List<String> units = Arrays.asList("apples", "loaves", "oz");
 
 
     List<String> cates = Arrays.asList("Vegetable", "Grain", "Dairy");
@@ -59,6 +68,48 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
+
+        // populate shoppingListData
+
+        // first, query ingredients to find which ingredients user currently has in storage
+        storageIngredientData = new ArrayList<StorageIngredient>();
+//        IngredientStorage.get().addOnCompleteListener(
+//                // query ingredient storage for all of the documents it currently contains
+//                new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()){
+//                            for (DocumentSnapshot doc : task.getResult()){
+//                                try {
+//                                    // now must manually filter by endDate
+//                                    Map data = doc.getData();
+//                                    String endDate = (String) data.get("endDate");
+//                                    if (Long.parseLong(endDate) >= Long.parseLong(timeStampDate)) {
+//                                        String id = (String) data.get("id");
+//                                        String startDate = (String) data.get("startDate");
+//                                        String name = (String) data.get("name");
+//                                        Long servings = (Long) data.get("servings");
+//                                        Map ingredients = (Map) data.get("ingredients");
+//
+//                                        mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
+//                                        mealPlanItemsAdapter.notifyDataSetChanged();
+//
+//
+//                                    }
+//                                } catch (Exception e) {
+//                                    Log.d("Query", "Error reading document", e);
+//                                }
+//                            }
+//
+//
+//                        } else {
+//                            Log.d("Query", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                }
+//
+//
+//        );
 
         shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
         shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));

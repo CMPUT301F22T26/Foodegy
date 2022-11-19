@@ -10,20 +10,20 @@ public class ShoppingListItem {
      **/
     private String itemName;
     private Integer amount;
-    private Integer unitCost;
+    private String measurementUnit;
     private String category;
 
     /**
      * Initialize a shopping list item
      * @param itemName the brief name or description
      * @param amount the amount of the item, as an integer
-     * @param unitCost the cost of the item, also as an integer
+     * @param measurementUnit is the unit in which item is measured, as a string
      * @param category the category of the item, as a String
      */
-    ShoppingListItem(String itemName, Integer amount, Integer unitCost, String category){
+    ShoppingListItem(String itemName, Integer amount,String unit, String category){
         this.itemName = itemName;
         this.amount = amount;
-        this.unitCost = unitCost;
+        this.measurementUnit = unit;
         this.category = category;
     }
 
@@ -60,19 +60,19 @@ public class ShoppingListItem {
     }
 
     /**
-     * Get how much the item costs
-     * @return the cost, as an Integer
+     * Get the units in which the item is measured
+     * @return the unit, as a String
      */
-    public Integer getUnitCost() {
-        return unitCost;
+    public String getMeasurementUnit() {
+        return measurementUnit;
     }
 
     /**
      * Set the unit cost of this item
-     * @param unitCost the new cost
+     * @param measurementUnit the new measurement unit
      */
-    public void setUnitCost(Integer unitCost) {
-        this.unitCost = unitCost;
+    public void setMeasurementUnit(String measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     /**

@@ -77,7 +77,7 @@ public class ViewIngredientFragment  extends DialogFragment {
         bestBeforeDate.setText(ingredient.getBestBeforeDate());
         location.setText(ingredient.getLocation());
         category.setText(ingredient.getCategory());
-        unit.setText(Integer.toString(ingredient.getUnitCost()));
+        unit.setText(ingredient.getMeasurementUnit());
 
         return builder
                 .setView(view)

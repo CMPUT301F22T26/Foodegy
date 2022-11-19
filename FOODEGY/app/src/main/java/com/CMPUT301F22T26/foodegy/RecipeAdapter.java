@@ -17,13 +17,11 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is responsible for making Recipes render-able on screen
@@ -66,14 +64,17 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         Recipe currentRecipe = recipeArrayList.get(position);
 
         TextView title = listview.findViewById(R.id.recipeHighlight);
-        TextView price = listview.findViewById(R.id.recipePrice);
-        TextView unit = listview.findViewById(R.id.recipeUnit);
+        TextView cookTime = listview.findViewById(R.id.cookTime);
+        TextView unit = listview.findViewById(R.id.recipeServings);
         TextView comment = listview.findViewById(R.id.recipeDescription);
         ImageView foodpic = listview.findViewById(R.id.foodimageView);
 
         title.setText(currentRecipe.getTitle());
-        price.setText("Price: "+currentRecipe.getAmount());
-        unit.setText("Unit: "+ currentRecipe.getServingValue());
+        // sometimes want to display "hour" instead of "hours", same with minutes
+        String hrsString = currentRecipe.getHours() == "1" ? "hour" : "hours";
+        String minString = currentRecipe.getMinutes() == "1" ? "minute" : "minutes";
+        cookTime.setText("Cook Time: "+currentRecipe.getHours() + " " + hrsString +" " +currentRecipe.getMinutes() + " " + minString);
+        unit.setText("Servings: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());
 
         // load in the image

@@ -75,7 +75,6 @@ public class RecipesActivityTest {
         solo.enterText((EditText)solo.getView(R.id.minute_text), "15");
         solo.enterText((EditText)solo.getView(R.id.servings_text), "2");
         solo.pressSpinnerItem(0, 1); // select Noodles as Lunch
-        solo.enterText((EditText)solo.getView(R.id.amount_text), "100");
         solo.enterText((EditText)solo.getView(R.id.comment_text), "Quick & easy noodle recipe");
 
         // will have to manually select image since robotium doesn't have accesss to
