@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -72,6 +74,8 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_plan_activity);
 
+
+
         // find the items planned for today
         Calendar calendar = Calendar.getInstance();
         timeStampDate = String.valueOf(calendar.getTimeInMillis());
@@ -135,6 +139,22 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                 }
 
                 return false;
+            }
+        });
+
+
+        // visibility of CalendarView
+        Button btnCalVisibility = findViewById(R.id.btn_Calendar_Visibility);
+        btnCalVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (calendarView.getVisibility() == View.VISIBLE ){
+                    calendarView.setVisibility(View.GONE);
+                    btnCalVisibility.setText("Show Calendar");
+                }else{
+                    calendarView.setVisibility(View.VISIBLE);
+                    btnCalVisibility.setText("Hide Calendar");
+                }
             }
         });
 
