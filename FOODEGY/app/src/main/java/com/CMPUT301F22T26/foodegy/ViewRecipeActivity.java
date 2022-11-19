@@ -69,7 +69,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
         binding.timeText.setText(hours +" : " +minutes);
         binding.servingsText.setText(servingValue);
         binding.categoryText.setText(category);
-        binding.amountText.setText(amount);
 
         // get download url & put it in the imageview
         Context context = this;
@@ -140,6 +139,25 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        edit = findViewById(R.id.editButton);
+        edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent2 = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
+                                        intent.putExtra("title",title);
+                                        intent.putExtra("hours",hours);
+                                        intent.putExtra("minutes",minutes);
+                                        intent.putExtra("servingValue",servingValue);
+                                        intent.putExtra("category",category);
+                                        intent.putExtra("imageFileName",imageFileName );
+                                        intent.putExtra("comments",comments);
+                                        intent.putExtra("id",id);
+                                        startActivity(intent2);
+                                    }
+                                }
+
+        );
 
     }
 

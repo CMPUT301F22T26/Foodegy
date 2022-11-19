@@ -180,42 +180,8 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="305dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="73dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/amountTag"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginBottom="173dp"
-                    android:paddingLeft="5dp"
-                    android:text="Amount:"
-                    android:textColor="@color/yellow"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/amountText"
-                    android:layout_width="204dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="102dp"
-                    android:layout_marginTop="0dp"
-                    android:text="amount"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="305dp"
-                android:layout_height="69dp"
+                android:layout_width="308dp"
+                android:layout_height="106dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="0dp">
@@ -266,22 +232,22 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="336dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="383dp"
         android:text="Ingredients:"
         android:textColor="@color/yellow"
         android:textSize="15sp" />
 
     <ListView
         android:id="@+id/ingredientsList"
-        android:layout_width="411dp"
-        android:layout_height="207dp"
+        android:layout_width="wrap_content"
+        android:layout_height="259dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="403dp"
+        android:layout_marginTop="352dp"
         android:layout_marginBottom="120dp"
         tools:listitem="@layout/recipe_ingredient_list_content" />
 
