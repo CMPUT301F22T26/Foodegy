@@ -3,6 +3,7 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,6 +25,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.CMPUT301F22T26.foodegy.databinding.ActivityEditRecipeBinding;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 /**
  * Activity to handle adding a recipe
  */
-public class EditRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener {
+public class EditRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener{
     private EditText titleText;
     private EditText hourText;
     private EditText minuteText;
@@ -101,7 +104,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         // Apply the adapter to the spinner
         categorySpinner.setAdapter(spinnerAdapter);
         // View Listeners -----------------------
-        final Intent intent = this.getIntent();
+        Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         String hours = intent.getStringExtra("hours");
         String minutes = intent.getStringExtra("minutes");
@@ -117,8 +120,32 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         minuteText.setText(minutes);
         servingsText.setText(servingValue);
        // categorySpinner.getSelectedItem().toString();
+        String[] categories = getResources().getStringArray(R.array.categories_array);
+        int position = 0;
+        for (int i = 0; i < categories.length; i++) {
+            if (categories[i].equals(category)){
+                position = i;
+            }
+            else{
+                //
+            }
+        }
+
         // have to encode the category spinner value to display the initial value of the category selected.
         commentText.setText(comments);
+        categorySpinner.setSelection(position);
+        if (fileName != null && !"".equals(fileName)) {
+            Context context = this;
+            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+                    String url = uri.toString();
+                    Glide.with(context).load(url).into(activityBackground);
+                }
+            });
+        }
+
 
 
 
@@ -318,4 +345,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                     }
                 });
     }
+
+
 }
