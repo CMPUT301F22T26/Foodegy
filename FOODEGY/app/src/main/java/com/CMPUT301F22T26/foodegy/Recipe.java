@@ -16,7 +16,6 @@ public class Recipe {
     private String minutes;
     private String servingValue;
     private String category;
-    private String amount;
     private Uri recipeImage;
     private String comments;
     private ArrayList<RecipeIngredient> ingredients;
@@ -30,14 +29,13 @@ public class Recipe {
      * @return
      */
     public Recipe(String title, String hours, String minutes, String servingValue, String category,
-                  String amount, String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
+                  String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
 
         this.title = title;
         this.hours = hours;
         this.minutes = minutes;
         this.servingValue = servingValue;
         this.category = category;
-        this.amount = amount;
         this.imageFileName = imageFileName;
         this.comments = comments;
         this.ingredients = ingredients;
@@ -127,17 +125,7 @@ public class Recipe {
      * get the Amount this recipe makes
      * @return (String) the Recipe's amount
      */
-    public String getAmount() {
-        return amount;
-    }
 
-    /**
-     * set the Amount this recipe makes
-     * @param amount the new amount
-     */
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
     /**
      * Get URI of Recipe's image

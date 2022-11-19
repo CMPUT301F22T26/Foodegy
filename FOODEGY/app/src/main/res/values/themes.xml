@@ -13,4 +13,13 @@
         <item name="android:statusBarColor">@color/yellow</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.Foodegy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Foodegy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Foodegy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

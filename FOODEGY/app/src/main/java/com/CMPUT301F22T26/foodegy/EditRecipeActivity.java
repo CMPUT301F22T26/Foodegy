@@ -38,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Activity to handle adding a recipe
  */
-public class AddRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener {
+public class EditRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener {
     private EditText titleText;
     private EditText hourText;
     private EditText minuteText;
@@ -133,6 +133,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String minute = minuteText.getText().toString();
                 String servings = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
+
                 String comments = commentText.getText().toString();
 
                 // upload image to firebase storage
