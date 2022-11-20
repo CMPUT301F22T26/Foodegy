@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -134,7 +135,14 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String servings = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
                 String comments = commentText.getText().toString();
-
+                if (servingsText.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (!isNumeric(servings)) {
+                    Toast.makeText(getApplicationContext(), "Servings has to be numeric", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 // upload image to firebase storage
                 String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
                 Recipe recipe = new Recipe(title, hour, minute, servings, category,
@@ -296,5 +304,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                         Log.d("AddRecipe", "Could not add recipe, "+e);
                     }
                 });
+    }
+    public static boolean isNumeric(String str) {
+        return str != null && str.matches("[-+]?\\d*\\.?\\d+");
     }
 }

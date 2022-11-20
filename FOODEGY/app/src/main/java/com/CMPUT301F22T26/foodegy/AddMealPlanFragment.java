@@ -257,6 +257,7 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                                 Toast.makeText(getActivity(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
                                 return;
                             }
+
                             if (endTime < Long.parseLong(timeStampDate)) {
                                 Toast.makeText(getActivity(), "Invalid end date", Toast.LENGTH_LONG).show();
                                 return;
@@ -273,4 +274,6 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
 
 
 
-    }}
+    }
+
+}

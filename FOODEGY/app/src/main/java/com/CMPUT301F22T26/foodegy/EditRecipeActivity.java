@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -179,6 +180,10 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 String servings = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
                 String comments = commentText.getText().toString();
+                if (servingsText.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // upload image to firebase storage
                 String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
