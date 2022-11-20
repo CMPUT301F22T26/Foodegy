@@ -21,6 +21,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Singleton class to handle interacting with the database, adding/editing/deleting
@@ -74,7 +76,7 @@ public class DatabaseManager {
      * @param newIngredient
      *  The ingredient to be added
      */
-    public void addIngredientToDatabase(StorageIngredient newIngredient){
+    public void addIngredientToDatabase(StorageIngredient newIngredient) {
         IngredientStorage
                 .add(newIngredient)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
