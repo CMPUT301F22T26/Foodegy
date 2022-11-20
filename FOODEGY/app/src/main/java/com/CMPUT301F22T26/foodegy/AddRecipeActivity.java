@@ -56,7 +56,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private Spinner categorySpinner;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
-    public ArrayList<RecipeIngredient> ingredientsList;
+    public static ArrayList<RecipeIngredient> ingredientsList;
     private ListView ingredientsListView;
     private RecipeIngredientListAdapter ingredientsAdapter;
 
