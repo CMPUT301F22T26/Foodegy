@@ -140,6 +140,31 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                 });
     };
 
+    public void reloadIngredients(QuerySnapshot snapshot) {
+        ingredientData.clear();
+        for (QueryDocumentSnapshot doc : snapshot) {
+            // reinitialize the whole list
+            String id = doc.getId();
+            Map<String, Object> data = doc.getData();
+            String description = (String)data.get("description");
+            String bestBefore = (String)data.get("bestBeforeDate");
+            String location = (String)data.get("location");
+            int amount = doc.getLong("amount").intValue();
+            int unitCost = doc.getLong("unitCost").intValue();
+            String category = (String)data.get("category");
+            StorageIngredient newIngredient = new StorageIngredient(
+                    description,
+                    bestBefore,
+                    location,
+                    amount,
+                    unitCost,
+                    category
+            );
+            newIngredient.setId(id);
+            ingredientData.add(newIngredient);
+        }
+        ingredientAdapter.notifyDataSetChanged();
+    }
     /**
      * Reload the list of ingredients based on a provided query snapshot
      * @param snapshot
