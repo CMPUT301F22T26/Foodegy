@@ -180,10 +180,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="308dp"
+                android:layout_width="match_parent"
                 android:layout_height="106dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp">
 
                 <TextView

@@ -57,6 +57,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     private Button cancelButton;
 
     private Spinner categorySpinner;
+    ActivityEditRecipeBinding binding;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
     public static ArrayList<RecipeIngredient> ingredientsList;
@@ -74,7 +75,9 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_recipe_activity);
+        setContentView(R.layout.activity_edit_recipe);
+        binding = ActivityEditRecipeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         activityBackground = findViewById(R.id.add_recipe_background);
 
@@ -105,35 +108,29 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         categorySpinner.setAdapter(spinnerAdapter);
         // View Listeners -----------------------
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String hours = intent.getStringExtra("hours");
-        String minutes = intent.getStringExtra("minutes");
-        String servingValue = intent.getStringExtra("servingValue");
-        String category = intent.getStringExtra("category");
-        String fileName = intent.getStringExtra("imageFileName");
-        String comments = intent.getStringExtra("comments");
-        String currentid = intent.getStringExtra("id");
-
-
+        Bundle bundle = intent.getExtras();
+        String title = bundle.getString("title");
+        String hours = bundle.getString("hours");
+        String minutes = bundle.getString("minutes");
+        String servingValue = bundle.getString("servingValue");
+        String category = bundle.getString("category");
+        String fileName = bundle.getString("imageFileName");
+        String comments = bundle.getString("comments");
+        String currentid = bundle.getString("id");
+        System.out.println(title);
         titleText.setText(title);
         hourText.setText(hours);
         minuteText.setText(minutes);
         servingsText.setText(servingValue);
        // categorySpinner.getSelectedItem().toString();
-        String[] categories = getResources().getStringArray(R.array.categories_array);
-        int position = 0;
-        for (int i = 0; i < categories.length; i++) {
-            if (categories[i].equals(category)){
-                position = i;
-            }
-            else{
-                //
-            }
+        String[] categories = getResources().getStringArray(R.array.test_array);
+        int i = 0;
+        while (!categories[i].equals(category)){
+            i++;
         }
 
-        // have to encode the category spinner value to display the initial value of the category selected.
+        categorySpinner.setSelection(i);
         commentText.setText(comments);
-        categorySpinner.setSelection(position);
         if (fileName != null && !"".equals(fileName)) {
             Context context = this;
             userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
