@@ -142,7 +142,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
             location.setSelection(i);
             // need to convert the date to integers to pass to the DatePicker
             String[] date = ingredient.getBestBeforeDate().split("-");
-            bestBeforeDate.updateDate(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]));
+            bestBeforeDate.updateDate(Integer.parseInt(date[2]), Integer.parseInt(date[1])-1, Integer.parseInt(date[0]));
         }
         return builder
             .setView(view)
@@ -161,7 +161,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                     String unitCostStr = ingredientUnitCost.getText().toString();
                     // get the date & convert it to a string
                     String year = Integer.toString(bestBeforeDate.getYear());
-                    String month = Integer.toString(bestBeforeDate.getMonth());
+                    String month = Integer.toString(bestBeforeDate.getMonth()+1);
                     String day = Integer.toString(bestBeforeDate.getDayOfMonth());
                     // add leading 0s if necessary
                     if (month.length() == 1) month = "0" + month;

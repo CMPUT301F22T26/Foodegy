@@ -1,5 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * Base class for the ingredients the user keeps in their storage. There is a conceptual difference
  * between this and RecipeIngredient. Loosely, StorageIngredient is more specific.
@@ -36,6 +39,29 @@ public class StorageIngredient {
          */
     }
 
+    /**
+     * Gets the epoch time (in milliseconds) for the best before date. Used for sorting
+     * @return
+     *  The epoch time of the best before date
+     */
+    public long getEpochTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            return sdf.parse(bestBeforeDate).getTime();
+        }
+        catch (ParseException e) {
+            return -1;
+        }
+    }
+    /**
+     * Gets the (case insensitive) version of the description. Used for sorting
+     * @return
+     *  The lowercase description
+     */
+    public String getDescription_insensitive() {
+        // called when putting StorageIngredient into the firestore
+        return description.toLowerCase();
+    }
     /**
      * Get the description of the ingredient
      * @return the description, as a string

@@ -42,7 +42,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     private ListView ingredientListView;
     private ArrayAdapter<StorageIngredient> ingredientAdapter;
     private ArrayList<StorageIngredient> ingredientData;
-    private String sortingAttribute = "description";
+    private String sortingAttribute = "description_insensitive";
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
     final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
@@ -104,10 +104,10 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] attributes = getResources().getStringArray(R.array.sort_ingredients);
                 if ("Description".equals(attributes[i])) {
-                    sortingAttribute = "description";
+                    sortingAttribute = "description_insensitive";
                 }
                 else if ("Best Before Date".equals(attributes[i])) {
-                    sortingAttribute = "bestBeforeDate";
+                    sortingAttribute = "epochTime";
                 }
                 else if ("Location".equals(attributes[i])) {
                     sortingAttribute = "location";
@@ -140,31 +140,6 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                 });
     };
 
-    public void reloadIngredients(QuerySnapshot snapshot) {
-        ingredientData.clear();
-        for (QueryDocumentSnapshot doc : snapshot) {
-            // reinitialize the whole list
-            String id = doc.getId();
-            Map<String, Object> data = doc.getData();
-            String description = (String)data.get("description");
-            String bestBefore = (String)data.get("bestBeforeDate");
-            String location = (String)data.get("location");
-            int amount = doc.getLong("amount").intValue();
-            int unitCost = doc.getLong("unitCost").intValue();
-            String category = (String)data.get("category");
-            StorageIngredient newIngredient = new StorageIngredient(
-                    description,
-                    bestBefore,
-                    location,
-                    amount,
-                    unitCost,
-                    category
-            );
-            newIngredient.setId(id);
-            ingredientData.add(newIngredient);
-        }
-        ingredientAdapter.notifyDataSetChanged();
-    }
     /**
      * Reload the list of ingredients based on a provided query snapshot
      * @param snapshot
