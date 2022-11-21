@@ -73,6 +73,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         // first, query ingredients to find which ingredients user currently has in storage
         storageIngredientData = new ArrayList<StorageIngredient>();
+<<<<<<< Updated upstream
 //        IngredientStorage.get().addOnCompleteListener(
 //                // query ingredient storage for all of the documents it currently contains
 //                new OnCompleteListener<QuerySnapshot>() {
@@ -100,6 +101,92 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 //                                    Log.d("Query", "Error reading document", e);
 //                                }
 //                            }
+=======
+        mealPlanData = new ArrayList<MealPlanItem>();
+        IngredientStorage.get().addOnCompleteListener(
+                // query ingredient storage for all of the documents it currently contains
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (DocumentSnapshot doc : task.getResult()){
+                                try {
+                                    String id = doc.getId();
+                                    Map<String, Object> data = doc.getData();
+                                    String description = (String)data.get("description");
+                                    String bestBefore = (String)data.get("bestBeforeDate");
+                                    String location = (String)data.get("location");
+                                    int amount = doc.getLong("amount").intValue();
+                                    String measurementUnit = (String)doc.get("measurementUnit");
+                                    //int unitCost = doc.getLong("unitCost").intValue();
+                                    String category = (String)data.get("category");
+                                    StorageIngredient newIngredient = new StorageIngredient(
+                                            description,
+                                            bestBefore,
+                                            location,
+                                            amount,
+                                            measurementUnit,
+                                            category
+                                    );
+                                    newIngredient.setId(id);
+                                    storageIngredientData.add(newIngredient);
+                                } catch (Exception e) {
+                                    Log.d("Query", "Error reading document", e);
+                                }
+                            }
+
+                            // run second query here
+                            String timeStampDate = String.valueOf(System.currentTimeMillis());
+
+                            MealPlans.whereLessThanOrEqualTo("startDate", timeStampDate).orderBy("startDate").get().addOnCompleteListener(
+                                    new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                for (DocumentSnapshot doc : task.getResult()){
+                                                    try {
+                                                        // now must manually filter by endDate
+                                                        Map data = doc.getData();
+                                                        String endDate = (String) data.get("endDate");
+                                                        if (Long.parseLong(endDate) >= Long.parseLong(timeStampDate)) {
+                                                            String id = (String) data.get("id");
+                                                            String startDate = (String) data.get("startDate");
+                                                            String name = (String) data.get("name");
+                                                            Long servings = (Long) data.get("servings");
+                                                            Map ingredients = (Map) data.get("ingredients");
+
+                                                            mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
+                                                        }
+
+                                                    } catch (Exception e) {
+                                                        Log.d("Query", "Error reading document", e);
+                                                    }
+                                                }
+                                                compareIngredientAndMealPlanContents(storageIngredientData, mealPlanData);
+                                            } else {
+                                                Log.d("Query", "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    }
+
+
+                            );
+
+
+
+                            System.out.println("GRABBED INGREDIENT DATA INSIDE QUERY" + storageIngredientData);
+                        } else {
+                            Log.d("Query", "Error getting documents: ", task.getException());
+                        }
+                    }
+
+                }
+
+
+
+        );
+
+>>>>>>> Stashed changes
 //
 //
 //                        } else {
@@ -185,6 +272,56 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         ;
 
     }
+<<<<<<< Updated upstream
+=======
+    /**
+     * Takes two lists, one containing StorageIngredient objects and another containing MealPlanItem objects,
+     * and performs item matching based on
+     * @param storageIngredientData ArrayList containing StorageIngredient items (currently in storage)
+     * @param mealPlanData ArrayList containing MealPlanItem objects (things the user wishes to cook)
+     */
+    public void compareIngredientAndMealPlanContents(ArrayList<StorageIngredient> storageIngredientData, ArrayList<MealPlanItem>mealPlanData){
+
+        // generate information for first set of MealPlan ingredients
+
+        for (int i = 0; i < mealPlanData.size(); i++){
+            Map<String, ArrayList> mealPlanIngredients = mealPlanData.get(i).getIngredients();
+            Object[] keyList = mealPlanIngredients.keySet().toArray();
+            for (int k = 0; k < keyList.length; k++){
+                // iterate through all ingredients in the mealPlan
+                String key = (String)keyList[k];
+                ArrayList values = mealPlanIngredients.get(key);
+                Integer requiredAmount = 0;
+                if (values.get(0) instanceof Long) {
+                    requiredAmount = Math.toIntExact((Long) values.get(0));
+                } else if (values.get(0) instanceof Double) {
+                    requiredAmount = Math.toIntExact(Math.round((Double) values.get(0)));
+                }
+
+                // will need to calculate
+                for (int j = 0; j < storageIngredientData.size(); j++){
+                    // now go through each ingredient and check for matches
+                    if (key.equals(storageIngredientData.get(j).getDescription())){
+                        // key was found
+                        // will need to update required amount of this item
+                        requiredAmount -= storageIngredientData.get(j).getAmount();
+                    }
+                    if (j == (storageIngredientData.size() - 1)){
+                        // means we haven't matched the key in our n - 1 iterations
+                        if (requiredAmount > 0){
+                            shoppingListData.add(new ShoppingListItem(key,  requiredAmount, (String) values.get(1), (String) values.get(2)));
+
+                        }
+                    }
+                }
+            }
+        }
+        shoppingListItemArrayAdapter.notifyDataSetChanged();
+        // for each mealPlan, see what items are NOT in ingredientStorage and append those to list
+        // of returned values
+    }
+
+>>>>>>> Stashed changes
 
     /**
      * There is no editing in shopping list activity so this method is simply overwritten
