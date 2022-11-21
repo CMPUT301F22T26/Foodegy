@@ -36,6 +36,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
  * Activity to handle adding a recipe
  */
@@ -65,7 +66,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     final private DatabaseManager dbm = DatabaseManager.getInstance();
     private CollectionReference RecipesCollection = dbm.getRecipesCollection();
     private StorageReference userFilesRef = dbm.getUserFilesRef();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +133,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 String servings = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
                 String comments = commentText.getText().toString();
+
+                // perform input validation
                 if (servingsText.length() == 0) {
                     Toast.makeText(getApplicationContext(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
                     return;
@@ -141,16 +143,16 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     Toast.makeText(getApplicationContext(), "Servings has to be numeric", Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 // upload image to firebase storage
                 String imageFilename = null;
                 if (selectedImage != null) {
                     imageFilename = System.currentTimeMillis() + "." + getFileExtension(selectedImage);
                 }
 
-                Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
+                Recipe recipe = new Recipe(title, hour, minute, servings, category,
                         imageFilename, comments, ingredientsList);
                 dbm.addRecipeToDatabase(recipe, selectedImage);
-                //addRecipeToDatabase(recipe);
                 finish();
             }
         });
@@ -308,6 +310,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     }
                 });
     }
+
+
     public static boolean isNumeric(String str) {
         return str != null && str.matches("[-+]?\\d*\\.?\\d+");
     }

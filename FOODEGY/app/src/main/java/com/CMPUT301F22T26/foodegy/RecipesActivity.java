@@ -32,7 +32,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -168,6 +167,7 @@ public class RecipesActivity extends AppCompatActivity {
         });
     }
 
+
     /**
      * Given a query snapshot, reloads & repopulates the list of recipes.
      *  Called when a recipe is added, deleted, edited, or the list is sorted
@@ -205,7 +205,7 @@ public class RecipesActivity extends AppCompatActivity {
 
 
             Recipe r = new Recipe(
-                    title, hours, minutes, servingValue, category, amount,
+                    title, hours, minutes, servingValue, category,
                     imageFileName, comments, ings
             );
             r.setId(doc.getId());
@@ -230,6 +230,10 @@ public class RecipesActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
 
     /**
      * Returns the ArrayList of recipes, used for testing purposes

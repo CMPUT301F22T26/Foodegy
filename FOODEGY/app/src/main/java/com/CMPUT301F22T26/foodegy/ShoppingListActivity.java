@@ -42,6 +42,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     private NavigationBarView bottomNavBar;
 
     ArrayList<StorageIngredient> storageIngredientData;
+    ArrayList<MealPlanItem> mealPlanData;
 
     // initialize the firebase
     final private String android_id = "TEST_ID";
@@ -73,35 +74,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         // first, query ingredients to find which ingredients user currently has in storage
         storageIngredientData = new ArrayList<StorageIngredient>();
-<<<<<<< Updated upstream
-//        IngredientStorage.get().addOnCompleteListener(
-//                // query ingredient storage for all of the documents it currently contains
-//                new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()){
-//                            for (DocumentSnapshot doc : task.getResult()){
-//                                try {
-//                                    // now must manually filter by endDate
-//                                    Map data = doc.getData();
-//                                    String endDate = (String) data.get("endDate");
-//                                    if (Long.parseLong(endDate) >= Long.parseLong(timeStampDate)) {
-//                                        String id = (String) data.get("id");
-//                                        String startDate = (String) data.get("startDate");
-//                                        String name = (String) data.get("name");
-//                                        Long servings = (Long) data.get("servings");
-//                                        Map ingredients = (Map) data.get("ingredients");
-//
-//                                        mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
-//                                        mealPlanItemsAdapter.notifyDataSetChanged();
-//
-//
-//                                    }
-//                                } catch (Exception e) {
-//                                    Log.d("Query", "Error reading document", e);
-//                                }
-//                            }
-=======
         mealPlanData = new ArrayList<MealPlanItem>();
         IngredientStorage.get().addOnCompleteListener(
                 // query ingredient storage for all of the documents it currently contains
@@ -162,6 +134,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                                                         Log.d("Query", "Error reading document", e);
                                                     }
                                                 }
+                                                System.out.println("FINISHED FETCHING DOCUMENTS" + storageIngredientData + "====" + mealPlanData);
                                                 compareIngredientAndMealPlanContents(storageIngredientData, mealPlanData);
                                             } else {
                                                 Log.d("Query", "Error getting documents: ", task.getException());
@@ -186,21 +159,10 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         );
 
->>>>>>> Stashed changes
 //
-//
-//                        } else {
-//                            Log.d("Query", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                }
-//
-//
-//        );
-
-        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
-        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
-        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
+//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
+//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
+//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -225,7 +187,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
             }
         });
 
-
+        System.out.println("GRABBED INGREDIENT DATA" + storageIngredientData);
         shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
         shoppingListView.setAdapter(shoppingListItemArrayAdapter);
     }
@@ -272,8 +234,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         ;
 
     }
-<<<<<<< Updated upstream
-=======
     /**
      * Takes two lists, one containing StorageIngredient objects and another containing MealPlanItem objects,
      * and performs item matching based on
@@ -308,6 +268,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                     }
                     if (j == (storageIngredientData.size() - 1)){
                         // means we haven't matched the key in our n - 1 iterations
+                        // NOT FINISHED!!!
                         if (requiredAmount > 0){
                             shoppingListData.add(new ShoppingListItem(key,  requiredAmount, (String) values.get(1), (String) values.get(2)));
 
@@ -321,7 +282,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         // of returned values
     }
 
->>>>>>> Stashed changes
 
     /**
      * There is no editing in shopping list activity so this method is simply overwritten
