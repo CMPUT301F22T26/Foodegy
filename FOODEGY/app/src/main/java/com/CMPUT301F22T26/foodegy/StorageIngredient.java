@@ -39,6 +39,24 @@ public class StorageIngredient {
          */
     }
 
+    public long getEpochTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            return sdf.parse(bestBeforeDate).getTime();
+        }
+        catch (ParseException e) {
+            return -1;
+        }
+    }
+    /**
+     * Gets the (case insensitive) version of the description. Used for sorting
+     * @return
+     *  The lowercase description
+     */
+    public String getDescription_insensitive() {
+        // called when putting StorageIngredient into the firestore
+        return description.toLowerCase();
+    }
     /**
      * Gets the epoch time (in milliseconds) for the best before date. Used for sorting
      * @return
