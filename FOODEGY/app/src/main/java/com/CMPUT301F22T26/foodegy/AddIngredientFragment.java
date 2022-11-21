@@ -26,7 +26,7 @@ import androidx.annotation.Nullable;
  */
 public class AddIngredientFragment extends androidx.fragment.app.DialogFragment {
     private EditText ingredientDescription;
-    private EditText ingredientUnitCost;
+    private EditText ingredientUnit;
     private EditText ingredientAmount;
     private Spinner location;
     private Spinner category;
@@ -90,7 +90,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_ingredient_dialog_fragment, null);
         ingredientDescription = view.findViewById(R.id.editTextIngredientDescription);
         ingredientAmount = view.findViewById(R.id.editTextIngredientAmount);
-        ingredientUnitCost = view.findViewById(R.id.editTextIngredientUnitCost);
+        ingredientUnit = view.findViewById(R.id.editTextIngredientUnitCost);
         bestBeforeDate = view.findViewById(R.id.addIngredientDatePicker);
         // note that the spinners are populated in the add_ingredient_dialog_fragment.xml already
         //  from the arrays declared in strings.xml (located in res/values/strings.xml)
@@ -110,7 +110,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
             label = "Add ingredient";
             ingredientDescription.setText(shopListItem.getItemName());
             ingredientAmount.setText(Integer.toString(shopListItem.getAmount()));
-            ingredientUnitCost.setText(Integer.toString(shopListItem.getUnitCost()));
+            ingredientUnit.setText(shopListItem.getMeasurementUnit());
 
             // get string array from resources
             String[] categories = getResources().getStringArray(R.array.categories_array);
@@ -126,7 +126,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
             // want fill in all the options from the data in the food
             ingredientDescription.setText(ingredient.getDescription());
             ingredientAmount.setText(Integer.toString(ingredient.getAmount()));
-            ingredientUnitCost.setText(Integer.toString(ingredient.getUnitCost()));
+            ingredientUnit.setText(ingredient.getMeasurementUnit());
 
             // get string array from resources
             String[] categories = getResources().getStringArray(R.array.categories_array);
@@ -158,7 +158,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String description = ingredientDescription.getText().toString();
                     String amountStr = ingredientAmount.getText().toString();
-                    String unitCostStr = ingredientUnitCost.getText().toString();
+                    String measurementUnit = ingredientUnit.getText().toString();
                     // get the date & convert it to a string
                     String year = Integer.toString(bestBeforeDate.getYear());
                     String month = Integer.toString(bestBeforeDate.getMonth()+1);
@@ -183,14 +183,10 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         amount = Integer.parseInt(amountStr);
                     }
                     int unitCost; // validate unitCost
-                    if (unitCostStr.length() == 0) {
+                    if (measurementUnit.length() == 0) {
                         Toast.makeText(getActivity(), "Unit Cost cannot be empty", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    else {
-                        unitCost = Integer.parseInt(unitCostStr);
-                    }
-
                     if (ingredient == null) {
                         // making a new ingredient
                         dbm.addIngredientToDatabase(new StorageIngredient(
@@ -198,7 +194,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                                 day+"-"+month+"-"+year,
                                 location.getSelectedItem().toString(),
                                 amount,
-                                unitCost,
+                                measurementUnit,
                                 category.getSelectedItem().toString()
                         ));
                     }
@@ -207,7 +203,7 @@ public class AddIngredientFragment extends androidx.fragment.app.DialogFragment 
                         ingredient.setDescription(description);
                         ingredient.setBestBeforeDate(day+"-"+month+"-"+year);
                         ingredient.setAmount(amount);
-                        ingredient.setUnitCost(unitCost);
+                        ingredient.setMeasurementUnit(measurementUnit);
                         ingredient.setCategory(category.getSelectedItem().toString());
                         ingredient.setLocation(location.getSelectedItem().toString());
                         dbm.editIngredientInDatabase(ingredient);

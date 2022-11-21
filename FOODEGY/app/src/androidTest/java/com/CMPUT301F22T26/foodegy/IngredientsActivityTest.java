@@ -150,7 +150,7 @@ public class IngredientsActivityTest {
         assertEquals("Best before incorrect", mockIngredientView.getBestBeforeDate(), bestBeforeView.getText().toString());
         assertEquals("Location incorrect", mockIngredientView.getLocation(), locationView.getText().toString());
         assertEquals("Category incorrect", mockIngredientView.getCategory(), categoryView.getText().toString());
-        assertEquals("Unit incorrect", mockIngredientView.getUnitCost(), Integer.parseInt(unitView.getText().toString()));
+        assertEquals("Unit incorrect", mockIngredientView.getMeasurementUnit(), Integer.parseInt(unitView.getText().toString()));
     }
 
     /**
@@ -251,7 +251,7 @@ public class IngredientsActivityTest {
         assertEquals("Location not edited", locations[1], newIngredient.getLocation());
         assertEquals("Category not edited", categories[1], newIngredient.getCategory());
         assertEquals("Amount not edited", 333, newIngredient.getAmount());
-        assertEquals("Unit not edited", 183, newIngredient.getUnitCost());
+        assertEquals("Unit not edited", 183, newIngredient.getMeasurementUnit());
         assertEquals("Best Before Date not edited", "02-04-2020", newIngredient.getBestBeforeDate());
     }
 }

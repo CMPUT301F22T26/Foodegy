@@ -116,7 +116,7 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         //filling up the object in view
         itemNameView.setText(currentItem.getItemName());
         itemAmountView.setText(String.valueOf(currentItem.getAmount()));
-        itemUnitCostView.setText(String.valueOf(currentItem.getUnitCost()));
+        itemUnitCostView.setText(currentItem.getMeasurementUnit());
         itemCategoryView.setText(currentItem.getCategory());
         return view;
 

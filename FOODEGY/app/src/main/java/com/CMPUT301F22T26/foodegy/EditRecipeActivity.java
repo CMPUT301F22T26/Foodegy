@@ -1,7 +1,9 @@
 package com.CMPUT301F22T26.foodegy;
 
+
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,6 +26,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.CMPUT301F22T26.foodegy.databinding.ActivityEditRecipeBinding;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,14 +43,13 @@ import java.util.ArrayList;
 /**
  * Activity to handle adding a recipe
  */
-public class AddRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener {
+public class EditRecipeActivity extends AppCompatActivity implements AddIngredientToRecipeFragment.OnFragmentInteractionListener, ShowRecipeIngredientFragment.OnFragmentInteractionListener{
     private EditText titleText;
     private EditText hourText;
     private EditText minuteText;
     private EditText servingsText;
     private EditText commentText;
     private ImageView activityBackground;
-
     private Button imageButton;
     private Uri selectedImage;
 
@@ -55,6 +58,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private Button cancelButton;
 
     private Spinner categorySpinner;
+    ActivityEditRecipeBinding binding;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
     public static ArrayList<RecipeIngredient> ingredientsList;
@@ -62,15 +66,19 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
-    final private DatabaseManager dbm = DatabaseManager.getInstance();
-    private CollectionReference RecipesCollection = dbm.getRecipesCollection();
-    private StorageReference userFilesRef = dbm.getUserFilesRef();
+    private String android_id = "TEST_ID";
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private CollectionReference RecipesCollection = firestore.collection("users")
+            .document(android_id).collection("Recipes");
+    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_recipe_activity);
+        setContentView(R.layout.activity_edit_recipe);
+        binding = ActivityEditRecipeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         activityBackground = findViewById(R.id.add_recipe_background);
 
@@ -100,6 +108,45 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         // Apply the adapter to the spinner
         categorySpinner.setAdapter(spinnerAdapter);
         // View Listeners -----------------------
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String title = bundle.getString("title");
+        String hours = bundle.getString("hours");
+        String minutes = bundle.getString("minutes");
+        String servingValue = bundle.getString("servingValue");
+        String category = bundle.getString("category");
+        String fileName = bundle.getString("imageFileName");
+        String comments = bundle.getString("comments");
+        String currentid = bundle.getString("id");
+        System.out.println(title);
+        titleText.setText(title);
+        hourText.setText(hours);
+        minuteText.setText(minutes);
+        servingsText.setText(servingValue);
+       // categorySpinner.getSelectedItem().toString();
+        String[] categories = getResources().getStringArray(R.array.test_array);
+        int i = 0;
+        while (!categories[i].equals(category)){
+            i++;
+        }
+
+        categorySpinner.setSelection(i);
+        commentText.setText(comments);
+        if (fileName != null && !"".equals(fileName)) {
+            Context context = this;
+            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+                    String url = uri.toString();
+                    Glide.with(context).load(url).into(activityBackground);
+                }
+            });
+        }
+
+
+
+
 
         // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
@@ -137,20 +184,12 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     Toast.makeText(getApplicationContext(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (!isNumeric(servings)) {
-                    Toast.makeText(getApplicationContext(), "Servings has to be numeric", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                // upload image to firebase storage
-                String imageFilename = null;
-                if (selectedImage != null) {
-                    imageFilename = System.currentTimeMillis() + "." + getFileExtension(selectedImage);
-                }
 
-                Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
+                // upload image to firebase storage
+                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
+                Recipe recipe = new Recipe(title, hour, minute, servings, category,
                         imageFilename, comments, ingredientsList);
-                dbm.addRecipeToDatabase(recipe, selectedImage);
-                //addRecipeToDatabase(recipe);
+                addRecipeToDatabase(recipe);
                 finish();
             }
         });
@@ -308,7 +347,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     }
                 });
     }
-    public static boolean isNumeric(String str) {
-        return str != null && str.matches("[-+]?\\d*\\.?\\d+");
-    }
+
+
 }

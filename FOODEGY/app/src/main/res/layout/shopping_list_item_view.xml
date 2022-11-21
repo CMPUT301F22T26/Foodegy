@@ -102,10 +102,10 @@
             android:id="@+id/unit_cost_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unit Cost: "
-            android:textSize="20sp"
             android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
+            android:text="Unit: "
+            android:textColor="#E6AF2E"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/item_unit_cost"

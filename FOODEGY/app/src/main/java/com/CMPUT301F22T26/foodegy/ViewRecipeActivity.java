@@ -37,6 +37,15 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private Button cancel;
     private Button edit;
     private Button delete;
+    private static String title;
+    private static String hours;
+    private static String minutes;
+    private static String servingValue;
+    private static String category;
+    private static String imageFileName;
+    private static String comments;
+    private static String id;
+
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
     final private StorageReference userFilesRef = dbm.getUserFilesRef();
@@ -52,21 +61,20 @@ public class ViewRecipeActivity extends AppCompatActivity {
         if(intent==null) {
             return;
         }
-        String title = intent.getStringExtra("title");
-        String hours = intent.getStringExtra("hours");
-        String minutes = intent.getStringExtra("minutes");
-        String servingValue = intent.getStringExtra("servingValue");
-        String category = intent.getStringExtra("category");
+        title = intent.getStringExtra("title");
+        hours = intent.getStringExtra("hours");
+        minutes = intent.getStringExtra("minutes");
+        servingValue = intent.getStringExtra("servingValue");
+        category = intent.getStringExtra("category");
         String amount = intent.getStringExtra("amount");
-        String imageFileName = intent.getStringExtra("imageFileName");
-        String comments = intent.getStringExtra("comments");
-        String id = intent.getStringExtra("id");
+        imageFileName = intent.getStringExtra("imageFileName");
+        comments = intent.getStringExtra("comments");
+        id = intent.getStringExtra("id");
 
         binding.titleText.setText(title);
         binding.timeText.setText(hours +" : " +minutes);
         binding.servingsText.setText(servingValue);
         binding.categoryText.setText(category);
-        binding.amountText.setText(amount);
 
         // get download url & put it in the imageview
         Context context = this;
@@ -90,15 +98,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
             }
         });
 
-        edit = findViewById(R.id.editButton);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewRecipeActivity.this, AddRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-
         delete = findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +107,38 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        edit = findViewById(R.id.editButton);
+        System.out.println(title);
+        edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent2 = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("title",title);
+                                        bundle.putString("hours",hours);
+                                        bundle.putString("minutes",minutes);
+                                        bundle.putString("servingValue",servingValue);
+                                        bundle.putString("category",category);
+                                        bundle.putString("imageFileName",imageFileName);
+                                        bundle.putString("comments",comments);
+                                        bundle.putString("id",id);
+                                        intent2.putExtras(bundle);
+
+
+                                        /*intent.putExtra("title",title);
+                                        intent.putExtra("hours",hours);
+                                        intent.putExtra("minutes",minutes);
+                                        intent.putExtra("servingValue",servingValue);
+                                        intent.putExtra("category",category);
+                                        intent.putExtra("imageFileName",imageFileName );
+                                        intent.putExtra("comments",comments);
+                                        intent.putExtra("id",id);*/
+                                        startActivity(intent2);
+                                    }
+                                }
+
+        );
 
     }
 

@@ -34,15 +34,15 @@ public class IngredientsTest {
         for (int i = 0; i < 5; i++){
             StorageIngredient newIngredient = new StorageIngredient(namesArray[i], datesArray[i], locationsArray[i], amountArray[i], unitCostArray[i], category[i]);
             assertEquals(newIngredient.getAmount(), amountArray[i]);
-            assertEquals(newIngredient.getUnitCost(), unitCostArray[i]);
+            assertEquals(newIngredient.getMeasurementUnit(), unitCostArray[i]);
             assertEquals(newIngredient.getCategory(), category[i]);
-            assertEquals(newIngredient.getUnitCost(), unitCostArray[i]);
+            assertEquals(newIngredient.getMeasurementUnit(), unitCostArray[i]);
             assertEquals(newIngredient.getDescription(), namesArray[i]);
 
             // try setting now
             int new_index = (i + 1) % 5;
             newIngredient.setAmount(amountArray[new_index]);
-            newIngredient.setUnitCost(unitCostArray[new_index]);
+            newIngredient.setMeasurementUnit(String.valueOf(unitCostArray[new_index]));
             newIngredient.setCategory(category[new_index]);
             newIngredient.setBestBeforeDate(datesArray[new_index]);
             newIngredient.setLocation(locationsArray[new_index]);
@@ -50,9 +50,9 @@ public class IngredientsTest {
 
 
             assertEquals(newIngredient.getAmount(), amountArray[new_index]);
-            assertEquals(newIngredient.getUnitCost(), unitCostArray[new_index]);
+            assertEquals(newIngredient.getMeasurementUnit(), unitCostArray[new_index]);
             assertEquals(newIngredient.getCategory(), category[new_index]);
-            assertEquals(newIngredient.getUnitCost(), unitCostArray[new_index]);
+            assertEquals(newIngredient.getMeasurementUnit(), unitCostArray[new_index]);
             assertEquals(newIngredient.getDescription(), namesArray[new_index]);
 
         }
