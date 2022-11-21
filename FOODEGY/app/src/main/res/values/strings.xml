@@ -38,4 +38,18 @@
         <item>Fish</item>
         <item>Egg</item>
     </string-array>
+
+    <string-array name="sort_ingredients">
+        <item>Description</item>
+        <item>Best Before Date</item>
+        <item>Location</item>
+        <item>Category</item>
+    </string-array>
+
+    <string-array name="sort_recipes">
+        <item>Title</item>
+        <item>Prep Time</item>
+        <item>Servings</item>
+        <item>Category</item>
+    </string-array>
 </resources>

@@ -29,11 +29,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:gravity="center"
-                android:text="Ingredients"
+                android:text="My Ingredients"
                 android:textColor="#D2FFFFFF"
                 android:textSize="30sp" />
+
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/ingredientSortSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/sort_ingredients"
+            />
     </FrameLayout>
 
     <FrameLayout
