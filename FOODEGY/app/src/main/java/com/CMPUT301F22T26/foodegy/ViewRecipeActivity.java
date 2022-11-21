@@ -47,11 +47,8 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private static String id;
 
 
-    // connect to firebase to get recipe data
-    final private String android_id = "TEST_ID";
-    final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
-            .collection("users").document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private StorageReference userFilesRef = dbm.getUserFilesRef();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,36 +103,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // delete the recipe! from the firestore!
-                String id = intent.getStringExtra("id");
-                RecipesCollection.document(id).delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d("ViewRecipeActivity", "Successfully deleted recipe "+id);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("ViewRecipeActivity", "Failed to delete recipe"+id);
-                            }
-                        });
-                // delete the image from the firebase storage
-                if (imageFileName != null && !"".equals(imageFileName)) {
-                    userFilesRef.child(imageFileName).delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d("ViewRecipeActivity", "Successfully deleted image " + imageFileName);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("ViewRecipeActivity", "Failed to delete image " + imageFileName);
-                                }
-                            });
-                }
+                dbm.deleteRecipeFromDatabase(id, imageFileName);
                 finish();
             }
         });
