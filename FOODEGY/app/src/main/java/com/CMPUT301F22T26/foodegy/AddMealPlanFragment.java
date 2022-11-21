@@ -225,25 +225,49 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                             // query firebase for recipe based on name; (first occurrence)
                             // grab its list of ingredients
                             // & set the current list of ingredients to that list
-                            System.out.println("MEAL PLAN QUERY. ABOUT TO EXECUTE");
                             RecipeStorage.whereEqualTo("title", foodSelectionName).get().addOnCompleteListener(
                                     new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 try {
-                                                    System.out.println("MEAL PLAN QUERY WAS ALLEGEDLY SUCCESSFUL");
                                                     // grab first result for simplicity
                                                     Map<String, Object> doc = task.getResult().getDocuments().get(0).getData();
-                                                    System.out.println("MEAL PLAN QUERY RETURNED" + doc);
-                                                    Map<String, Integer> result = (Map) doc.get("ingredients");
+                                                    Object ingredientsMap = doc.get("ingredients");
+                                                    System.out.println("MEAL PLAN QUERY RETURNED" + ingredientsMap.getClass());
+                                                    ArrayList<Map> result = (ArrayList<Map>) doc.get("ingredients");
                                                     System.out.println("MEAL PLAN QUERY " + result);
-                                                    for (Map.Entry<String, Integer> entry : result.entrySet()) {
-                                                        ingredients.put(entry.getKey(), entry.getValue());
+                                                    for (int i =0; i < result.size(); i++){
+                                                        Map<String, Object> item = result.get(i);
+                                                        ingredients.put((String)item.get("description"), Integer.parseInt((String) item.get("amount")));
+                                                        System.out.println("MEAL PLAN QUERY ITERATING" + ingredients);
                                                     }
 
-                                                } catch (Exception e) {
 
+
+                                                    // validate input!
+                                                    if (servings.length() == 0) {
+                                                        Toast.makeText(getActivity(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+                                                    if (endTime < Long.parseLong(timeStampDate)) {
+                                                        Toast.makeText(getActivity(), "Invalid end date", Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+                                                    System.out.println("SUBMIT PRESSED" + ingredients);
+
+                                                    listener.onSubmitPressed(
+                                                            new MealPlanItem(
+                                                                    timeStampDate, String.valueOf(endTime), foodSelectionName, Long.valueOf(numberOfServings), ingredients
+                                                            ));
+                                                    // garlic: 4
+                                                    // ketchup: 1
+//                                                    for (Map<String, Integer> entry : result.entrySet()) {
+//                                                        ingredients.put(entry.getKey(), entry.getValue());
+//                                                    }
+
+                                                } catch (Exception e) {
+                                                    System.out.println("MEAL PLAN QUERY" + e);
                                                 }
                                             }
                                         }
@@ -252,20 +276,6 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                                     });
 
 
-//                        // validate input!
-                            if (servings.length() == 0) {
-                                Toast.makeText(getActivity(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            if (endTime < Long.parseLong(timeStampDate)) {
-                                Toast.makeText(getActivity(), "Invalid end date", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            listener.onSubmitPressed(
-                                    new MealPlanItem(
-                                            timeStampDate, String.valueOf(endTime), foodSelectionName, Long.valueOf(numberOfServings), ingredients
-                                    ));
                         }
 
                     };
