@@ -35,6 +35,7 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
 
     private ArrayList<ShoppingListItem> itemsList;
     private Context context;
+    private ArrayList<Integer> checkedItems;
 
     /**
      * Initialize a ShoppingList!
@@ -46,6 +47,7 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         super(context, 0, itemsList);
         this.context = context;
         this.itemsList = itemsList;
+        checkedItems = new ArrayList<Integer>();
     }
 
     /**
@@ -74,6 +76,9 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         TextView itemCategoryView = view.findViewById(R.id.item_category);
 
         CheckBox bought = view.findViewById(R.id.Bought);
+        if (!checkedItems.contains(position)){
+            bought.setChecked(false);
+        }
         Button buyIngredient = view.findViewById(R.id.remove_ingredient);
 
         bought.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -82,6 +87,8 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
                 if (b) {
                     buyIngredient.setVisibility(View.VISIBLE);
                     buyIngredient.setClickable(true);
+                    checkedItems.add(position);
+                    System.out.println(checkedItems);
 
                     buyIngredient.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -102,6 +109,15 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
                 } else {
                     buyIngredient.setVisibility(View.INVISIBLE);
                     buyIngredient.setClickable(false);
+                    try {
+                        checkedItems.remove(checkedItems.indexOf(position));
+                    } catch (Exception e) {
+
+                    }
+
+                }
+                if (checkedItems.contains(position)){
+                    bought.setChecked(true);
                 }
             }
         });
