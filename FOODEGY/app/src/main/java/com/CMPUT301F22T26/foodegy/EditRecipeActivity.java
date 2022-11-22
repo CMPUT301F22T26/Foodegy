@@ -66,6 +66,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
+    private DatabaseManager dbm = DatabaseManager.getInstance();
     private String android_id = "TEST_ID";
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference RecipesCollection = firestore.collection("users")
@@ -111,14 +112,14 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String title = bundle.getString("title");
-        String hours = bundle.getString("hours");
-        String minutes = bundle.getString("minutes");
-        String servingValue = bundle.getString("servingValue");
+        String hours = String.valueOf(bundle.getInt("hours",-1));
+        String minutes = String.valueOf(bundle.getInt("minutes",-1));
+        String servingValue = String.valueOf(bundle.getInt("servingValue",-1));
         String category = bundle.getString("category");
         String fileName = bundle.getString("imageFileName");
         String comments = bundle.getString("comments");
         String currentid = bundle.getString("id");
-        System.out.println(title);
+
         titleText.setText(title);
         hourText.setText(hours);
         minuteText.setText(minutes);
@@ -143,10 +144,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 }
             });
         }
-
-
-
-
 
         // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
@@ -175,16 +172,38 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
             @Override
             public void onClick(View view) {
                 String title = titleText.getText().toString();
-                String hour = hourText.getText().toString();
-                String minute = minuteText.getText().toString();
-                String servings = servingsText.getText().toString();
+                String hourString = hourText.getText().toString();
+                String minuteString = minuteText.getText().toString();
+                String servingsString = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
                 String comments = commentText.getText().toString();
-                if (servingsText.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
+                Context context = getApplicationContext();
+
+                int servings, hour, minute;
+                // validate servings
+                try {
+                    servings = Integer.parseInt(servingsString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(context, "Invalid value for servings", Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                // validate hour
+                try {
+                    hour = Integer.parseInt(hourString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(context, "Invalid value for hour", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                // validate minute
+                try {
+                    minute = Integer.parseInt(minuteString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(context, "Invalid value for minutes", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 // upload image to firebase storage
                 String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
                 Recipe recipe = new Recipe(title, hour, minute, servings, category,

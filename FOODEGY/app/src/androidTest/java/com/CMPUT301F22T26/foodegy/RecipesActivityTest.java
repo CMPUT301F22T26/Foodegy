@@ -48,17 +48,16 @@ public class RecipesActivityTest {
         ingredients1.add(new RecipeIngredient("ramen", "Grain", "1", "1"));
         ingredients1.add(new RecipeIngredient("chili paste", "Condiment", "1", "5"));
 
-        recipe1 = new Recipe("Noodles", "0", "15", "2", "Lunch",
-                "100g", "testimg1.jpg", "Quick & easy noodle recipe", ingredients1);
+        recipe1 = new Recipe("Noodles", 0, 15, 2, "Lunch",
+                "", "Quick & easy noodle recipe", ingredients1);
 
         ArrayList<RecipeIngredient> ingredients2 = new ArrayList<RecipeIngredient>();
         ingredients2.add(new RecipeIngredient("white bread", "Grain", "3", "4"));
         ingredients2.add(new RecipeIngredient("Large white egg", "Egg", "1", "2"));
 
-        recipe2 = new Recipe("French toast", "0", "20", "3", "Breakfast",
-                "2", "frenchToast.jpg", "Sweet French toast for breakfast", ingredients2);
+        recipe2 = new Recipe("French toast", 0, 20, 3, "Breakfast",
+                "", "Sweeeet! french toast!for breakfast!!", ingredients2);
     }
-
     /**
      * Test adding a Recipe with all valid parameters
      */

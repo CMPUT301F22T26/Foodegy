@@ -48,7 +48,7 @@ public class RecipesActivity extends AppCompatActivity {
     private ArrayList<Recipe> listViewRecipe;
     private RecipeAdapter listadapter;
     private Spinner sortingSpinner;
-    private String sortingAttribute = "title";
+    private String sortingAttribute = "title_insensitive";
 
     // connect to the firebase & provide a test id
     final private DatabaseManager dbm = DatabaseManager.getInstance();
@@ -95,26 +95,25 @@ public class RecipesActivity extends AppCompatActivity {
         binding.foodList.setAdapter(listadapter);
         binding.foodList.setClickable(true);
 
-        binding.foodList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        binding.foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(RecipesActivity.this, ViewRecipeActivity.class);
-                intent.putExtra("title", listViewRecipe.get(position).getTitle());
-                intent.putExtra("hours",listViewRecipe.get(position).getHours());
-                intent.putExtra("minutes",listViewRecipe.get(position).getMinutes());
-                intent.putExtra("servingValue",listViewRecipe.get(position).getServingValue());
-                intent.putExtra("category",listViewRecipe.get(position).getCategory());
-                intent.putExtra("imageFileName", listViewRecipe.get(position).getImageFileName());
-                intent.putExtra("comments",listViewRecipe.get(position).getComments());
-                intent.putExtra("id", listViewRecipe.get(position).getId());
+                Recipe r = listViewRecipe.get(i);
+                intent.putExtra("title", r.getTitle());
+                intent.putExtra("hours", r.getHours());
+                intent.putExtra("minutes", r.getMinutes());
+                intent.putExtra("servingValue", r.getServingValue());
+                intent.putExtra("category", r.getCategory());
+                intent.putExtra("imageFileName", r.getImageFileName());
+                intent.putExtra("comments", r.getComments());
+                intent.putExtra("id", r.getId());
                 /*
                    leaving the line below as a commented line since we are not dealing with viewing list of ingredients.
                        */
                 //intent.putExtra("ingredients",listViewRecipe.get(position).getIngredients());
                 startActivity(intent);
-                return true;
             }
-
         });
         addbutton = findViewById(R.id.addRecipe);
         addbutton.setOnClickListener((v) -> {
@@ -133,7 +132,7 @@ public class RecipesActivity extends AppCompatActivity {
 
                 // the names in the list are different from the attribute names, switch them
                 if ("Title".equals(sortingArray[i])) {
-                    sortingAttribute = "title";
+                    sortingAttribute = "title_insensitive";
                 }
                 else if ("Prep Time".equals(sortingArray[i])) {
                     // HANDLE THIS BELOW
@@ -148,16 +147,21 @@ public class RecipesActivity extends AppCompatActivity {
 
                 // prep time is stored in two attributes, hours & minutes. we need to sort by both
                 if ("PREP TIME".equals(sortingAttribute)) {
-                    sortedRecipes = RecipesCollection.orderBy("hours").orderBy("minutes");
+                    sortedRecipes = RecipesCollection
+                            .orderBy("hours", Query.Direction.ASCENDING)
+                            .orderBy("minutes", Query.Direction.ASCENDING);
                 }
                 else {
-                    sortedRecipes = RecipesCollection.orderBy(sortingAttribute);
+                    sortedRecipes = RecipesCollection
+                            .orderBy(sortingAttribute, Query.Direction.ASCENDING);
                 }
+
                 // THIS IS THE LISTENER FOR THE RECIPE DATABASE CHANGING
                 sortedRecipes.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         reloadRecipes(value);
+                        listadapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -193,23 +197,19 @@ public class RecipesActivity extends AppCompatActivity {
             }
 
             // get other data fields
-            String amount = (String)data.get("amount");
             String category = (String)data.get("category");
             String comments = (String)data.get("comments");
-            String hours = (String)data.get("hours");
-            String minutes = (String)data.get("minutes");
+            int hours = doc.getLong("hours").intValue();
+            int minutes = doc.getLong("minutes").intValue();
             String imageFileName = (String)data.get("imageFileName");
-            String servingValue = (String)data.get("servingValue");
+            int servingValue = doc.getLong("servingValue").intValue();
             String title = (String)data.get("title");
-
-
 
             Recipe r = new Recipe(
                     title, hours, minutes, servingValue, category,
                     imageFileName, comments, ings
             );
             r.setId(doc.getId());
-            System.out.println("==================================================="+title+imageFileName);
             // download the image!!!
             if (imageFileName != null && !"".equals(imageFileName)) {
                 Task t = dbm.getUserFilesRef().child(imageFileName).getDownloadUrl();
@@ -218,22 +218,15 @@ public class RecipesActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
                         r.setRecipeImage(uri);
-                        listViewRecipe.add(r);
                         listadapter.notifyDataSetChanged();
                     }
                 });
             }
-            else {
-                listViewRecipe.add(r);
-                listadapter.notifyDataSetChanged();
-            }
+            listViewRecipe.add(r);
+            listadapter.notifyDataSetChanged();
         }
 
     }
-
-
-
-
 
     /**
      * Returns the ArrayList of recipes, used for testing purposes

@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:textAlignment="viewStart">
 
         <TextView
             android:id="@+id/ingredient_description"
@@ -38,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
+            android:paddingRight="1dp"
             android:text="TextView"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +49,12 @@
             android:id="@+id/ingredient_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
             android:paddingBottom="5dp"
             android:text="TextView"
+            android:textAlignment="textStart"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ingredient_amount" />
+            app:layout_constraintStart_toEndOf="@+id/ingredient_amount"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient_description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

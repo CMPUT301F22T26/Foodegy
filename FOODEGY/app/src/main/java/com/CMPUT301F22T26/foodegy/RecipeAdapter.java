@@ -70,8 +70,8 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
 
         title.setText(currentRecipe.getTitle());
         // sometimes want to display "hour" instead of "hours", same with minutes
-        String hrsString = currentRecipe.getHours() == "1" ? "hour" : "hours";
-        String minString = currentRecipe.getMinutes() == "1" ? "minute" : "minutes";
+        String hrsString = currentRecipe.getHours() == 1 ? "hour" : "hours";
+        String minString = currentRecipe.getMinutes() == 1 ? "minute" : "minutes";
         cookTime.setText("Cook Time: "+currentRecipe.getHours() + " " + hrsString +" " +currentRecipe.getMinutes() + " " + minString);
         unit.setText("Servings: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());

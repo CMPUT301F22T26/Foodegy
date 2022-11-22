@@ -1,28 +1,18 @@
 package com.CMPUT301F22T26.foodegy;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Singleton class to handle interacting with the database, adding/editing/deleting
@@ -157,27 +147,6 @@ public class DatabaseManager {
      *  The recipe to add
      */
     public void addRecipeToDatabase(Recipe recipe, Uri selectedImage) {
-        String imageFilename = recipe.getImageFileName();
-        StorageReference fileRef = userFilesRef.child(imageFilename);
-        // Upload the image to firebase storage
-
-        if (selectedImage == null) {
-            return;
-        }
-
-        fileRef.putFile(selectedImage)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("DatabaseManager", "Successfully uploaded image " + imageFilename);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("DatabaseManager", "Failed to upload image, " + e);
-                    }
-                });
         // Add recipe to firestore
         RecipesCollection.add(recipe)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -191,6 +160,27 @@ public class DatabaseManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("DatabaseManager", "Could not add recipe, "+e);
+                    }
+                });
+
+        // add the image (if it exists) to firebase storage
+        if (selectedImage == null) {
+            return;
+        }
+        String imageFilename = recipe.getImageFileName();
+        StorageReference fileRef = userFilesRef.child(imageFilename);
+        // Upload the image to firebase storage
+        fileRef.putFile(selectedImage)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("DatabaseManager", "Successfully uploaded image " + imageFilename);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DatabaseManager", "Failed to upload image, " + e);
                     }
                 });
     }

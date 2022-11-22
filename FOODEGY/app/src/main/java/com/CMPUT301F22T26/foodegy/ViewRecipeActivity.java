@@ -37,14 +37,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private Button cancel;
     private Button edit;
     private Button delete;
-    private static String title;
-    private static String hours;
-    private static String minutes;
-    private static String servingValue;
-    private static String category;
-    private static String imageFileName;
-    private static String comments;
-    private static String id;
+    private String title;
+    private int hours;
+    private int minutes;
+    private int servingValue;
+    private String category;
+    private String imageFileName;
+    private String comments;
+    private String id;
 
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
@@ -62,9 +62,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
             return;
         }
         title = intent.getStringExtra("title");
-        hours = intent.getStringExtra("hours");
-        minutes = intent.getStringExtra("minutes");
-        servingValue = intent.getStringExtra("servingValue");
+        hours = intent.getIntExtra("hours", -1);
+        minutes = intent.getIntExtra("minutes", -1);
+        servingValue = intent.getIntExtra("servingValue", -1);
         category = intent.getStringExtra("category");
         String amount = intent.getStringExtra("amount");
         imageFileName = intent.getStringExtra("imageFileName");
@@ -72,13 +72,13 @@ public class ViewRecipeActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
 
         binding.titleText.setText(title);
-        binding.timeText.setText(hours +" : " +minutes);
-        binding.servingsText.setText(servingValue);
+        String minutesString = minutes<10 ? "0"+minutes : ""+minutes;
+        binding.timeText.setText(hours +" : " +minutesString);
+        binding.servingsText.setText(String.valueOf(servingValue));
         binding.categoryText.setText(category);
 
         // get download url & put it in the imageview
         Context context = this;
-        final String[] downloadUrl = new String[1];
         if (imageFileName != null && !"".equals(imageFileName)) {
             userFilesRef.child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -116,9 +116,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
                                         Intent intent2 = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString("title",title);
-                                        bundle.putString("hours",hours);
-                                        bundle.putString("minutes",minutes);
-                                        bundle.putString("servingValue",servingValue);
+                                        bundle.putInt("hours",hours);
+                                        bundle.putInt("minutes",minutes);
+                                        bundle.putInt("servingValue",servingValue);
                                         bundle.putString("category",category);
                                         bundle.putString("imageFileName",imageFileName);
                                         bundle.putString("comments",comments);

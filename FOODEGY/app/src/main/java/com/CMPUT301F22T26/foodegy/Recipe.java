@@ -1,8 +1,11 @@
 package com.CMPUT301F22T26.foodegy;
 
-import android.media.Image;
-import android.net.Uri;
 
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -24,12 +27,11 @@ public class Recipe {
 
 
     /**
-     * temp constructor to test using a file
+     * Constructs a recipe with all of its attributes
      * @return
      */
     public Recipe(String title, int hours, int minutes, int servingValue, String category,
                   String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
-
         this.title = title;
         this.hours = hours;
         this.minutes = minutes;
@@ -40,6 +42,14 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    /**
+     * Get the case-insensitive (lowercase) version of the recipe title. Used in sorting
+     * @return
+     *  The title of the recipe, in lowercase
+     */
+    public String getTitle_insensitive() {
+        return title.toLowerCase();
+    }
     /**
      * Get Recipe's title
      * @return (String) title
