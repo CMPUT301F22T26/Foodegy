@@ -55,7 +55,7 @@ public class RecipeIngredientListAdapter extends ArrayAdapter<RecipeIngredient> 
         descriptionText.setText(currentIngredient.getDescription());
         categoryText.setText("Category: " + currentIngredient.getCategory());
         amountText.setText("- " + currentIngredient.getAmount());
-        unitText.setText("- " + currentIngredient.getUnit());
+        unitText.setText(currentIngredient.getUnit());
 
 
         return view;

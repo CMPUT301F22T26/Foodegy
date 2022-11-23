@@ -57,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Purchased"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -153,7 +154,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 
 

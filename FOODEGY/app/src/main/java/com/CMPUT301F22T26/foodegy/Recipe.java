@@ -1,8 +1,11 @@
 package com.CMPUT301F22T26.foodegy;
 
-import android.media.Image;
-import android.net.Uri;
 
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,37 +15,41 @@ import java.util.ArrayList;
 
 public class Recipe {
     private String title;
-    private String hours;
-    private String minutes;
-    private String servingValue;
+    private int hours;
+    private int minutes;
+    private int servingValue;
     private String category;
-    private String amount;
     private Uri recipeImage;
     private String comments;
     private ArrayList<RecipeIngredient> ingredients;
     private String id;
-    private int imageId;
     private String imageFileName;
 
 
     /**
-     * temp constructor to test using a file
+     * Constructs a recipe with all of its attributes
      * @return
      */
-    public Recipe(String title, String hours, String minutes, String servingValue, String category,
-                  String amount, String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
-
+    public Recipe(String title, int hours, int minutes, int servingValue, String category,
+                  String imageFileName, String comments, ArrayList<RecipeIngredient> ingredients) {
         this.title = title;
         this.hours = hours;
         this.minutes = minutes;
         this.servingValue = servingValue;
         this.category = category;
-        this.amount = amount;
         this.imageFileName = imageFileName;
         this.comments = comments;
         this.ingredients = ingredients;
     }
 
+    /**
+     * Get the case-insensitive (lowercase) version of the recipe title. Used in sorting
+     * @return
+     *  The title of the recipe, in lowercase
+     */
+    public String getTitle_insensitive() {
+        return title.toLowerCase();
+    }
     /**
      * Get Recipe's title
      * @return (String) title
@@ -63,7 +70,7 @@ public class Recipe {
      * Get Recipe's hour prep time
      * @return hours (String) -- time needed to make it
      */
-    public String getHours() {
+    public int getHours() {
         return hours;
     }
 
@@ -71,7 +78,7 @@ public class Recipe {
      * Set Recipe's hour prep time
      * @param hours new prep time, passed as a string
      */
-    public void setHours(String hours) {
+    public void setHours(int hours) {
         this.hours = hours;
     }
 
@@ -79,7 +86,7 @@ public class Recipe {
      * get the minute part of Recipe's prep time
      * @return how many minutes (modulo 60) it takes to make the Recipe
      */
-    public String getMinutes() {
+    public int getMinutes() {
         return minutes;
     }
 
@@ -87,7 +94,7 @@ public class Recipe {
      * Set the minute part of the Recipe's prep time
      * @param minutes how many minutes (modulo 60) it takes to make the Recipe
      */
-    public void setMinutes(String minutes) {
+    public void setMinutes(int minutes) {
         this.minutes = minutes;
     }
 
@@ -95,7 +102,7 @@ public class Recipe {
      * Get how many servings this Recipe produces
      * @return (String) number of servings
      */
-    public String getServingValue() {
+    public int getServingValue() {
         return servingValue;
     }
 
@@ -103,7 +110,7 @@ public class Recipe {
      * Set how many servings this Recipe produces
      * @param servingValue (String) new number of servings
      */
-    public void setServingValue(String servingValue) {
+    public void setServingValue(int servingValue) {
         this.servingValue = servingValue;
     }
 
@@ -121,22 +128,6 @@ public class Recipe {
      */
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * get the Amount this recipe makes
-     * @return (String) the Recipe's amount
-     */
-    public String getAmount() {
-        return amount;
-    }
-
-    /**
-     * set the Amount this recipe makes
-     * @param amount the new amount
-     */
-    public void setAmount(String amount) {
-        this.amount = amount;
     }
 
     /**
@@ -195,14 +186,6 @@ public class Recipe {
      */
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
-    }
-
-    /**
-     * get the id of this recipe's image
-     * @return the id, as a string
-     */
-    public int getImageId() {
-        return imageId;
     }
 
     /**

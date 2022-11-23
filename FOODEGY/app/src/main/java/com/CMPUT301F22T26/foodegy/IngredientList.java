@@ -50,7 +50,7 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         TextView ingredientDate = view.findViewById(R.id.ingredientDate);
         TextView ingredientLocation = view.findViewById(R.id.ingredientLocation);
         TextView ingredientQuantity = view.findViewById(R.id.ingredientQuantity);
-        TextView ingredientUnitCost = view.findViewById(R.id.ingredientUnitCost);
+        //TextView ingredientUnitCost = view.findViewById(R.id.ingredientUnitCost);
         TextView ingredientCategory = view.findViewById(R.id.ingredientCategory);
         View indicator = view.findViewById(R.id.cat_indicator);
 
@@ -60,9 +60,9 @@ public class IngredientList extends ArrayAdapter<StorageIngredient> {
         ingredientItemDescription.setText(ingredient.getDescription());
         ingredientDate.setText(ingredient.getBestBeforeDate());
         ingredientLocation.setText(ingredient.getLocation());
-        ingredientQuantity.setText(String.valueOf(ingredient.getAmount()));
+        ingredientQuantity.setText(ingredient.getAmount() + " " + ingredient.getMeasurementUnit());
         ingredientCategory.setText(ingredient.getCategory());
-        ingredientUnitCost.setText(String.valueOf(ingredient.getUnitCost()));
+        //ingredientUnitCost.setText(ingredient.getMeasurementUnit());
 
         if (category.equals("Vegetable")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));

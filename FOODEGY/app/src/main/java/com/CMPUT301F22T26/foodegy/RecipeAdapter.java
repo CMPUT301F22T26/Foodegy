@@ -17,13 +17,12 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
+import com.squareup.picasso.Picasso;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is responsible for making Recipes render-able on screen
@@ -31,7 +30,9 @@ import java.util.List;
 public class RecipeAdapter extends ArrayAdapter<Recipe>{
     private Context context;
     private ArrayList<Recipe> recipeArrayList;
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
 
+    private ImageView foodpic;
     /**
      * Initialize a RecipeAdapter!
      * @param context the context from which the Adapter has been initialized
@@ -43,10 +44,6 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         this.recipeArrayList = recipeArrayList;
 
     }
-
-    private String android_id = "TEST_ID";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
     /**
      * Returns a View of a particular Recipe
@@ -66,32 +63,35 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         Recipe currentRecipe = recipeArrayList.get(position);
 
         TextView title = listview.findViewById(R.id.recipeHighlight);
-        TextView price = listview.findViewById(R.id.recipePrice);
-        TextView unit = listview.findViewById(R.id.recipeUnit);
+        TextView cookTime = listview.findViewById(R.id.cookTime);
+        TextView unit = listview.findViewById(R.id.recipeServings);
         TextView comment = listview.findViewById(R.id.recipeDescription);
-        ImageView foodpic = listview.findViewById(R.id.foodimageView);
+        foodpic = listview.findViewById(R.id.foodimageView);
 
         title.setText(currentRecipe.getTitle());
-        price.setText("Price: "+currentRecipe.getAmount());
-        unit.setText("Unit: "+ currentRecipe.getServingValue());
+        // sometimes want to display "hour" instead of "hours", same with minutes
+        String hrsString = currentRecipe.getHours() == 1 ? "hour" : "hours";
+        String minString = currentRecipe.getMinutes() == 1 ? "minute" : "minutes";
+        cookTime.setText("Cook Time: "+currentRecipe.getHours() + " " + hrsString +" " +currentRecipe.getMinutes() + " " + minString);
+        unit.setText("Servings: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());
 
+        Picasso.get().load(currentRecipe.getRecipeImage()).into(foodpic);
+        //Glide.with(getContext()).load(currentRecipe.getRecipeImage()).into(foodpic);
         // load in the image
-        String imageFileName = currentRecipe.getImageFileName();
-        if (imageFileName != null && !"".equals(imageFileName)) {
-            Context context = getContext();
-            userFilesRef.child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
-                    String url = uri.toString();
-                    Glide.with(context).load(url).into(foodpic);
-                }
-            });
-        }
-
+//        String imageFileName = currentRecipe.getImageFileName();
+//        if (imageFileName != null && !"".equals(imageFileName)) {
+//            Context context = getContext();
+//            dbm.getUserFilesRef().child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+//                    String url = uri.toString();
+//                    Glide.with(context).load(url).into(foodpic);
+//                }
+//            });
+//        }
 
         return listview;
-
     }
 }

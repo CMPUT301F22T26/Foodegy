@@ -80,6 +80,13 @@
             android:background="@drawable/square_purple_button"
             android:textSize="10sp" />
 
+        <Spinner
+            android:id="@+id/sortRecipesSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:entries="@array/sort_recipes"/>
+
     </LinearLayout>
 
     <FrameLayout
@@ -114,11 +121,11 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="bottom"
             android:background="#5D03FF"
             app:itemIconTint="#ffff"
             app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"
-            android:layout_gravity="bottom"
             app:menu="@menu/bottom_nav_menu" />
     </FrameLayout>
 

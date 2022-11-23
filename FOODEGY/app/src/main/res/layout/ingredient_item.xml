@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
         android:padding="5dp"
         android:paddingBottom="5dp">
 
@@ -104,13 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:weightSum="5"
-            android:orientation="horizontal">
+            android:weightSum="5">
 
             <TextView
-                android:id="@+id/quantity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Quantity: "
                 android:fontFamily="@font/montserrat_regular"
                 android:layout_weight="3"
@@ -126,7 +123,6 @@
                 android:layout_weight="2"
                 android:textSize="15sp"
                 android:textColor="@color/black" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -141,7 +137,7 @@
                 android:id="@+id/unitCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Unit Cost: "
+                android:text="Unit: "
                 android:fontFamily="@font/montserrat_regular"
                 android:textSize="15sp"
                 android:textColor="@color/black"

@@ -37,12 +37,18 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private Button cancel;
     private Button edit;
     private Button delete;
+    private String title;
+    private int hours;
+    private int minutes;
+    private int servingValue;
+    private String category;
+    private String imageFileName;
+    private String comments;
+    private String id;
 
-    // connect to firebase to get recipe data
-    final private String android_id = "TEST_ID";
-    final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
-            .collection("users").document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
+
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private StorageReference userFilesRef = dbm.getUserFilesRef();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +61,24 @@ public class ViewRecipeActivity extends AppCompatActivity {
         if(intent==null) {
             return;
         }
-        String title = intent.getStringExtra("title");
-        String hours = intent.getStringExtra("hours");
-        String minutes = intent.getStringExtra("minutes");
-        String servingValue = intent.getStringExtra("servingValue");
-        String category = intent.getStringExtra("category");
+        title = intent.getStringExtra("title");
+        hours = intent.getIntExtra("hours", -1);
+        minutes = intent.getIntExtra("minutes", -1);
+        servingValue = intent.getIntExtra("servingValue", -1);
+        category = intent.getStringExtra("category");
         String amount = intent.getStringExtra("amount");
-        String imageFileName = intent.getStringExtra("imageFileName");
-        String comments = intent.getStringExtra("comments");
-        String id = intent.getStringExtra("id");
+        imageFileName = intent.getStringExtra("imageFileName");
+        comments = intent.getStringExtra("comments");
+        id = intent.getStringExtra("id");
 
         binding.titleText.setText(title);
-        binding.timeText.setText(hours +" : " +minutes);
-        binding.servingsText.setText(servingValue);
+        String minutesString = minutes<10 ? "0"+minutes : ""+minutes;
+        binding.timeText.setText(hours +" : " +minutesString);
+        binding.servingsText.setText(String.valueOf(servingValue));
         binding.categoryText.setText(category);
-        binding.amountText.setText(amount);
 
         // get download url & put it in the imageview
         Context context = this;
-        final String[] downloadUrl = new String[1];
         if (imageFileName != null && !"".equals(imageFileName)) {
             userFilesRef.child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -93,53 +98,47 @@ public class ViewRecipeActivity extends AppCompatActivity {
             }
         });
 
-        edit = findViewById(R.id.editButton);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewRecipeActivity.this, AddRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-
         delete = findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // delete the recipe! from the firestore!
-                String id = intent.getStringExtra("id");
-                RecipesCollection.document(id).delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d("ViewRecipeActivity", "Successfully deleted recipe "+id);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("ViewRecipeActivity", "Failed to delete recipe"+id);
-                            }
-                        });
-                // delete the image from the firebase storage
-                if (imageFileName != null && !"".equals(imageFileName)) {
-                    userFilesRef.child(imageFileName).delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d("ViewRecipeActivity", "Successfully deleted image " + imageFileName);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("ViewRecipeActivity", "Failed to delete image " + imageFileName);
-                                }
-                            });
-                }
+                dbm.deleteRecipeFromDatabase(id, imageFileName);
                 finish();
             }
         });
+
+        edit = findViewById(R.id.editButton);
+        System.out.println(title);
+        edit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent2 = new Intent(ViewRecipeActivity.this, EditRecipeActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("title",title);
+                                        bundle.putInt("hours",hours);
+                                        bundle.putInt("minutes",minutes);
+                                        bundle.putInt("servingValue",servingValue);
+                                        bundle.putString("category",category);
+                                        bundle.putString("imageFileName",imageFileName);
+                                        bundle.putString("comments",comments);
+                                        bundle.putString("id",id);
+                                        intent2.putExtras(bundle);
+
+
+                                        /*intent.putExtra("title",title);
+                                        intent.putExtra("hours",hours);
+                                        intent.putExtra("minutes",minutes);
+                                        intent.putExtra("servingValue",servingValue);
+                                        intent.putExtra("category",category);
+                                        intent.putExtra("imageFileName",imageFileName );
+                                        intent.putExtra("comments",comments);
+                                        intent.putExtra("id",id);*/
+                                        startActivity(intent2);
+                                    }
+                                }
+
+        );
 
     }
 

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -105,6 +106,11 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
                             String amount = amountText.getText().toString();
                             String unit = unitText.getText().toString();
 
+                            // validate input
+                            if (description.length() == 0 || amount.length() == 0 || unit.length() == 0) {
+                                Toast.makeText(getContext(), "Field(s) cannot be empty", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                             RecipeIngredient newIngredient = new RecipeIngredient(description, category, amount, unit);
                             listener.onEditOkPressed(newIngredient, pos);
 
@@ -124,6 +130,11 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
                             String amount = amountText.getText().toString();
                             String unit = unitText.getText().toString();
 
+                            // validate input
+                            if (description.length() == 0 || amount.length() == 0 || unit.length() == 0) {
+                                Toast.makeText(getContext(), "Field(s) cannot be empty", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                             RecipeIngredient newIngredient = new RecipeIngredient(description, category, amount, unit);
                             listener.onOkPressed(newIngredient);
 

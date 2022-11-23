@@ -2,6 +2,7 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
  * Activity to handle adding a recipe
  */
@@ -43,7 +46,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private EditText hourText;
     private EditText minuteText;
     private EditText servingsText;
-    private EditText amountText;
     private EditText commentText;
     private ImageView activityBackground;
 
@@ -62,12 +64,9 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
-    private String android_id = "TEST_ID";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
-
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    private CollectionReference RecipesCollection = dbm.getRecipesCollection();
+    private StorageReference userFilesRef = dbm.getUserFilesRef();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         hourText = findViewById(R.id.hour_text);
         minuteText = findViewById(R.id.minute_text);
         servingsText = findViewById(R.id.servings_text);
-        amountText = findViewById(R.id.amount_text);
         commentText = findViewById(R.id.comment_text);
 
         imageButton = findViewById(R.id.image_button);
@@ -131,18 +129,56 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             @Override
             public void onClick(View view) {
                 String title = titleText.getText().toString();
-                String hour = hourText.getText().toString();
-                String minute = minuteText.getText().toString();
-                String servings = servingsText.getText().toString();
+                String hourString = hourText.getText().toString();
+                String minuteString = minuteText.getText().toString();
+                String servingsString = servingsText.getText().toString();
                 String category = categorySpinner.getSelectedItem().toString();
-                String amount = amountText.getText().toString();
                 String comments = commentText.getText().toString();
+                Context context = getApplicationContext();
 
+                // perform input validation
+                if (title.length() == 0) {
+                    Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int servings, hour, minute;
+                // validate servings
+                try {
+                    servings = Integer.parseInt(servingsString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(getApplicationContext(), "Invalid input for servings", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                // validate hour
+                try {
+                    hour = Integer.parseInt(hourString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(context, "Invalid input for hour", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                // validate minute
+                try {
+                    minute = Integer.parseInt(minuteString);
+                }
+                catch (IllegalArgumentException e) {
+                    Toast.makeText(context, "Invalid input for minutes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // if the user enters 61 minutes, we want that as 1 hr & 1 min
+                hour += minute / 60;  // int division, so if minute < 60 it = 0
+                minute = minute % 60;
                 // upload image to firebase storage
-                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
-                Recipe recipe = new Recipe(title, hour, minute, servings, category, amount,
+                String imageFilename = null;
+                if (selectedImage != null) {
+                    imageFilename = System.currentTimeMillis() + "." + getFileExtension(selectedImage);
+                }
+
+                Recipe recipe = new Recipe(title, hour, minute, servings, category,
                         imageFilename, comments, ingredientsList);
-                addRecipeToDatabase(recipe);
+                dbm.addRecipeToDatabase(recipe, selectedImage);
                 finish();
             }
         });
@@ -259,45 +295,5 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    /**
-     * Adds a recipe to the Firebase
-     * @param recipe
-     *  The recipe to add
-     */
-    public void addRecipeToDatabase(Recipe recipe) {
-        String imageFilename = recipe.getImageFileName();
-        StorageReference fileRef = userFilesRef.child(imageFilename);
-        // Upload the image to firebase storage
-        fileRef.putFile(selectedImage)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("AddRecipeActivity", "Successfully uploaded image "+imageFilename);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("AddRecipeActivity", "Failed to upload image, "+e);
-                    }
-                });
-
-        // Add recipe to firestore
-        RecipesCollection.add(recipe)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("AddRecipe", "Successfully added recipe "+documentReference.getId());
-                        recipe.setId(documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("AddRecipe", "Could not add recipe, "+e);
-                    }
-                });
     }
 }
