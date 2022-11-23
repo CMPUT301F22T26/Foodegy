@@ -29,9 +29,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:gravity="center"
-                android:text="My Ingredients"
+
+                android:fontFamily="@font/montserrat_light"
+                android:text="Ingredients"
                 android:textColor="#D2FFFFFF"
-                android:textSize="30sp" />
+                android:textSize="32sp" />
 
         </LinearLayout>
 
@@ -52,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_marginBottom="60dp"
+            android:paddingBottom="50dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="5.0sp"/>
 
@@ -73,9 +75,9 @@
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
             android:layout_height="50dp"
-            android:background="#5D03FF"
-            app:itemIconTint="#ffff"
-            app:itemTextColor="#ffff"
+            android:background="@color/yellow"
+            app:itemIconTint="#DCFFFFFF"
+            app:itemTextColor="#DCFFFFFF"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -83,6 +85,7 @@
             app:menu="@menu/bottom_nav_menu" />
 
     </FrameLayout>
+
 
 
 

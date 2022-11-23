@@ -81,6 +81,18 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         }
         Button buyIngredient = view.findViewById(R.id.remove_ingredient);
 
+        String category = currentItem.getCategory();
+        View indicator = view.findViewById(R.id.shopping_cat_indicator);
+        if (category.equals("Vegetable")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));
+        } else if (category.equals("Dairy")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.dairy));
+        } else if (category.equals("Grain")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.grain));
+        } else if (category.equals("Meat")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.meat));
+        }
+
         bought.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

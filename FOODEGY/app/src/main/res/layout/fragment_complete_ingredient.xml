@@ -18,7 +18,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:fontFamily="@font/akaya_telivigala"
             android:text="Description"
             android:textColor="#E6AF2E"
             android:textSize="20sp" />
@@ -33,7 +32,6 @@
             android:textSize="20sp"
             android:textColor="#E6AF2E"
             android:hint="Enter your description"
-            android:fontFamily="@font/akaya_telivigala"
             android:textColorHint="@color/gray_textHint_app_default"
             android:paddingLeft="5dp"
             android:background="@drawable/border_shopping_list"/>
@@ -55,7 +53,6 @@
             android:textSize="20sp"
             android:text="Location"
             android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala"
             />
 
         <Spinner
@@ -82,8 +79,7 @@
             android:layout_weight=".3"
             android:textSize="20sp"
             android:text="Category"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="#E6AF2E" />
 
         <Spinner
             android:id="@+id/addIngredientCategorySpinner"
@@ -109,8 +105,7 @@
             android:layout_weight=".2"
             android:textSize="20sp"
             android:text="Quantity "
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="#E6AF2E" />
 
         <EditText
             android:id="@+id/editTextIngredientAmount"
@@ -121,7 +116,6 @@
             android:inputType="number"
             android:textSize="20sp"
             android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala"
             android:hint="Enter the quantity"
             android:textColorHint="@color/gray_textHint_app_default"
             android:paddingLeft="5dp"
@@ -141,8 +135,7 @@
             android:layout_weight=".2"
             android:textSize="20sp"
             android:text="Unit Cost"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="#E6AF2E" />
 
         <EditText
             android:id="@+id/editTextIngredientUnitCost"
@@ -151,7 +144,6 @@
             android:layout_weight=".8"
             android:background="@drawable/border_shopping_list"
             android:ems="5"
-            android:fontFamily="@font/akaya_telivigala"
             android:hint="Enter the unit price"
             android:inputType="number"
             android:paddingLeft="5dp"
@@ -171,8 +163,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="Best Before"
-            android:textColor="#E6AF2E"
-            android:fontFamily="@font/akaya_telivigala" />
+            android:textColor="#E6AF2E" />
         <DatePicker
             android:id="@+id/addIngredientDatePicker"
             android:layout_width="match_parent"
