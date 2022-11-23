@@ -108,6 +108,7 @@ public class RecipesActivity extends AppCompatActivity {
                 intent.putExtra("imageFileName", r.getImageFileName());
                 intent.putExtra("comments", r.getComments());
                 intent.putExtra("id", r.getId());
+                intent.putParcelableArrayListExtra("ingredients",r.getIngredients());
                 /*
                    leaving the line below as a commented line since we are not dealing with viewing list of ingredients.
                        */
