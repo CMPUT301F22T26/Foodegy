@@ -25,9 +25,10 @@
             android:layout_height="90dp"
             android:text="Current Meal Plan"
             android:gravity="center"
+            android:fontFamily="@font/montserrat_light"
             android:textAlignment="center"
             android:textColor="#D2FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="32sp" />
     </FrameLayout>
 
 

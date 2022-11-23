@@ -28,8 +28,9 @@
                 android:layout_height="90dp"
                 android:gravity="center"
                 android:text="Shopping Cart"
+                android:fontFamily="@font/montserrat_light"
                 android:textColor="#D2FFFFFF"
-                android:textSize="30sp" />
+                android:textSize="32sp" />
         </LinearLayout>
 
     </FrameLayout>
