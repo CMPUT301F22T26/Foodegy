@@ -4,22 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/akaya_telivigala"
-        android:text="Shopping Cart "
-        android:textAlignment="center"
-        android:textColor="#E6AF2E"
-        android:textSize="40sp" />
+    android:background="#131313">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:scaleType="centerCrop"
+            android:src="@drawable/shopping_cart_background"
+            android:alpha="0.5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:gravity="center"
+                android:text="Shopping Cart"
+                android:textColor="#D2FFFFFF"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
     <ListView
         android:id="@+id/shopping_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.9" />
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5.0sp"
+        android:layout_margin="5dp"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -29,8 +52,5 @@
         app:itemIconTint="#ffff"
         app:itemTextColor="#ffff"
         app:labelVisibilityMode="labeled"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>

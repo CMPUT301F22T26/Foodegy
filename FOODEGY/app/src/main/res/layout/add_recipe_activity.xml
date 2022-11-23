@@ -34,28 +34,31 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel_button"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:backgroundTint="@color/cancel_red"
+                android:hint="Cancel"
+                android:textColorHint="@color/white"
+                android:layout_weight="1"
+                android:textSize="11sp"
+                android:background="@drawable/sharp_corner_border"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submit_button"
-                android:layout_width="195dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:hint="Submit"
                 android:backgroundTint="#E6AF2E"
-                android:textColorHint="#A8000000"
-                android:textSize="11sp" />
+                android:textColorHint="@color/white"
+                android:layout_weight="1"
+                android:textSize="11sp"
+                android:background="@drawable/sharp_corner_border"/>
 
-            <Button
-                android:id="@+id/cancel_button"
-                android:layout_width="195dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="3dp"
-                android:backgroundTint="@color/dark_grey"
-                android:hint="Cancel"
-                android:textColorHint="#A8000000"
-                android:textSize="11sp" />
+
 
         </LinearLayout>
 

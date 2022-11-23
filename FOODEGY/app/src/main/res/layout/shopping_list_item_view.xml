@@ -2,132 +2,152 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
-    android:background="@drawable/border_shopping_list">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#DCFFFFFF">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="2dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:padding="5dp"
+        android:paddingBottom="5dp">
 
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_width="wrap_content"
+        <View
+            android:id="@+id/shopping_cat_indicator"
+            android:layout_width="13dp"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:textSize="30sp"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
-
-        <CheckBox
-            android:id="@+id/Bought"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:text="Bought"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
-    </RelativeLayout>
+            android:background="@color/yellow"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="0dp"
-        android:paddingRight="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="23sp"
+                android:gravity="center"
+                android:textColor="#E6AF2E"/>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/Bought"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Purchased"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="10dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/remove_ingredient"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:gravity="center"
+                android:layout_height="22dp"
                 android:background="@drawable/add_to_storage_button"
                 android:text="Add to Storage"
                 android:textSize="9sp"
-                android:visibility="invisible"
-                android:clickable="false"/>
+                android:visibility="visible"
+                android:clickable="false"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity: "
+
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/item_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[amount]"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/unit_cost_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unit Cost: "
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/item_unit_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[amount]"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <TextView
+                android:id="@+id/item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textAlignment="textEnd"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/quantity_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity: "
 
-            android:textSize="20sp"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
 
-        <TextView
-            android:id="@+id/item_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[amount]"
-            android:textSize="20sp"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/unit_cost_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/akaya_telivigala"
-            android:text="Unit: "
-            android:textColor="#E6AF2E"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/item_unit_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[amount]"
-            android:textSize="20sp"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
-
-        <TextView
-            android:id="@+id/item_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25sp"
-            android:layout_marginRight="15sp"
-            android:layout_weight="0.5"
-            android:text="Category"
-            android:textAlignment="textEnd"
-            android:textSize="20sp"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textColor="#E6AF2E"/>
-    </LinearLayout>
 
 </LinearLayout>
