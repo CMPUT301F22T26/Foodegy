@@ -1,11 +1,14 @@
 package com.CMPUT301F22T26.foodegy;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * RecipeIngredient is used when the "quick add ingredient" from AddRecipeActivity is used
  */
 
-public class RecipeIngredient {
+public class RecipeIngredient implements Parcelable {
 
     private String description;
     private String category;
@@ -25,6 +28,25 @@ public class RecipeIngredient {
         this.amount = amount;
         this.unit = unit;
     }
+
+    protected RecipeIngredient(Parcel in) {
+        description = in.readString();
+        category = in.readString();
+        amount = in.readString();
+        unit = in.readString();
+    }
+
+    public static final Creator<RecipeIngredient> CREATOR = new Creator<RecipeIngredient>() {
+        @Override
+        public RecipeIngredient createFromParcel(Parcel in) {
+            return new RecipeIngredient(in);
+        }
+
+        @Override
+        public RecipeIngredient[] newArray(int size) {
+            return new RecipeIngredient[size];
+        }
+    };
 
     /**
      * Get the RecipeIngredient's brief description
@@ -88,5 +110,18 @@ public class RecipeIngredient {
      */
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(description);
+        dest.writeString(category);
+        dest.writeString(amount);
+        dest.writeString(unit);
     }
 }

@@ -23,7 +23,7 @@
 
     <RelativeLayout
         android:layout_width="411dp"
-        android:layout_height="247dp"
+        android:layout_height="253dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="-2dp"
@@ -181,11 +181,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="106dp"
+                android:layout_height="103dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp">
+                android:layout_marginBottom="3dp">
 
                 <TextView
                     android:id="@+id/commentTag"
@@ -199,12 +199,12 @@
 
                 <TextView
                     android:id="@+id/commentText"
-                    android:layout_width="204dp"
+                    android:layout_width="202dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginEnd="3dp"
                     android:text="Long Description"
                     android:textColor="@color/white"
                     android:textSize="15sp" />

@@ -83,10 +83,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
 
         activityBackground = findViewById(R.id.add_recipe_background);
 
-        ingredientsListView = findViewById(R.id.ingredients_listview);
-        ingredientsList = new ArrayList<>();
-        ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
-        ingredientsListView.setAdapter(ingredientsAdapter);
+
 
         titleText = findViewById(R.id.title_text);
         hourText = findViewById(R.id.hour_text);
@@ -119,6 +116,10 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         String fileName = bundle.getString("imageFileName");
         String comments = bundle.getString("comments");
         String currentid = bundle.getString("id");
+        ingredientsList = bundle.getParcelableArrayList("ingredients");
+        ingredientsListView = findViewById(R.id.ingredients_listview);
+        ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
+        ingredientsListView.setAdapter(ingredientsAdapter);
 
         titleText.setText(title);
         hourText.setText(hours);

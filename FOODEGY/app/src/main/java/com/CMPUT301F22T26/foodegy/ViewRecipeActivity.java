@@ -76,7 +76,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
         imageFileName = intent.getStringExtra("imageFileName");
         comments = intent.getStringExtra("comments");
         id = intent.getStringExtra("id");
-        recipeIngredients = (ArrayList<RecipeIngredient>)intent.getSerializableExtra("ingredients");
+        recipeIngredients = intent.getParcelableArrayListExtra("ingredients");
 
 
 
@@ -86,7 +86,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
         binding.servingsText.setText(String.valueOf(servingValue));
         binding.categoryText.setText(category);
         ingredientsListView = findViewById(R.id.ingredientsList);
-        recipeIngredients = new ArrayList<>();
+        //recipeIngredients = new ArrayList<>();
         recipeIngredientListAdapter = new RecipeIngredientListAdapter(this, recipeIngredients);
         ingredientsListView.setAdapter(recipeIngredientListAdapter);
 
@@ -137,7 +137,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
                                         bundle.putString("imageFileName",imageFileName);
                                         bundle.putString("comments",comments);
                                         bundle.putString("id",id);
-                                        bundle.putSerializable("ingredients",recipeIngredients);
+                                        bundle.putParcelableArrayList("ingredients",recipeIngredients);
                                         intent2.putExtras(bundle);
 
 
