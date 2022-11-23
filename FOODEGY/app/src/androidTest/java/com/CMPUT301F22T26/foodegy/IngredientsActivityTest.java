@@ -53,9 +53,9 @@ public class IngredientsActivityTest {
         categories = activity.getResources().getStringArray(R.array.categories_array);
 
         // create a mock ingredient that we can use to test viewing
-        mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, 1, categories[0]);
-        mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, 1, categories[0]);
-        mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, 1, categories[0]);
+        mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, "R", categories[0]);
+        mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, "R", categories[0]);
+        mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, "R", categories[0]);
         activity.addIngredientToDatabase(mockIngredientView);
         activity.addIngredientToDatabase(mockIngredientDelete);
         activity.addIngredientToDatabase(mockIngredientEdit);
