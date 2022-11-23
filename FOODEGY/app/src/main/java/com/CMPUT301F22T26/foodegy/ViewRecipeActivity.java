@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityViewRecipeBinding;
 import com.bumptech.glide.Glide;
@@ -25,13 +27,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class allows the user to view the recipe, and all of the data/details that the recipe has
  */
-public class ViewRecipeActivity extends AppCompatActivity {
+public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeIngredientFragment.OnFragmentInteractionListener {
 
     private ActivityViewRecipeBinding binding;
     private Button cancel;
@@ -45,6 +48,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private String imageFileName;
     private String comments;
     private String id;
+    private ArrayList<RecipeIngredient> recipeIngredients;
+    private RecipeIngredientListAdapter recipeIngredientListAdapter;
+    private ListView ingredientsListView;
 
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
@@ -70,12 +76,20 @@ public class ViewRecipeActivity extends AppCompatActivity {
         imageFileName = intent.getStringExtra("imageFileName");
         comments = intent.getStringExtra("comments");
         id = intent.getStringExtra("id");
+        recipeIngredients = (ArrayList<RecipeIngredient>)intent.getSerializableExtra("ingredients");
+
+
 
         binding.titleText.setText(title);
         String minutesString = minutes<10 ? "0"+minutes : ""+minutes;
         binding.timeText.setText(hours +" : " +minutesString);
         binding.servingsText.setText(String.valueOf(servingValue));
         binding.categoryText.setText(category);
+        ingredientsListView = findViewById(R.id.ingredientsList);
+        recipeIngredients = new ArrayList<>();
+        recipeIngredientListAdapter = new RecipeIngredientListAdapter(this, recipeIngredients);
+        ingredientsListView.setAdapter(recipeIngredientListAdapter);
+
 
         // get download url & put it in the imageview
         Context context = this;
@@ -123,6 +137,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
                                         bundle.putString("imageFileName",imageFileName);
                                         bundle.putString("comments",comments);
                                         bundle.putString("id",id);
+                                        bundle.putSerializable("ingredients",recipeIngredients);
                                         intent2.putExtras(bundle);
 
 
@@ -139,7 +154,37 @@ public class ViewRecipeActivity extends AppCompatActivity {
                                 }
 
         );
+        ingredientsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Pass item index to fragment
+                Bundle args = new Bundle();
+                args.putInt("pos", i);
+
+                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment();
+                fragment.setArguments(args);
+                fragment.show(getSupportFragmentManager(), "SHOW_INGREDIENT");
+                return true;
+            }
+        });
 
     }
 
+    @Override
+    public void onShowRecipeIngredientOkPressed(int pos) {
+        Bundle args = new Bundle();
+        args.putInt("pos", pos);
+        args.putString("eval", "Edit");
+
+        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment();
+        fragment.setArguments(args);
+        fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
+    }
+
+    @Override
+    public void onShowRecipeIngredientDeletePressed(int pos) {
+        recipeIngredients.remove(pos);
+        recipeIngredientListAdapter.notifyDataSetChanged();
+
+    }
 }
