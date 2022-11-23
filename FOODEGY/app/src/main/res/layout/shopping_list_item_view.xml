@@ -40,9 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="23sp"
+                android:paddingBottom="3dp"
                 android:gravity="center"
-                android:textColor="#E6AF2E"/>
+                android:textColor="@color/black"/>
 
 
             <View
@@ -94,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quantity: "
-
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>
 
@@ -103,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="[amount]"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -111,13 +114,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/unit_cost_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Unit Cost: "
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>
 
@@ -126,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="[amount]"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>
 
@@ -140,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
+                android:fontFamily="@font/montserrat_regular"
                 android:textAlignment="textEnd"
                 android:textSize="15sp"
                 android:textColor="@color/black"/>

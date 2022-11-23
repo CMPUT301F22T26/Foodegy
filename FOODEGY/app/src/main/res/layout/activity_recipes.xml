@@ -34,8 +34,9 @@
                 android:layout_height="52dp"
                 android:gravity="center"
                 android:text="Recipes"
+                android:fontFamily="@font/montserrat_light"
                 android:textColor="#D2FFFFFF"
-                android:textSize="30sp"/>
+                android:textSize="32sp"/>
 
             <TextView
                 android:id="@+id/highlightsTag"
@@ -64,6 +65,7 @@
             android:layout_height="35dp"
             android:layout_weight="4"
             android:text="Sort"
+            android:fontFamily="@font/montserrat_regular"
             android:background="@drawable/square_purple_button"
             android:textSize="10sp" />
 
@@ -73,6 +75,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="By:Category"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_gravity="right"
             android:background="@drawable/square_purple_button"
             android:textSize="10sp" />

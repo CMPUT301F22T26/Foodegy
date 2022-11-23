@@ -21,8 +21,9 @@
             android:layout_height="match_parent"
             android:text="Item#"
             android:layout_weight="1"
-            android:textColor="@color/yellow"
-            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
@@ -30,6 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Recipe description"
+            android:fontFamily="@font/montserrat_regular"
+
             android:layout_weight="1"
             android:textColor="@color/black" />
 
@@ -39,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Price: "
+            android:fontFamily="@font/montserrat_regular"
             android:layout_weight="1"
             android:textColor="@color/black" />
 
@@ -47,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Unit: "
+            android:fontFamily="@font/montserrat_regular"
             android:layout_weight="1"
             android:textColor="@color/black" />
     </LinearLayout>
