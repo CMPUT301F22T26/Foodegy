@@ -4,157 +4,169 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="#DCFFFFFF">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:padding="5dp"
-        android:paddingBottom="5dp">
-
-        <View
-            android:id="@+id/shopping_cat_indicator"
-            android:layout_width="13dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@color/yellow"
-            android:visibility="visible"/>
-
-    </LinearLayout>
+    android:orientation="vertical"
+    android:background="#00FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingRight="15dp">
-
-            <TextView
-                android:id="@+id/item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="23sp"
-                android:paddingBottom="3dp"
-                android:gravity="center"
-                android:textColor="@color/black"/>
-
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <CheckBox
-                android:id="@+id/Bought"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Purchased"
-                android:fontFamily="@font/montserrat_regular"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingRight="10dp">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/remove_ingredient"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:background="@drawable/add_to_storage_button"
-                android:text="Add to Storage"
-                android:textSize="9sp"
-                android:visibility="visible"
-                android:clickable="false"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/quantity_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quantity: "
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/item_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="[amount]"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:padding="5dp"
             android:paddingBottom="5dp">
 
-            <TextView
-                android:id="@+id/unit_cost_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Unit: "
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/item_unit_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="[amount]"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
-
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-
-            <TextView
-                android:id="@+id/item_category"
-                android:layout_width="wrap_content"
+                android:id="@+id/shopping_cat_indicator"
+                android:layout_width="13dp"
                 android:layout_height="wrap_content"
-                android:text="Category"
-                android:fontFamily="@font/montserrat_regular"
-                android:textAlignment="textEnd"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
+                android:layout_alignParentTop="true"
+                android:background="@color/yellow"
+                android:visibility="visible"/>
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="23sp"
+                    android:paddingBottom="3dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"/>
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <CheckBox
+                    android:id="@+id/Bought"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Purchased"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/remove_ingredient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:background="@drawable/add_to_storage_button"
+                    android:text="Add to Storage"
+                    android:textSize="9sp"
+                    android:visibility="invisible"
+                    android:clickable="false"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/quantity_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity: "
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/item_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[amount]"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:id="@+id/unit_cost_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit: "
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/item_unit_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[amount]"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+
+                <TextView
+                    android:id="@+id/item_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textAlignment="textEnd"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow_drawable"
+        android:layout_weight="1">
+    </View>
 
 </LinearLayout>
