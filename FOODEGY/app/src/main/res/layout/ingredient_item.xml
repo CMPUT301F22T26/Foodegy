@@ -4,154 +4,165 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="#DCFFFFFF">
+    android:orientation="vertical"
+    android:background="#00FFFFFF">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:paddingBottom="5dp">
 
-        <View
-            android:id="@+id/cat_indicator"
-            android:layout_width="13dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@color/yellow"
-            android:visibility="visible"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:paddingBottom="5dp">
 
-            <TextView
-                android:id="@+id/IngredientItemDescription"
-                android:layout_width="wrap_content"
+            <View
+                android:id="@+id/cat_indicator"
+                android:layout_width="13dp"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:paddingLeft="10dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="23sp"
-                android:textColor="@color/black" />
+                android:layout_alignParentTop="true"
+                android:background="@color/yellow"
+                android:visibility="visible"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/bestBeforeDate"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Best Before: "
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/ingredientDate"
+                <TextView
+                    android:id="@+id/IngredientItemDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:paddingLeft="10dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="23sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="YYYY-MM-DD"
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_weight="2"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/bestBeforeDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="Best Before: "
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ingredientDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="YYYY-MM-DD"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_weight="2"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Location: "
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_weight="3"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ingredientLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[location]"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_weight="2"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:weightSum="5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Quantity: "
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_weight="3"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ingredientQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[amount]"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_weight="2"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+
+                <TextView
+                    android:id="@+id/ingredientCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15sp"
+                    android:layout_weight="3"
+                    android:text="Category"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textAlignment="textEnd"
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:weightSum="5">
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Location: "
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_weight="3"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/ingredientLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="[location]"
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_weight="2"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:weightSum="5">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Quantity: "
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_weight="3"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/ingredientQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="[amount]"
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_weight="2"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-
-            <TextView
-                android:id="@+id/ingredientCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15sp"
-                android:layout_weight="3"
-                android:text="Category"
-                android:fontFamily="@font/montserrat_regular"
-                android:textAlignment="textEnd"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
     </LinearLayout>
 
-
-
-
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow_drawable"
+        android:layout_weight="1">
+    </View>
 
 </LinearLayout>

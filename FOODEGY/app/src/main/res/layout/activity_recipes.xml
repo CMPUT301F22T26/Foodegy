@@ -56,42 +56,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="5"
-        android:paddingBottom="5dp">
+        android:weightSum="10"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sort_button"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_weight="4"
+            android:layout_weight="8"
             android:text="Sort"
             android:fontFamily="@font/montserrat_regular"
             android:background="@drawable/square_purple_button"
             android:textSize="10sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/category_button"
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_weight="1"
-            android:text="By:Category"
-            android:fontFamily="@font/montserrat_regular"
-            android:layout_gravity="right"
-            android:background="@drawable/square_purple_button"
-            android:textSize="10sp" />
+            android:layout_gravity="top"
+            android:background="@color/white"
+            android:text="By: "
+            android:textColor="@color/black" />
 
         <Spinner
             android:id="@+id/sortRecipesSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_height="35dp"
+            android:background="@color/white"
+            android:layout_weight="1"
             android:entries="@array/sort_recipes"/>
 
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#DCDCDC">
 
         <ListView
             android:id="@+id/foodList"
@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="#5D03FF"
+            android:background="@color/yellow"
             app:itemIconTint="#ffff"
             app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"

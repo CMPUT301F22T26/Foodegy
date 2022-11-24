@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:gravity="center"
-
                 android:fontFamily="@font/montserrat_light"
                 android:text="Ingredients"
+                android:textStyle="bold"
                 android:textColor="#D2FFFFFF"
                 android:textSize="32sp" />
 
@@ -47,7 +47,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#DCDCDC">
 
         <ListView
             android:id="@+id/ingredientList"
@@ -56,7 +57,9 @@
             android:layout_margin="5dp"
             android:paddingBottom="50dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="5.0sp"/>
+            android:dividerHeight="6.0sp"
+            android:outlineSpotShadowColor="@color/black"
+            android:outlineAmbientShadowColor="@color/black"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -65,6 +68,7 @@
             android:layout_gravity="bottom|end"
             app:srcCompat="@android:drawable/ic_input_add"
             android:backgroundTint="@color/yellow"
+            android:foregroundTint="@color/white"
             android:layout_marginBottom="50dp"
             app:useCompatPadding="true"
             android:clickable="true"
