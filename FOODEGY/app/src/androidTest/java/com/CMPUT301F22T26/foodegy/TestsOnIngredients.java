@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Test class for features of the Ingredients activity
  */
-public class IngredientsActivityTest {
+public class TestsOnIngredients {
     private Solo solo;
     private FloatingActionButton addButton;
     private IngredientsActivity activity;
