@@ -37,6 +37,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -58,7 +60,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     private Button cancelButton;
 
     private Spinner categorySpinner;
-    ActivityEditRecipeBinding binding;
+    private ActivityEditRecipeBinding binding;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
     public static ArrayList<RecipeIngredient> ingredientsList;
@@ -100,7 +102,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
 
         // Category spinner
         categorySpinner = findViewById(R.id.category_spinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.test_array, R.layout.category_spinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.recipe_categories_array, R.layout.category_spinner);
         // Specify the layout to use when the list of choices appears
         spinnerAdapter.setDropDownViewResource(R.layout.category_dropdown_items);
         // Apply the adapter to the spinner
@@ -116,6 +118,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         String fileName = bundle.getString("imageFileName");
         String comments = bundle.getString("comments");
         String currentid = bundle.getString("id");
+        String imageUriString = bundle.getString("imageUri");
         ingredientsList = bundle.getParcelableArrayList("ingredients");
         ingredientsListView = findViewById(R.id.ingredients_listview);
         ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
@@ -126,25 +129,31 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         minuteText.setText(minutes);
         servingsText.setText(servingValue);
        // categorySpinner.getSelectedItem().toString();
-        String[] categories = getResources().getStringArray(R.array.test_array);
+        String[] categories = getResources().getStringArray(R.array.recipe_categories_array);
         int i = 0;
         while (!categories[i].equals(category)){
+            System.out.println(i + categories[i] + category);
             i++;
         }
 
         categorySpinner.setSelection(i);
         commentText.setText(comments);
-        if (fileName != null && !"".equals(fileName)) {
-            Context context = this;
-            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
-                    String url = uri.toString();
-                    Glide.with(context).load(url).into(activityBackground);
-                }
-            });
+        if (!"".equals(imageUriString) && imageUriString != null) {
+            Uri u = Uri.parse(imageUriString);
+            Glide.with(getApplicationContext()).load(u).into(activityBackground);
         }
+
+//        if (fileName != null && !"".equals(fileName)) {
+//            Context context = this;
+//            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
+//                    String url = uri.toString();
+//                    Glide.with(context).load(url).into(activityBackground);
+//                }
+//            });
+//        }
 
         // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
@@ -206,10 +215,29 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                     return;
                 }
                 // upload image to firebase storage
-                String imageFilename = System.currentTimeMillis() +"."+getFileExtension(selectedImage);
-                Recipe recipe = new Recipe(title, hour, minute, servings, category,
-                        imageFilename, comments, ingredientsList);
-                addRecipeToDatabase(recipe);
+                // if the user enters 61 minutes, we want that as 1 hr & 1 min
+                hour += minute / 60;  // int division, so if minute < 60 it = 0
+                minute = minute % 60;
+
+                Recipe recipe;
+                if (selectedImage != null) {
+                    // selected an image, use that
+                    String imageFilename = System.currentTimeMillis() + "."+getFileExtension(selectedImage);
+                    recipe = new Recipe(title, hour, minute, servings, category,
+                            imageFilename, comments, ingredientsList);
+                    dbm.deleteRecipeFromDatabase(currentid, fileName);
+                    dbm.addRecipeToDatabase(recipe, selectedImage);
+                }
+                else {
+                    // user did not select an image, use the same one already there
+                    System.out.println("NO IMAGE SLEECTEDD!!");
+                    recipe = new Recipe(title, hour, minute, servings, category,
+                            fileName, comments, ingredientsList);
+                    dbm.deleteRecipeFromDatabase(currentid, "");
+                    dbm.addRecipeToDatabase(recipe, null);
+                }
+
+
                 finish();
             }
         });
@@ -275,7 +303,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                         catch (IOException e) {
                             e.printStackTrace();
                         }
-
                         activityBackground.setImageBitmap(selectedImageBitmap);
                     }
                 }
@@ -327,46 +354,4 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
-
-    /**
-     * Adds a recipe to the Firebase
-     * @param recipe
-     *  The recipe to add
-     */
-    public void addRecipeToDatabase(Recipe recipe) {
-        String imageFilename = recipe.getImageFileName();
-        StorageReference fileRef = userFilesRef.child(imageFilename);
-        // Upload the image to firebase storage
-        fileRef.putFile(selectedImage)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("AddRecipeActivity", "Successfully uploaded image "+imageFilename);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("AddRecipeActivity", "Failed to upload image, "+e);
-                    }
-                });
-
-        // Add recipe to firestore
-        RecipesCollection.add(recipe)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("AddRecipe", "Successfully added recipe "+documentReference.getId());
-                        recipe.setId(documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("AddRecipe", "Could not add recipe, "+e);
-                    }
-                });
-    }
-
-
 }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * This class is responsible for displaying the details of a RecipeIngredient as a DialogFragment
  */
 public class ShowRecipeIngredientFragment extends DialogFragment {
-    private ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
+    private ArrayList<RecipeIngredient> dataList = ViewRecipeActivity.recipeIngredients;
     private TextView name;
     private TextView category;
     private TextView amount;
@@ -41,7 +41,7 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AddIngredientToRecipeFragment.OnFragmentInteractionListener) {
+        if (context instanceof ShowRecipeIngredientFragment.OnFragmentInteractionListener) {
             listener = (ShowRecipeIngredientFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
@@ -61,6 +61,8 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
 
         Bundle mArgs = getArguments();
         int pos = mArgs.getInt("pos");
+        if (dataList == null)
+            System.out.println("DATALIST IS NULL!!!");
         RecipeIngredient currentIngredient = dataList.get(pos);
 
         name.setText(currentIngredient.getDescription());

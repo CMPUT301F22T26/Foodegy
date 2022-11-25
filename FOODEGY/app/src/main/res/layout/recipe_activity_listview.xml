@@ -38,19 +38,19 @@
 
 
         <TextView
-            android:id="@+id/recipePrice"
+            android:id="@+id/cookTime"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Price: "
+            android:text="Prep Time: "
             android:fontFamily="@font/montserrat_regular"
             android:layout_weight="1"
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/recipeUnit"
+            android:id="@+id/recipeServings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Unit: "
+            android:text="Servings: "
             android:fontFamily="@font/montserrat_regular"
             android:layout_weight="1"
             android:textColor="@color/black" />
