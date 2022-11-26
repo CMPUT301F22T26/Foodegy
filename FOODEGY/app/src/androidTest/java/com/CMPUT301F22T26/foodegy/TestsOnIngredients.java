@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -89,7 +91,17 @@ public class TestsOnIngredients {
         // enter dummy data
         solo.enterText(editDescription, "aTestIngredient!!");
         solo.pressSpinnerItem(0,1);
+//        View view1 = solo.getView(Spinner.class, 0);
+//        solo.clickOnView(view1);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.pressSpinnerItem(1,0);
+//        View view2 = solo.getView(Spinner.class, 1);
+//        solo.clickOnView(view2);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.enterText(editQuantity, "15");
         solo.enterText(editUnit, "4");
         solo.setDatePicker(datePicker, 2023, 4, 19);
