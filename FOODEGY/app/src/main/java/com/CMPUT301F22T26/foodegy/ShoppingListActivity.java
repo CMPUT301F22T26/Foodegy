@@ -70,6 +70,9 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
 
+        shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
+        shoppingListView.setAdapter(shoppingListItemArrayAdapter);
+
         // populate shoppingListData
 
         // first, query ingredients to find which ingredients user currently has in storage
@@ -188,8 +191,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         });
 
         System.out.println("GRABBED INGREDIENT DATA" + storageIngredientData);
-        shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
-        shoppingListView.setAdapter(shoppingListItemArrayAdapter);
+
     }
 
     /**

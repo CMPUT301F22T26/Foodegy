@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darker_grey"
+    android:background="#DCDCDC"
     android:orientation="vertical">
 
 
@@ -20,8 +21,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/black_gradient_bottom"/>
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/white_gradient_bottom"/>
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="match_parent"
@@ -29,8 +32,19 @@
             android:gravity="center"
             android:layout_gravity="bottom"
             android:text="Title"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="25sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:backgroundTint="#00000000"
+            android:outlineSpotShadowColor="#00000000"
+            android:outlineAmbientShadowColor="#00000000"
+            app:borderWidth="0dp"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
 
     </FrameLayout>
 
@@ -51,7 +65,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/yellow" />
+                android:background="@color/black" />
         </LinearLayout>
 
 
@@ -74,17 +88,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Time:"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/timeText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_weight="1"
                     android:text="Hours: Minutes"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -102,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Servings:"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <TextView
@@ -111,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Servings"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -126,7 +139,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Category:"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <TextView
@@ -135,7 +148,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Category"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
 
@@ -176,7 +189,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="Comment:"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <TextView
@@ -185,7 +198,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Long Description"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -206,7 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ingredients:"
-            android:textColor="@color/yellow"
+            android:textColor="@color/black"
             android:paddingLeft="40dp"
             android:textSize="15sp" />
 
@@ -229,7 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:orientation="horizontal"
-            android:paddingBottom="5dp">
+>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/editButton"
@@ -254,15 +267,6 @@
                 android:textSize="10sp"/>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/cancelButton"
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:background="@drawable/sharp_corner_border"
-            android:backgroundTint="#4E4E4E"
-            android:hint="Cancel"
-            android:textColorHint="@color/white"
-            android:textSize="10sp"/>
     </LinearLayout>
 
 
