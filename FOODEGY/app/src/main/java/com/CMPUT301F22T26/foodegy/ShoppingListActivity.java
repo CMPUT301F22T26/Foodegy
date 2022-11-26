@@ -45,12 +45,9 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     ArrayList<MealPlanItem> mealPlanData;
 
     // initialize the firebase
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
+    final private CollectionReference MealPlans = dbm.getMealPlansCollection();
 
     //giving some inital values
     // since for now, the ShoppingList is not hooked up to the MealPlan list
