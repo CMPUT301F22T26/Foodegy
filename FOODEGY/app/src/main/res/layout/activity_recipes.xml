@@ -125,6 +125,7 @@
             app:itemIconTint="#ffff"
             app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"
+            android:layout_gravity="bottom"
             app:menu="@menu/bottom_nav_menu" />
     </FrameLayout>
 

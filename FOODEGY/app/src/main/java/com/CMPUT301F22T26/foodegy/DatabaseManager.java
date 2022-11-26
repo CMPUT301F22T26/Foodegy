@@ -244,7 +244,7 @@ public class DatabaseManager {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("DatabaseManager", "Failed to update recipe ingredients for "+id+": "+e);
+                            Log.d("DatabaseManager", "Failed to add Meal Plan to database"+e);
                         }
                     });
         }
