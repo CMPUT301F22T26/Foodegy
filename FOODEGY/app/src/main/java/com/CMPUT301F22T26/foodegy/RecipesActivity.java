@@ -108,10 +108,8 @@ public class RecipesActivity extends AppCompatActivity {
                 intent.putExtra("imageFileName", r.getImageFileName());
                 intent.putExtra("comments", r.getComments());
                 intent.putExtra("id", r.getId());
-                /*
-                   leaving the line below as a commented line since we are not dealing with viewing list of ingredients.
-                       */
-                //intent.putExtra("ingredients",listViewRecipe.get(position).getIngredients());
+                intent.putExtra("imageUri", r.getRecipeImage() == null ? null : r.getRecipeImage().toString());
+                intent.putParcelableArrayListExtra("ingredients",r.getIngredients());
                 startActivity(intent);
             }
         });
@@ -152,7 +150,7 @@ public class RecipesActivity extends AppCompatActivity {
                             .orderBy("minutes", Query.Direction.ASCENDING);
                 }
                 else {
-                    sortedRecipes = RecipesCollection
+                    sortedRecipes
                             .orderBy(sortingAttribute, Query.Direction.ASCENDING);
                 }
 

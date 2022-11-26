@@ -27,14 +27,22 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="52dp"
                 android:gravity="center"
                 android:fontFamily="@font/montserrat_light"
                 android:text="Ingredients"
                 android:textStyle="bold"
                 android:textColor="#D2FFFFFF"
-                android:textSize="32sp" />
-
+                android:textSize="30sp" />
+            <TextView
+                android:id="@+id/highlightsTag"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:text="Your current storage"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:textColor="#D2FFFFFF"
+                android:textSize="13sp" />
         </LinearLayout>
 
 

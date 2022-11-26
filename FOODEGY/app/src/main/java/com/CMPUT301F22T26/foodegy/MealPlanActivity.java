@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,11 +58,8 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
     private String timeStampDate;
 
     // each device has a unique id, use that as their own personal collection name
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
-
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference MealPlans = dbm.getMealPlansCollection();
 
     //calendar related variables
     private CalendarView calendarView;
@@ -71,6 +70,8 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_plan_activity);
+
+
 
         // find the items planned for today
         Calendar calendar = Calendar.getInstance();
@@ -92,7 +93,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                                         String startDate = (String) data.get("startDate");
                                         String name = (String) data.get("name");
                                         Long servings = (Long) data.get("servings");
-                                        Map ingredients = (Map) data.get("ingredients");
+                                        ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                         mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                         mealPlanItemsAdapter.notifyDataSetChanged();
@@ -138,6 +139,22 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
             }
         });
 
+
+        // visibility of CalendarView
+        Button btnCalVisibility = findViewById(R.id.btn_Calendar_Visibility);
+        btnCalVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (calendarView.getVisibility() == View.VISIBLE ){
+                    calendarView.setVisibility(View.GONE);
+                    btnCalVisibility.setText("Show Calendar");
+                }else{
+                    calendarView.setVisibility(View.VISIBLE);
+                    btnCalVisibility.setText("Hide Calendar");
+                }
+            }
+        });
+
         //setting up list view
         mealPlanData = new ArrayList<MealPlanItem>();
         mealPlanItemsView = findViewById(R.id.meal_plan_items);
@@ -174,6 +191,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int intYear, int intMonth, int intDay) {
                 // put date in DD-MM-YYYY FOR DISPLAY PURPOSES
+                System.out.println("ON SELECTED DAY CHANGE EXECUTE");
                 String month = String.valueOf(intMonth); // do NOT have to increment month by 1 here
                 String day = String.valueOf(intDay);
                 if (month.length() == 1) month = "0" + month;
@@ -199,7 +217,6 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                 // query mealPlans & order by endDate
 
                 // must call endAt to limit
-                // timeStampDate = currentDate
 
                 MealPlans.whereLessThanOrEqualTo("startDate", timeStampDate).orderBy("startDate").get().addOnCompleteListener(
                         new OnCompleteListener<QuerySnapshot>() {
@@ -216,7 +233,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                                                 String startDate = (String) data.get("startDate");
                                                 String name = (String) data.get("name");
                                                 Long servings = (Long) data.get("servings");
-                                                Map ingredients = (Map) data.get("ingredients");
+                                                ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                                 mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                                 mealPlanItemsAdapter.notifyDataSetChanged();
@@ -244,21 +261,9 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
 
     @Override
     public void onSubmitPressed(MealPlanItem mealPlanItem) {
+        System.out.println("MEAL PLAN ACTIVITY!!!! ADDING THROUGH DM" + mealPlanItem);
         mealPlanItemsAdapter.add(mealPlanItem);
-        MealPlans
-                .add(mealPlanItem)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("MealPlanActivity", "Failed to add meal plan item"+mealPlanItem.getName());
-                    }
-                });
+        dbm.addMealPlanToDatabase(mealPlanItem);
     }
 
     /**

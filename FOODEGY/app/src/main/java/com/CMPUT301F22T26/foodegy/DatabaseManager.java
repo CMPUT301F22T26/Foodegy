@@ -14,6 +14,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Singleton class to handle interacting with the database, adding/editing/deleting
  *   ingredients/recipes/meal plans
@@ -185,6 +188,11 @@ public class DatabaseManager {
                 });
     }
 
+    /**
+     * Deletes a Recipe object from the firebase
+     * @param id id of Recipe to delete
+     * @param imageFileName the name of the image that goes with each recipe
+     */
     public void deleteRecipeFromDatabase(String id, String imageFileName) {
         // delete the recipe! from the firestore!
         RecipesCollection.document(id).delete()
@@ -217,5 +225,54 @@ public class DatabaseManager {
                         }
                     });
         }
+    }
+
+    // MEAL PLAN METHODS
+
+    /**
+     * Add meal plan item to the MealPlans collection
+     * @param mealPlanItem the meal plan item to be added to the collection
+     */
+    public void addMealPlanToDatabase(MealPlanItem mealPlanItem){
+        MealPlans
+                .add(mealPlanItem)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
+                    }})
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("DatabaseManager", "Failed to add Meal Plan to database"+e);
+                        }
+                    });
+        }
+    
+
+
+    /**
+     * Edit an existing storage ingredient in firebase
+     * @param id the firebase id of storage ingredient that's being modified
+     * @param ingredients array of existing ingredients
+     */
+
+    public void editRecipeIngredient(String id, ArrayList<RecipeIngredient> ingredients) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("ingredients", ingredients);
+        RecipesCollection.document(id)
+                .update("ingredients",ingredients)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("DatabaseManager", "Successfully edited recipe ingredients for "+id);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DatabaseManager", "Failed to update recipe ingredients for "+id+": "+e);
+                    }
+                });
     }
 }

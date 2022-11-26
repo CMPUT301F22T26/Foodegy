@@ -112,11 +112,13 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="#5D03FF"
             android:layout_gravity="bottom"
             android:background="@color/yellow"
             app:itemIconTint="#ffff"
             app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"
+            android:layout_gravity="bottom"
             app:menu="@menu/bottom_nav_menu" />
     </FrameLayout>
 

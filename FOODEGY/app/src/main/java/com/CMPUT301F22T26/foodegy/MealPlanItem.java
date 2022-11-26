@@ -2,6 +2,7 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class MealPlanItem {
     private Long servings;
     private String id;
     private String name;
-    private Map ingredients;
+    private ArrayList<ShoppingListItem> ingredients;
 
     /**
      * Initialize an instance of a MealPlanItem
@@ -28,10 +29,10 @@ public class MealPlanItem {
      * @param endDate (String) unix time, when the user plans to finish eating their MealPlanItem
      * @param name (String) Meal Plan Item name
      * @param servings (Long) Number of servings the user is planning to make
-     * @param ingredients (Map) Ingredients and their respective amounts, making up this
+     * @param ingredients Ingredients and their respective amounts, making up this
      *                    MealPlanItem
      */
-    public MealPlanItem( String startDate, String endDate, String name, Long servings, Map ingredients){
+    public MealPlanItem( String startDate, String endDate, String name, Long servings, ArrayList<ShoppingListItem> ingredients){
         this.startDate = startDate;
         this.endDate = endDate;
         this.name = name;
@@ -126,13 +127,13 @@ public class MealPlanItem {
      * get the ingredients, mapped to their respective amounts, of the MealPlanItem
      * @return Map: ingredients and their amounts
      */
-    public Map getIngredients(){return ingredients; }
+    public ArrayList<ShoppingListItem> getIngredients(){return ingredients; }
 
     /**
      * set a new bunch of ingredients of this MealPlanItem
      * @param newIngredients: the new ingredients, and their amounts
      */
-    public void setIngredients(Map newIngredients){this.ingredients = newIngredients; }
+    public void setIngredients(ArrayList<ShoppingListItem> newIngredients){this.ingredients = newIngredients; }
 
 }
 
