@@ -153,7 +153,7 @@ public class RecipesActivity extends AppCompatActivity {
                             .orderBy("minutes", Query.Direction.ASCENDING);
                 }
                 else {
-                    sortedRecipes = RecipesCollection
+                    sortedRecipes
                             .orderBy(sortingAttribute, Query.Direction.ASCENDING);
                 }
 

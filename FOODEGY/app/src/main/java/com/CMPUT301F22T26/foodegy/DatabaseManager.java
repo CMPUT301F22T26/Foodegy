@@ -185,6 +185,11 @@ public class DatabaseManager {
                 });
     }
 
+    /**
+     * Deletes a Recipe object from the firebase
+     * @param id id of Recipe to delete
+     * @param imageFileName the name of the image that goes with each recipe
+     */
     public void deleteRecipeFromDatabase(String id, String imageFileName) {
         // delete the recipe! from the firestore!
         RecipesCollection.document(id).delete()
@@ -218,4 +223,30 @@ public class DatabaseManager {
                     });
         }
     }
+
+    // MEAL PLAN METHODS
+
+    /**
+     * Add meal plan item to the MealPlans collection
+     * @param mealPlanItem the meal plan item to be added to the collection
+     */
+    public void addMealPlanToDatabase(MealPlanItem mealPlanItem){
+        MealPlans
+                .add(mealPlanItem)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("MealPlanActivity", "Failed to add meal plan item"+mealPlanItem.getName());
+                    }
+                });
+    }
+
+
+
 }
