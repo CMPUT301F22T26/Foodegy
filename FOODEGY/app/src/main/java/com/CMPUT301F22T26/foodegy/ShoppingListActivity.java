@@ -125,7 +125,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                                                             String startDate = (String) data.get("startDate");
                                                             String name = (String) data.get("name");
                                                             Long servings = (Long) data.get("servings");
-                                                            Map ingredients = (Map) data.get("ingredients");
+                                                            ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                                             mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                                         }
@@ -245,18 +245,17 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         // generate information for first set of MealPlan ingredients
 
         for (int i = 0; i < mealPlanData.size(); i++){
-            Map<String, ArrayList> mealPlanIngredients = mealPlanData.get(i).getIngredients();
-            Object[] keyList = mealPlanIngredients.keySet().toArray();
-            for (int k = 0; k < keyList.length; k++){
+            System.out.println("MEAL PLAN DATA!!!!" + mealPlanData);
+            ArrayList<ShoppingListItem> mealPlanIngredients = (ArrayList<ShoppingListItem>) mealPlanData.get(i).getIngredients();
+            //Object[] keyList = mealPlanIngredients.keySet().toArray();
+            System.out.println("MEAL PLAN INGREDIENTS!" + mealPlanIngredients);
+            for (int k = 0; k < mealPlanIngredients.size(); k++){
                 // iterate through all ingredients in the mealPlan
-                String key = (String)keyList[k];
-                ArrayList values = mealPlanIngredients.get(key);
-                Integer requiredAmount = 0;
-                if (values.get(0) instanceof Long) {
-                    requiredAmount = Math.toIntExact((Long) values.get(0));
-                } else if (values.get(0) instanceof Double) {
-                    requiredAmount = Math.toIntExact(Math.round((Double) values.get(0)));
-                }
+                //String key = (String)keyList[k];
+                System.out.println("OUT!!!!!" + mealPlanIngredients.get(k));
+                Map<String, Object> currentIngredient = (Map<String, Object>) mealPlanIngredients.get(k);
+                String key = (String) currentIngredient.get("itemName");
+                Integer requiredAmount = Math.toIntExact((Long) currentIngredient.get("amount"));
 
                 // will need to calculate
                 for (int j = 0; j < storageIngredientData.size(); j++){
@@ -268,9 +267,13 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                     }
                     if (j == (storageIngredientData.size() - 1)){
                         // means we haven't matched the key in our n - 1 iterations
-                        // NOT FINISHED!!!
+                        // so must display it in shopping cart
                         if (requiredAmount > 0){
-                            shoppingListData.add(new ShoppingListItem(key,  requiredAmount, (String) values.get(1), (String) values.get(2)));
+                            // grab remaining required attributes
+                            String unit = (String) currentIngredient.get("measurementUnit");
+                            String category = (String) currentIngredient.get("category");
+                            ShoppingListItem newShopppingListItem = new ShoppingListItem(key, requiredAmount, unit, category);
+                            shoppingListData.add(newShopppingListItem);
 
                         }
                     }
