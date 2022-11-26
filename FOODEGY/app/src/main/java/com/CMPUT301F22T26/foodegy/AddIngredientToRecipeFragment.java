@@ -82,6 +82,7 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
         if (eval == "Edit") {
             int pos = mArgs.getInt("pos");
+            dataList = ViewRecipeActivity.recipeIngredients;
             RecipeIngredient currentIngredient = dataList.get(pos);
             descriptionText.setText(currentIngredient.getDescription());
             amountText.setText(currentIngredient.getAmount());

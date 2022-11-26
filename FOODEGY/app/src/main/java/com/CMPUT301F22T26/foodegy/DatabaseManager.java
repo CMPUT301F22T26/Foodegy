@@ -14,6 +14,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Singleton class to handle interacting with the database, adding/editing/deleting
  *   ingredients/recipes/meal plans
@@ -237,16 +240,39 @@ public class DatabaseManager {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
+                    }})
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("DatabaseManager", "Failed to update recipe ingredients for "+id+": "+e);
+                        }
+                    });
+        }
+    
+
+
+    /**
+     * Edit an existing storage ingredient in firebase
+     * @param id the firebase id of storage ingredient that's being modified
+     * @param ingredients array of existing ingredients
+     */
+
+    public void editRecipeIngredient(String id, ArrayList<RecipeIngredient> ingredients) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("ingredients", ingredients);
+        RecipesCollection.document(id)
+                .update("ingredients",ingredients)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("DatabaseManager", "Successfully edited recipe ingredients for "+id);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("MealPlanActivity", "Failed to add meal plan item"+mealPlanItem.getName());
+                        Log.d("DatabaseManager", "Failed to update recipe ingredients for "+id+": "+e);
                     }
                 });
     }
-
-
-
 }

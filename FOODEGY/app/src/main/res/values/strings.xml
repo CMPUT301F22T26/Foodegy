@@ -19,7 +19,7 @@
         <item>Freezer</item>
     </string-array>
 
-    <string-array name="test_array">
+    <string-array name="recipe_categories_array">
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Dinner</item>

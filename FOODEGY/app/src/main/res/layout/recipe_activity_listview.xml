@@ -38,9 +38,9 @@
 
         <TextView
             android:id="@+id/cookTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preparation time: "
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Prep Time: "
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/black" />
 
