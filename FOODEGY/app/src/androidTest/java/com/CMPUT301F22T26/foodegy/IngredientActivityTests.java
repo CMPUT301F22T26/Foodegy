@@ -8,7 +8,11 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.junit.Assert.assertTrue;
+
 import android.content.Intent;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -20,6 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class IngredientActivityTests {
     private Solo solo;
@@ -59,6 +65,8 @@ public class IngredientActivityTests {
         mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, "R", categories[0]);
         mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, "R", categories[0]);
         activity.addIngredientToDatabase(mockIngredientView);
+        String ingred1 = mockIngredientView.getDescription();
+        System.out.println("ingred1: "+ ingred1);
         activity.addIngredientToDatabase(mockIngredientDelete);
         activity.addIngredientToDatabase(mockIngredientEdit);
     }
@@ -70,40 +78,61 @@ public class IngredientActivityTests {
     @After
     public void takeDown() throws Exception {
         // remove the mock ingredient from the database afterwards<3
-        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
+        String ingred = mockIngredientView.getDescription();
+        System.out.println("ingred: "+ ingred);
+//        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
+//        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+//        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
     }
 
-
-//    @Test
-//    public void testMainStart(){
-//        onView(withId(R.id.StartPage)).check(matches(isDisplayed()));
-//    }
-
     @Test
-    public void testIngredientActivityStart(){
+    public void testIngredientActivityStart() throws Exception{
 //        onView(withId(R.id.buttonToIngredientActivity)).perform(click());
         onView(withId(R.id.ingredients_activity)).check(matches(isDisplayed()));
     }
-//
-//    @Test
-//    public void testRecipeActivityStart(){
-//        onView(withId(R.id.buttonToRecipesActivity)).perform(click());
-//        onView(withId(R.id.recipes_view_activity)).check(matches(isDisplayed()));
-//    }
-//
-//    @Test
-//    public void testMealPlanActivityStart(){
-//        onView(withId(R.id.buttonToMealPlanActivity)).perform(click());
-//        onView(withId(R.id.meal_plan_activity)).check(matches(isDisplayed()));
-//    }
-//
-//    @Test
-//    public void testShoppingListActivityStart(){
-//        onView(withId(R.id.buttonToShoppingListActivity)).perform(click());
-//        onView(withId(R.id.shopping_list_activity)).check(matches(isDisplayed()));
-//    }
+
+    /**
+     * Test adding an ingredient
+     */
+    @Test
+    public void testAddIngredient() throws Exception {
+        // press the add button to make the dialog fragment pop up
+        solo.assertCurrentActivity("Must be IngredientsActivity",IngredientsActivity.class);
+        solo.clickOnView(addButton);
+        EditText editDescription = (EditText)solo.getView(R.id.editTextIngredientDescription);
+        EditText editQuantity = (EditText)solo.getView(R.id.editTextIngredientAmount);
+        EditText editUnit = (EditText)solo.getView(R.id.editTextIngredientUnitCost);
+        DatePicker datePicker = (DatePicker)solo.getView(R.id.addIngredientDatePicker);
+
+        // enter dummy data
+        solo.enterText(editDescription, "aTestIngredient!!");
+        solo.pressSpinnerItem(0,1);
+        solo.pressSpinnerItem(1,0);
+        solo.enterText(editQuantity, "15");
+        solo.enterText(editUnit, "4");
+        solo.setDatePicker(datePicker, 2023, 4, 19);
+
+        solo.clickOnButton("Submit");
+
+        // give it a second to update properly
+        solo.waitForText("aTestIngredient!!", 1, 2000);
+
+        // try to find it
+        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        boolean found = false;
+        String id = "";
+        for (StorageIngredient ingredient : ingredients) {
+            if (ingredient.getDescription().equals("aTestIngredient!!")) {
+                found = true;
+                id = ingredient.getId();  // save the id of the created food to delete it after
+                break;
+            }
+        }
+        assertTrue("Did not find ingredient in the list", found);
+
+        // delete the created ingredient afterwards
+        activity.deleteIngredientFromDatabase(id);
+    }
 
 
 }

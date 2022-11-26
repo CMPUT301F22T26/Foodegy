@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -189,6 +190,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                         Log.d("MainActivity",
                                 "Added storage ingredient "+newIngredient.getDescription()+", id="+documentReference.getId());
                         newIngredient.setId(documentReference.getId());
+                        Toast.makeText(IngredientsActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -196,6 +198,7 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
                     public void onFailure(@NonNull Exception e) {
                         Log.d("MainActivity",
                                 "Failed to add storage ingredient "+newIngredient.getDescription());
+                        Toast.makeText(IngredientsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
                 })
         ;
