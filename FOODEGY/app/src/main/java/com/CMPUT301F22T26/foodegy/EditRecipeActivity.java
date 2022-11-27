@@ -69,11 +69,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
 
     // database things
     private DatabaseManager dbm = DatabaseManager.getInstance();
-    private String android_id = "TEST_ID";
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
 
 
     @Override

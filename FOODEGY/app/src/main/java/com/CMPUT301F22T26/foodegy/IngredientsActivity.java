@@ -44,8 +44,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     private ArrayList<StorageIngredient> ingredientData;
     private String sortingAttribute = "description_insensitive";
 
-    final private DatabaseManager dbm = DatabaseManager.getInstance();
-    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
+    private DatabaseManager dbm;
+    private CollectionReference IngredientStorage;
 
     private Spinner sortingSpinner;
     private NavigationBarView bottomNavBar;
@@ -53,7 +53,8 @@ public class IngredientsActivity extends AppCompatActivity implements AddIngredi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
-
+        dbm = DatabaseManager.getInstance();
+        IngredientStorage = dbm.getIngredientStorageCollection();
         sortingSpinner = findViewById(R.id.ingredientSortSpinner);
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

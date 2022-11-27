@@ -1,6 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
+import android.content.Context;
 import android.net.Uri;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -22,19 +24,14 @@ import java.util.HashMap;
  *   ingredients/recipes/meal plans
  */
 public class DatabaseManager {
-    final private static DatabaseManager dbm = new DatabaseManager();
-
-    private String android_id = "TEST_ID";
+    private static DatabaseManager dbm;
+    private static String android_id;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-
     // different collections for each user
-    final private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
+    private CollectionReference RecipesCollection;
+    private CollectionReference IngredientStorage;
+    private CollectionReference MealPlans;
 
     // firebase storage to hold images for recipes
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
@@ -42,13 +39,28 @@ public class DatabaseManager {
 
     private DatabaseManager() {
         // constructor is PRIVATE!! use getInstance() to get the manager
+        RecipesCollection = firestore.collection("users")
+                .document(android_id).collection("Recipes");
+        IngredientStorage = firestore.collection("users")
+                .document(android_id).collection("IngredientStorage");
+        MealPlans = firestore.collection("users")
+                .document(android_id).collection("MealPlans");
     }
-
+    public static void setAndroid_id(String id) {
+        android_id = id;
+        Log.d("DatabaseManager", "Device id is: "+android_id);
+    }
     public static DatabaseManager getInstance() {
-        return dbm;
+        if (android_id != null) {
+            if (dbm == null) {
+                dbm = new DatabaseManager();
+            }
+            return dbm;
+        }
+        else {
+            throw new NullPointerException("android_id cannot be null!");
+        }
     }
-
-
     // getters for collection references
     public CollectionReference getRecipesCollection() {
         return RecipesCollection;

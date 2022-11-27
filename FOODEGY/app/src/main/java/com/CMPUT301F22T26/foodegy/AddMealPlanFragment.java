@@ -54,12 +54,9 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
     private AddMealPlanFragment.OnFragmentInteractionListener listener;
 
     // user id
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference RecipeStorage = firestore.collection("users")
-            .document(android_id).collection("Recipes");
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
+    final private CollectionReference RecipeStorage = dbm.getRecipesCollection();
 
     /**
      * Interface that will allow the fragment to pass information back to the activity
