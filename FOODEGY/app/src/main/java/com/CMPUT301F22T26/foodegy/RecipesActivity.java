@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
@@ -56,7 +57,7 @@ public class RecipesActivity extends AppCompatActivity {
     private Query sortedRecipes = RecipesCollection.orderBy(sortingAttribute);
 
     // the navbar for navigating between activities
-    private NavigationBarView bottomNavBar;
+    private BottomNavigationView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,8 @@ public class RecipesActivity extends AppCompatActivity {
 
         binding = ActivityRecipesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar = findViewById(R.id.bottom_nav);
+        bottomNavBar.setSelectedItemId(R.id.recipes);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             // see which navbar item has been clicked
@@ -73,13 +75,16 @@ public class RecipesActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.ingredients:
                         startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.meal_plan:
                         startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.shopping_cart:
                         startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.recipes:
                         break;
 

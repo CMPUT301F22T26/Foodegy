@@ -32,7 +32,6 @@
                 android:layout_height="90dp"
                 android:gravity="center"
                 android:text="Recipes"
-                android:textStyle="bold"
                 android:fontFamily="@font/montserrat_light"
                 android:textColor="#D2FFFFFF"
                 android:textSize="32sp"/>
@@ -114,9 +113,9 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:background="@color/yellow"
-            app:itemIconTint="#ffff"
-            app:itemTextColor="#ffff"
             app:labelVisibilityMode="labeled"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
             app:menu="@menu/bottom_nav_menu" />
     </FrameLayout>
 
