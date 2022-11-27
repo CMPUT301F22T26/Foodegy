@@ -71,6 +71,11 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         shoppingListView.setAdapter(shoppingListItemArrayAdapter);
 
         // populate shoppingListData
+        //
+//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
+//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
+//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
+
 
         // first, query ingredients to find which ingredients user currently has in storage
         storageIngredientData = new ArrayList<StorageIngredient>();
@@ -159,10 +164,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         );
 
-//
-//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
-//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
-//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -282,6 +283,19 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         shoppingListItemArrayAdapter.notifyDataSetChanged();
         // for each mealPlan, see what items are NOT in ingredientStorage and append those to list
         // of returned values
+    }
+
+    public void addItemToShoppingList(ShoppingListItem item){
+        shoppingListData.add(item);
+    }
+
+    public void deleteItemFromShoppingList(ShoppingListItem item){
+        shoppingListData.remove(item);
+    }
+
+    public ArrayList<ShoppingListItem> getShoppingListData() {
+
+        return shoppingListData;
     }
 
 
