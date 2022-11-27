@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -39,7 +40,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     private ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
     private ArrayList<ShoppingListItem> shoppingListData;
 
-    private NavigationBarView bottomNavBar;
+    private BottomNavigationView bottomNavBar;
 
     ArrayList<StorageIngredient> storageIngredientData;
     ArrayList<MealPlanItem> mealPlanData;
@@ -164,22 +165,26 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 //        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
 //        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
-        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar = findViewById(R.id.bottom_nav);
+        bottomNavBar.setSelectedItemId(R.id.shopping_cart);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.ingredients:
                         startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
                     case R.id.meal_plan:
                         startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
                     case R.id.shopping_cart:
                         break;
                     case R.id.recipes:
                         startActivity(new Intent(getBaseContext(), RecipesActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
 
                 }
 

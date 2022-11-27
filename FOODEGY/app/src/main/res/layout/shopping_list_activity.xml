@@ -29,7 +29,6 @@
                 android:gravity="center"
                 android:text="Shopping Cart"
                 android:fontFamily="@font/montserrat_light"
-                android:textStyle="bold"
                 android:textColor="#D2FFFFFF"
                 android:textSize="32sp" />
         </LinearLayout>
@@ -53,7 +52,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#DCDCDC">
 
@@ -72,9 +71,10 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#5D03FF"
-            app:itemIconTint="#ffff"
-            app:itemTextColor="#ffff"
+            android:background="@color/yellow"
+            android:layout_gravity="bottom"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_nav_menu" />
     </LinearLayout>
