@@ -1,8 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
 import static androidx.test.espresso.Espresso.onView;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+//import static android.support.test.espresso.intent.Intents.intended;
+//import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;

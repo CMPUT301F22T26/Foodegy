@@ -54,21 +54,21 @@ public class RecipesActivityTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), mainActivity);
 
         ArrayList<RecipeIngredient> ingredients1 = new ArrayList<RecipeIngredient>();
-        ingredients1.add(new RecipeIngredient("ramen", "Grain", "1", "1"));
-        ingredients1.add(new RecipeIngredient("chili paste", "Condiment", "1", "5"));
+        ingredients1.add(new RecipeIngredient("ramen", "Grain", "1"));
+        ingredients1.add(new RecipeIngredient("chili paste", "Condiment", "1"));
 
         recipe1 = new Recipe("Noodles", 0, 15, 2, "Lunch",
                 "", "Quick & easy noodle recipe", ingredients1);
 
         ArrayList<RecipeIngredient> ingredients2 = new ArrayList<RecipeIngredient>();
-        ingredients2.add(new RecipeIngredient("white bread", "Grain", "3", "4"));
-        ingredients2.add(new RecipeIngredient("Large white egg", "Egg", "1", "2"));
+        ingredients2.add(new RecipeIngredient("white bread", "Grain", "3"));
+        ingredients2.add(new RecipeIngredient("Large white egg", "Egg", "1"));
 
         recipe2 = new Recipe("French toast", 0, 20, 3, "Breakfast",
                 "", "Sweeeet! french toast!for breakfast!!", ingredients2);
 
         ArrayList<RecipeIngredient> ingredients3 = new ArrayList<RecipeIngredient>();
-        ingredients3.add(new RecipeIngredient("Dosa Batter","Grain","1","1"));
+        ingredients3.add(new RecipeIngredient("Dosa Batter","Grain","1"));
         mockRecipeView = new Recipe("Dosa",0,5,3,"Breakfast","","Mock Recipe",ingredients3);
         // The AddRecipeToDatabase shows a problem since it also expects the Image URI as a parameter.
 
@@ -81,6 +81,8 @@ public class RecipesActivityTest {
         solo.assertCurrentActivity("This must be Recipes Activity",RecipesActivity.class);
 
         activity = (RecipesActivity) solo.getCurrentActivity();
+
+
 
     }
     @After
@@ -117,7 +119,7 @@ public class RecipesActivityTest {
         solo.waitForText("Quick Add Ingredient", 1, 2000);
         solo.enterText((EditText)solo.getView(R.id.quick_add_ingredient_description), "ramen");
         solo.pressSpinnerItem(0, 3); // select ramen as Grain
-        solo.enterText((EditText)solo.getView(R.id.quick_add_ingredient_amount), "1");
+     //   solo.enterText((EditText)solo.getView(R.id.quick_add_ingredient_amount), "1");
         solo.enterText((EditText)solo.getView(R.id.quick_add_ingredient_unit), "1");
 
         solo.clickOnText("Ok");
