@@ -124,8 +124,8 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         ingredientsListView = findViewById(R.id.ingredients_listview);
         ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
         ingredientsListView.setAdapter(ingredientsAdapter);
-        ingredientsAdapter.notifyDataSetChanged();
-        
+        setListViewHeightBasedOnChildren(ingredientsListView);
+
         titleText.setText(title);
         hourText.setText(hours);
         minuteText.setText(minutes);
