@@ -196,7 +196,7 @@ public class RecipesActivity extends AppCompatActivity {
                 String amount = (String)ingredient.get("amount");
                 String desc = (String)ingredient.get("description");
                 String category = (String)ingredient.get("category");
-                ings.add(new RecipeIngredient(desc, category, amount, unit));
+                ings.add(new RecipeIngredient(desc, category, unit));
             }
 
             // get other data fields

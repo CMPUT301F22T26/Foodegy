@@ -12,27 +12,23 @@ public class RecipeIngredient implements Parcelable {
 
     private String description;
     private String category;
-    private String amount;
     private String unit;
 
     /**
      * Initialize a RecipeIngredient!
      * @param description the name, in one or two words
      * @param category the category of this ingredient
-     * @param amount how much of this ingredient is required
      * @param unit the price of this ingredient
      */
-    public RecipeIngredient(String description, String category, String amount, String unit) {
+    public RecipeIngredient(String description, String category, String unit) {
         this.description = description;
         this.category = category;
-        this.amount = amount;
         this.unit = unit;
     }
 
     protected RecipeIngredient(Parcel in) {
         description = in.readString();
         category = in.readString();
-        amount = in.readString();
         unit = in.readString();
     }
 
@@ -80,21 +76,6 @@ public class RecipeIngredient implements Parcelable {
         this.category = category;
     }
 
-    /**
-     * Get the amount of this RecipeIngredient
-     * @return the amount value, as a string
-     */
-    public String getAmount() {
-        return amount;
-    }
-
-    /**
-     * Set a new amount of this RecipeIngredient
-     * @param amount the new amount value, as a string
-     */
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
     /**
      * Get the unit cost of this RecipeIngredient, as a string
@@ -121,7 +102,6 @@ public class RecipeIngredient implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(description);
         dest.writeString(category);
-        dest.writeString(amount);
         dest.writeString(unit);
     }
 }

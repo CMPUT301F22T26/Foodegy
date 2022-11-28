@@ -92,7 +92,8 @@
             android:paddingBottom="50dp"
             android:dividerHeight="3.0sp"
             android:paddingRight="5dp"
-            android:paddingLeft="5dp"/>
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addRecipe"

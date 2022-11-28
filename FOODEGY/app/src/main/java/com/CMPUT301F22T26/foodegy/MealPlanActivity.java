@@ -3,12 +3,16 @@ package com.CMPUT301F22T26.foodegy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The activity for viewing & interacting with the user's MealPlans. Handles storing
@@ -66,6 +71,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
     private CalendarView calendarView;
     private TextView headerText;
     private BottomNavigationView bottomNavBar;
+    private LinearLayout calendar_list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,15 +153,16 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
 
         // visibility of CalendarView
         Button btnCalVisibility = findViewById(R.id.btn_Calendar_Visibility);
+        calendar_list = findViewById(R.id.calendar_list_layout);
         btnCalVisibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (calendarView.getVisibility() == View.VISIBLE ){
-                    calendarView.setVisibility(View.GONE);
+                if (btnCalVisibility.getText() == getText(R.string.hide) ){
+                    slideUp(calendarView, calendar_list);
                     btnCalVisibility.setText("Show Calendar");
                 }else{
-                    calendarView.setVisibility(View.VISIBLE);
-                    btnCalVisibility.setText("Hide Calendar");
+                    slideDown(calendarView, calendar_list);
+                    btnCalVisibility.setText(R.string.hide);
                 }
             }
         });
@@ -278,5 +285,31 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
      */
     public ArrayList<MealPlanItem> getMealPlanData() {
         return mealPlanData;
+    }
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view, View view2){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,  // fromYDelta
+                -view.getHeight());                // toYDelta
+
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view2.startAnimation(animate);
+
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view, View view2){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                -view.getHeight(),                 // fromYDelta
+                0); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view2.startAnimation(animate);
     }
 }
