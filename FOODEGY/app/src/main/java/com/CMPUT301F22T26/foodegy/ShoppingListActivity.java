@@ -298,6 +298,13 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         // of returned values
     }
 
+    public void addItemToShoppingList(ShoppingListItem item){
+        shoppingListData.add(item);
+    }
+
+    public void deleteItemFromShoppingList(ShoppingListItem item){
+        shoppingListData.remove(item);
+    }
 
     /**
      * There is no editing in shopping list activity so this method is simply overwritten

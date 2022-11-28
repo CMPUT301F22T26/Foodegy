@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
-        enabled = true;
+        enabled = true
     }
     buildFeatures {
         viewBinding true
@@ -40,7 +40,7 @@ android {
     }
 
     dataBinding {
-        enabled = true;
+        enabled = true
     }
     buildFeatures {
         viewBinding true
@@ -69,6 +69,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
 
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
+
+//    androidTestImplementation 'com.android.support.test.runner:1.1.0'
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
+//    androidTestImplementation 'com.android.support.test.rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
 
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'

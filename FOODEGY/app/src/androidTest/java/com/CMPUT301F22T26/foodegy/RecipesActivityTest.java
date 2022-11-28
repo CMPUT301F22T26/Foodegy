@@ -51,9 +51,6 @@ public class RecipesActivityTest {
         mainActivity = rule.getActivity();
         dbms = DatabaseManager.getInstance();
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), mainActivity);
-    //    activity = rule.getActivity();
-    //    solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
-
 
         ArrayList<RecipeIngredient> ingredients1 = new ArrayList<RecipeIngredient>();
         ingredients1.add(new RecipeIngredient("ramen", "Grain", "1", "1"));
