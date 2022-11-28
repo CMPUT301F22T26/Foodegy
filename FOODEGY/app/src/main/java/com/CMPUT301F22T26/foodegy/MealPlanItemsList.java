@@ -68,7 +68,6 @@ public class MealPlanItemsList extends ArrayAdapter<MealPlanItem> {
         //finding views to fill up the FoodItem object
         TextView itemName = view.findViewById(R.id.item_name);
         TextView servings = view.findViewById(R.id.item_servings);
-        TextView date = view.findViewById(R.id.mealStartDate);
         TextView endDateView = view.findViewById(R.id.mealEndDate);
 
 
@@ -79,8 +78,7 @@ public class MealPlanItemsList extends ArrayAdapter<MealPlanItem> {
 
         endDateView.setText(timestampToString(mealPlanItem.getEndDate()));
         itemName.setText(mealPlanItem.getName());
-        servings.setText(String.valueOf(mealPlanItem.getServings()));
-        date.setText(timestampToString(mealPlanItem.getStartDate()));
+        servings.setText("Servings: " + mealPlanItem.getServings());
         return view;
     }
 }
