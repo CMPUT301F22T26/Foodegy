@@ -134,7 +134,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                                                         Log.d("Query", "Error reading document", e);
                                                     }
                                                 }
-                                                System.out.println("FINISHED FETCHING DOCUMENTS" + storageIngredientData + "====" + mealPlanData);
                                                 compareIngredientAndMealPlanContents(storageIngredientData, mealPlanData);
                                             } else {
                                                 Log.d("Query", "Error getting documents: ", task.getException());
@@ -245,14 +244,11 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         // generate information for first set of MealPlan ingredients
 
         for (int i = 0; i < mealPlanData.size(); i++){
-            System.out.println("MEAL PLAN DATA!!!!" + mealPlanData);
             ArrayList<ShoppingListItem> mealPlanIngredients = (ArrayList<ShoppingListItem>) mealPlanData.get(i).getIngredients();
             //Object[] keyList = mealPlanIngredients.keySet().toArray();
-            System.out.println("MEAL PLAN INGREDIENTS!" + mealPlanIngredients);
             for (int k = 0; k < mealPlanIngredients.size(); k++){
                 // iterate through all ingredients in the mealPlan
                 //String key = (String)keyList[k];
-                System.out.println("OUT!!!!!" + mealPlanIngredients.get(k));
                 Map<String, Object> currentIngredient = (Map<String, Object>) mealPlanIngredients.get(k);
                 String key = (String) currentIngredient.get("itemName");
                 Integer requiredAmount = Math.toIntExact((Long) currentIngredient.get("amount"));
