@@ -4,6 +4,11 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import android.widget.Button;
+import android.widget.CheckBox;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -15,6 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import java.util.ArrayList;
 
 public class ShoppingListActivityTest {
     private Solo solo;
@@ -26,6 +32,11 @@ public class ShoppingListActivityTest {
     private Integer amount;
     private String category;
     private DatabaseManager dbm;
+
+    private ShoppingListActivity shoppingListActivity;
+    private ShoppingListItem dummyItem;
+    private CheckBox isBought;
+    private Button addToStorage;
 
 
     @Rule
@@ -49,6 +60,10 @@ public class ShoppingListActivityTest {
         activity.addItemToShoppingList(dummyItem1);
         activity.addItemToShoppingList(dummyItem2);
         activity.addItemToShoppingList(dummyItem3);
+        shoppingListActivity = rule.getActivity();
+        dbm = DatabaseManager.getInstance();
+
+        shoppingListActivity.addItemToShoppingList(dummyItem);
     }
 
     /**
