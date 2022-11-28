@@ -66,7 +66,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     private ActivityEditRecipeBinding binding;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
-    public static ArrayList<RecipeIngredient> ingredientsList;
+    private ArrayList<RecipeIngredient> ingredientsList;
     private ListView ingredientsListView;
     private RecipeIngredientListAdapter ingredientsAdapter;
 
@@ -268,7 +268,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 Bundle args = new Bundle();
                 args.putInt("pos", i);
 
-                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment();
+                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment(ingredientsList.get(i));
                 fragment.setArguments(args);
                 fragment.show(getSupportFragmentManager(), "SHOW_INGREDIENT");
                 return true;
@@ -365,7 +365,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         args.putInt("pos", pos);
         args.putString("eval", "Edit");
 
-        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment();
+        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment(ingredientsList.get(pos));
         fragment.setArguments(args);
         fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
     }

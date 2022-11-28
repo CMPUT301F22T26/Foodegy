@@ -60,14 +60,12 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private Spinner categorySpinner;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
-    public static ArrayList<RecipeIngredient> ingredientsList;
+    private ArrayList<RecipeIngredient> ingredientsList;
     private ListView ingredientsListView;
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
     final private DatabaseManager dbm = DatabaseManager.getInstance();
-    private CollectionReference RecipesCollection = dbm.getRecipesCollection();
-    private StorageReference userFilesRef = dbm.getUserFilesRef();
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Uri imageUri;
 
@@ -219,7 +217,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 Bundle args = new Bundle();
                 args.putInt("pos", i);
 
-                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment();
+                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment(ingredientsList.get(i));
                 fragment.setArguments(args);
                 fragment.show(getSupportFragmentManager(), "SHOW_INGREDIENT");
                 return true;
@@ -316,7 +314,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         args.putInt("pos", pos);
         args.putString("eval", "Edit");
 
-        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment();
+        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment(ingredientsList.get(pos));
         fragment.setArguments(args);
         fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
     }
