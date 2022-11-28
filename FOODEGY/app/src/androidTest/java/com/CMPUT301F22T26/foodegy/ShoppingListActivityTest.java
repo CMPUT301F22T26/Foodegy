@@ -81,7 +81,7 @@ public class ShoppingListActivityTest {
     @Test
     public void checkActivityOpen(){
         //check if shopping list activity is open
-        onView(withId(R.id.shopping_list_activity)).check(matches(isDisplayed()));
+        onView(withId(R.layout.shopping_list_activity)).check(matches(isDisplayed()));
     }
 
     @Test
