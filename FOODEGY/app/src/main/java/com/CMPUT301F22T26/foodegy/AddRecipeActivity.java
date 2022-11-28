@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -81,6 +83,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
         ingredientsListView.setAdapter(ingredientsAdapter);
 
+
         titleText = findViewById(R.id.title_text);
         hourText = findViewById(R.id.hour_text);
         minuteText = findViewById(R.id.minute_text);
@@ -88,7 +91,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         commentText = findViewById(R.id.comment_text);
 
         imageButton = findViewById(R.id.image_button);
-
 
         ingredientsButton = findViewById(R.id.ingredient_button);
         submitButton = findViewById(R.id.submit_button);
@@ -135,9 +137,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             }
 
         }
-
-
-
 
         );
 
@@ -298,6 +297,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     public void onOkPressed(RecipeIngredient newIngredient) {
         ingredientsList.add(newIngredient);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
+        ;
     }
 
     // Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
@@ -324,6 +325,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
+        ;
     }
 
     /**
@@ -337,5 +340,26 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
