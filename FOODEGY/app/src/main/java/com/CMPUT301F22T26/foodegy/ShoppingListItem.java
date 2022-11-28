@@ -1,13 +1,12 @@
 package com.CMPUT301F22T26.foodegy;
-
+/**
+ This is a class for an ingredient that is to be bought, it is made when
+ an ingredient is needed in meal plan (directly) or in a recipe which is
+ in a meal plan(indirectly).
+ This shoppingListItem has all the attribute as of ingredient but will only
+ show the required on the list
+ **/
 public class ShoppingListItem {
-    /**
-    This is a class for an ingredient that is to be bought, it is made when
-    an ingredient is needed in meal plan (directly) or in a recipe which is
-    in a meal plan(indirectly).
-    This shoppingListItem has all the attribute as of ingredient but will only
-    show the required on the list
-     **/
     private String itemName;
     private Integer amount;
     private String measurementUnit;

@@ -5,17 +5,17 @@ import android.widget.RadioGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
-
+/***
+ * this is a class which defines a single item constituting a meal plan, a string type is also
+ * defined to show that the item is either an ingredient or a recipe.
+ * These all items will be stored in a single list and they will be shown according to the
+ * date selected from calendar.
+ * Here both a 'StorageIngredient' and 'Recipe' object is defined in each item. While instantiation,
+ * if item is StorageIngredient, 'StorageIngredient' object is initialised and 'Recipe' object is
+ * initialised to a null value (vice versa for 'Recipe' item).
+ */
 public class MealPlanItem {
-    /***
-     * this is a class which defines a single item constituting a meal plan, a string type is also
-     * defined to show that the item is either an ingredient or a recipe.
-     * These all items will be stored in a single list and they will be shown according to the
-     * date selected from calendar.
-     * Here both a 'StorageIngredient' and 'Recipe' object is defined in each item. While instantiation,
-     * if item is StorageIngredient, 'StorageIngredient' object is initialised and 'Recipe' object is
-     * initialised to a null value (vice versa for 'Recipe' item).
-     */
+
     private String startDate;
     private String endDate;
     private Long servings;
