@@ -63,258 +63,263 @@
                 android:textSize="11sp"
                 android:layout_weight="1"
                 android:background="@drawable/sharp_corner_border"/>
-
-
-
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:orientation="horizontal"
-            android:paddingRight="20dp"
-            android:paddingTop="12dp"
-            android:weightSum="2"
-            android:background="#95000000">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Title"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/title_text"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
-                android:gravity="center"
-                android:hint="Enter Title"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Preparation Time"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/hour_text"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_border"
-                    android:gravity="center"
-                    android:hint="Hours"
-                    android:inputType="number"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/dark_grey"
-                    android:textSize="13sp" />
+                    android:layout_height="63dp"
+                    android:orientation="horizontal"
+                    android:paddingRight="20dp"
+                    android:paddingTop="12dp"
+                    android:weightSum="2"
+                    android:background="#95000000">
 
-                <EditText
-                    android:id="@+id/minute_text"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Title"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/title_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center"
+                        android:hint="Enter Title"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_border"
-                    android:gravity="center"
-                    android:hint="Minutes"
-                    android:inputType="number"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/dark_grey"
-                    android:textSize="13sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Preparation Time"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/hour_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:gravity="center"
+                            android:hint="Hours"
+                            android:inputType="number"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/dark_grey"
+                            android:textSize="13sp" />
+
+                        <EditText
+                            android:id="@+id/minute_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:gravity="center"
+                            android:hint="Minutes"
+                            android:inputType="number"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/dark_grey"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Number of Servings"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/servings_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center"
+                        android:hint="Enter value"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Category"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/category_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Image"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/image_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#36707070"
+                        android:hint="Take photo...."
+                        android:textColorHint="@color/white"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:orientation="horizontal"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Comments"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/comment_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="left"
+                        android:hint="Enter Comments"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#95000000"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:text="Ingredients"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/ingredient_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Add an ingredient..."
+                        android:backgroundTint="#36707070"
+                        android:textColorHint="@color/white"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <ListView
+                        android:id="@+id/ingredients_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:longClickable="true"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp" />
+
+                </LinearLayout>
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Number of Servings"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/servings_text"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
-                android:gravity="center"
-                android:hint="Enter value"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Category"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <Spinner
-                android:id="@+id/category_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Image"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/image_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:backgroundTint="#36707070"
-                android:hint="Take photo...."
-                android:textColorHint="@color/white"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="69dp"
-            android:orientation="horizontal"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Comments"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/comment_text"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
-                android:gravity="left"
-                android:hint="Enter Comments"
-                android:inputType="text"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#95000000"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:text="Ingredients"
-                android:textColor="@color/yellow"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/ingredient_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:hint="Add an ingredient..."
-                android:backgroundTint="#36707070"
-                android:textColorHint="@color/white"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="10dp"
-            android:gravity="top"
-            android:orientation="horizontal">
-
-            <ListView
-                android:id="@+id/ingredients_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:longClickable="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-        </LinearLayout>
-
-
+        </ScrollView>
     </LinearLayout>
 </FrameLayout>
