@@ -48,7 +48,7 @@ public class TestTests {
     @Test
     public void testShoppingListActivityStart(){
         onView(withId(R.id.buttonToShoppingListActivity)).perform(click());
-        onView(withId(R.id.shopping_list_activity)).check(matches(isDisplayed()));
+        onView(withId(R.layout.shopping_list_activity)).check(matches(isDisplayed()));
     }
 
 

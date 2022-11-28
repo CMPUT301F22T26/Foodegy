@@ -44,11 +44,6 @@ public class RecipesActivityTest {
     public Recipe mockRecipeView;
     public Recipe mockRecipeEdit;
 
-    final private String android_id = "TEST_ID";
-    final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
-            .collection("users").document(android_id).collection("Recipes");
-    private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
-
     @Before
     public void setup() throws Exception {
         mainActivity = rule.getActivity();
@@ -93,6 +88,7 @@ public class RecipesActivityTest {
         dbms.deleteRecipeFromDatabase(recipe1.getId(), recipe1.getImageFileName());
         dbms.deleteRecipeFromDatabase(recipe2.getId(), recipe2.getImageFileName());
         dbms.deleteRecipeFromDatabase(mockRecipeView.getId(), mockRecipeView.getImageFileName());
+        dbms.deleteRecipeFromDatabase(mockRecipeEdit.getId(), mockRecipeEdit.getImageFileName());
     }
     /**
      * Test adding a Recipe with all valid parameters
@@ -112,12 +108,7 @@ public class RecipesActivityTest {
         solo.pressSpinnerItem(0, 1); // select Noodles as Lunch
         solo.enterText((EditText)solo.getView(R.id.comment_text), "Quick & easy noodle recipe");
 
-        // will have to manually select image since robotium doesn't have accesss to
-        // activities outside of the application
-        solo.clickOnButton("Select from gallery");
-        solo.sleep(500);
         solo.clickOnButton("Add an ingredient");
-
         // wait for fragment to pop up
         solo.waitForText("Quick Add Ingredient", 1, 2000);
         solo.enterText((EditText)solo.getView(R.id.quick_add_ingredient_description), "ramen");
@@ -145,46 +136,6 @@ public class RecipesActivityTest {
             dbms.deleteRecipeFromDatabase(foundRecipe.getId(), foundRecipe.getImageFileName());
         }
         assertTrue("Recipe was not added", foundRecipe!=null);
-    }
-
-    /**
-     * Method to delete recipe from database expediently
-     * @param r
-     *  Recipe to be deleted
-     */
-    @Test
-    private void deleteRecipeFromDatabase(Recipe r) {
-        String id = r.getId();
-        String imageFileName = r.getImageFileName();
-        RecipesCollection.document(id).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("RecipesActivityTest", "Successfully deleted recipe "+id);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("RecipesActivityTest", "Failed to delete recipe"+id);
-                    }
-                });
-        // delete the image from the firebase storage
-        if (imageFileName != null && !"".equals(imageFileName)) {
-            userFilesRef.child(imageFileName).delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d("RecipesActivityTest", "Successfully deleted image " + imageFileName);
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("RecipesActivityTest", "Failed to delete image " + imageFileName);
-                        }
-                    });
-        }
     }
 
     @Test
@@ -242,7 +193,7 @@ public class RecipesActivityTest {
         if (pos>=3)
             solo.scrollDown();
         solo.clickLongInList(pos);
-        solo.sleep(500);
+        solo.waitForActivity(ViewRecipeActivity.class);
         solo.assertCurrentActivity("You are viewing ViewRecipeActivity", ViewRecipeActivity.class);
        /* TextView titleText = (TextView) solo.getView(R.id.titleText);
         TextView  servingsText = (TextView) solo.getView(R.id.servingsText);
@@ -260,8 +211,6 @@ public class RecipesActivityTest {
         // clear data
         solo.clearEditText(editComment);
 
-
-
         solo.enterText(editComment, "Edited the recipe!");
 
         solo.clickOnButton("Submit");
@@ -276,7 +225,7 @@ public class RecipesActivityTest {
                 newRecipe = rec;
             }
         }
-
+        dbms.deleteRecipeFromDatabase(newRecipe.getId(), newRecipe.getImageFileName());
         // give it a second for it to update
         solo.waitForText("Edited the recipe!", 1, 2000);
         assertEquals("Recipe Edited", "Edited the recipe!", newRecipe.getComments());

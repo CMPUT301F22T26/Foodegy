@@ -27,10 +27,15 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Some way, some how, the tests for IngredientsActivity got moved into TestsOnIngredients.
+ * I do not know why, I do not know how. But I am tired.
+ */
 public class IngredientActivityTests {
     private Solo solo;
     private FloatingActionButton addButton;
-    private IngredientsActivity activity;
+    private IngredientsActivity ingredientsActivity;
+    private MainActivity mainActivity;
     private StorageIngredient mockIngredientView;
     private StorageIngredient mockIngredientDelete;
     private StorageIngredient mockIngredientEdit;
@@ -39,11 +44,9 @@ public class IngredientActivityTests {
     private DatabaseManager dbm;
 
     @Rule
-    public ActivityTestRule<IngredientsActivity> rule =
-            new ActivityTestRule<>(IngredientsActivity.class, true, true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class, true, true);
 
-//    @Rule
-//    public ActivityTestRule<MainActivity> activityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
 
     /**
@@ -52,23 +55,23 @@ public class IngredientActivityTests {
      */
     @Before
     public void setup() throws Exception {
-        activity = rule.getActivity();
+        mainActivity = rule.getActivity();
         dbm = DatabaseManager.getInstance();
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
-        addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), mainActivity);
 
-        locations = activity.getResources().getStringArray(R.array.locations_array);
-        categories = activity.getResources().getStringArray(R.array.categories_array);
+        locations = mainActivity.getResources().getStringArray(R.array.locations_array);
+        categories = mainActivity.getResources().getStringArray(R.array.categories_array);
 
         // create a mock ingredient that we can use to test viewing
         mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, "R", categories[0]);
         mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, "R", categories[0]);
         mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, "R", categories[0]);
-        activity.addIngredientToDatabase(mockIngredientView);
-        String ingred1 = mockIngredientView.getDescription();
-        System.out.println("ingred1: "+ ingred1);
-        activity.addIngredientToDatabase(mockIngredientDelete);
-        activity.addIngredientToDatabase(mockIngredientEdit);
+        dbm.addIngredientToDatabase(mockIngredientView);
+        dbm.addIngredientToDatabase(mockIngredientDelete);
+        dbm.addIngredientToDatabase(mockIngredientEdit);
+        solo.clickOnButton("INGREDIENTS");
+        solo.waitForActivity(IngredientsActivity.class, 2000);
+        ingredientsActivity = (IngredientsActivity) solo.getCurrentActivity();
     }
 
     /**
@@ -78,18 +81,11 @@ public class IngredientActivityTests {
     @After
     public void takeDown() throws Exception {
         // remove the mock ingredient from the database afterwards<3
-//        String ingred = mockIngredientView.getDescription();
-//        System.out.println("ingred: "+ ingred);
-        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientView.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientEdit.getId());
     }
 
-    @Test
-    public void testIngredientActivityStart() throws Exception{
-//        onView(withId(R.id.buttonToIngredientActivity)).perform(click());
-        onView(withId(R.id.ingredients_activity)).check(matches(isDisplayed()));
-    }
 
     /**
      * Test adding an ingredient
@@ -98,6 +94,7 @@ public class IngredientActivityTests {
     public void testAddIngredient() throws Exception {
         // press the add button to make the dialog fragment pop up
         solo.assertCurrentActivity("Must be IngredientsActivity",IngredientsActivity.class);
+        addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
         solo.clickOnView(addButton);
         EditText editDescription = (EditText)solo.getView(R.id.editTextIngredientDescription);
         EditText editQuantity = (EditText)solo.getView(R.id.editTextIngredientAmount);
@@ -118,7 +115,7 @@ public class IngredientActivityTests {
         solo.waitForText("aTestIngredient!!", 1, 2000);
 
         // try to find it
-        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        ArrayList<StorageIngredient> ingredients = ingredientsActivity.getIngredientData();
         boolean found = false;
         String id = "";
         for (StorageIngredient ingredient : ingredients) {
@@ -131,7 +128,7 @@ public class IngredientActivityTests {
         assertTrue("Did not find ingredient in the list", found);
 
         // delete the created ingredient afterwards
-        activity.deleteIngredientFromDatabase(id);
+        dbm.deleteIngredientFromDatabase(id);
     }
 
 

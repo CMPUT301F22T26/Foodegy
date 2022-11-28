@@ -44,8 +44,8 @@ public class MealPlanActivityTest {
     private MealPlanItem mockMealPlanItemNonVisible;
 
     @Rule
-    public ActivityTestRule<MealPlanActivity> rule =
-            new ActivityTestRule<>(MealPlanActivity.class, true, true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class, true, true);
 
     /**
      * Runs before all the tests. Creates an instance of Solo
@@ -54,6 +54,8 @@ public class MealPlanActivityTest {
     @Before
     public void setup() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+        solo.clickOnButton("MEAL PLANS");
+        solo.waitForActivity(MealPlanActivity.class, 2000);
         addButton = (FloatingActionButton) solo.getView(R.id.addMealPlanButton);
     }
 
@@ -122,7 +124,7 @@ public class MealPlanActivityTest {
 //        solo.waitForText("new rexipeeee", 1, 2000);
 
         // try to find it
-        ArrayList<MealPlanItem> mealPlans = rule.getActivity().getMealPlanData();
+        ArrayList<MealPlanItem> mealPlans = ((MealPlanActivity)solo.getCurrentActivity()).getMealPlanData();
         boolean found = false;
         // testing if one of the valid entries is in the list and the invalid entry is not in the list
         for (MealPlanItem mealPlan : mealPlans) {
@@ -133,8 +135,6 @@ public class MealPlanActivityTest {
             }
         }
         assertTrue("Did not find ingredient in the list", found);
-
-
     }
 
 }

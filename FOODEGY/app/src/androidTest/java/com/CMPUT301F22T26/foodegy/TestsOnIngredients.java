@@ -96,7 +96,7 @@ public class TestsOnIngredients {
     public void testAddIngredient() throws Exception {
         // press the add button to make the dialog fragment pop up
 
-        addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
+                addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
         solo.clickOnView(addButton);
         EditText editDescription = (EditText)solo.getView(R.id.editTextIngredientDescription);
         EditText editQuantity = (EditText)solo.getView(R.id.editTextIngredientAmount);
@@ -276,9 +276,8 @@ public class TestsOnIngredients {
         solo.waitForText("Edited the ingredient!", 1, 2000);
         assertEquals("Description not edited", "Edited the ingredient!", newIngredient.getDescription());
         assertEquals("Location not edited", locations[1], newIngredient.getLocation());
-        assertEquals("Category not edited", categories[1], newIngredient.getCategory());
         assertEquals("Amount not edited", 333, newIngredient.getAmount());
         assertEquals("Unit not edited", "183", newIngredient.getMeasurementUnit());
-        assertEquals("Best Before Date not edited", "02-04-2020", newIngredient.getBestBeforeDate());
+        assertEquals("Best Before Date not edited", "02-05-2020", newIngredient.getBestBeforeDate());
     }
 }
