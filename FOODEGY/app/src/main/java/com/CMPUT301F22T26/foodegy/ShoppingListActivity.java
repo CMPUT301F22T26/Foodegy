@@ -57,8 +57,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     List<String> names = Arrays.asList("Apple", "Bread", "Cream cheese");
     List<Integer> amounts = Arrays.asList(3, 3, 2);
     List<String> units = Arrays.asList("apples", "loaves", "oz");
-
-
     List<String> cates = Arrays.asList("Vegetable", "Grain", "Dairy");
 
 
@@ -70,7 +68,10 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
 
-        // populate shoppingListData
+//        populate shoppingListData
+        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
+//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
+//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
         // first, query ingredients to find which ingredients user currently has in storage
         storageIngredientData = new ArrayList<StorageIngredient>();
@@ -159,10 +160,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         );
 
-//
-//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
-//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
-//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
 
         bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -282,6 +279,13 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         // of returned values
     }
 
+    public void addItemToShoppingList(ShoppingListItem item){
+        shoppingListData.add(item);
+    }
+
+    public void deleteItemFromShoppingList(ShoppingListItem item){
+        shoppingListData.remove(item);
+    }
 
     /**
      * There is no editing in shopping list activity so this method is simply overwritten

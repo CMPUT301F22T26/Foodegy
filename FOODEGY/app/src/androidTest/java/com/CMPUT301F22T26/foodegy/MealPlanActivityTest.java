@@ -73,14 +73,15 @@ public class MealPlanActivityTest {
         solo.clickOnView(addButton);
 
         // select cream cheese
-        solo.pressSpinnerItem(0, 3);
-        solo.enterText((EditText)solo.getView(R.id.addMealServingsCount), "9");
-        solo.setDatePicker((DatePicker)solo.getView(R.id.addMealPlanDatePicker), 2024, 8, 10);
-        solo.clickOnButton("Submit");
+//        solo.pressSpinnerItem(0, 3);
+//        solo.enterText((EditText)solo.getView(R.id.addMealServingsCount), "9");
+//        solo.setDatePicker((DatePicker)solo.getView(R.id.addMealPlanDatePicker), 2024, 8, 10);
+//        solo.clickOnButton("Submit");
 
         // give it a second to update properly
         solo.waitForText("Cream cheese", 1, 2000);
 
+        // select "eggz" on index 2
         solo.clickOnView(addButton);
         // select apple
         solo.pressSpinnerItem(0, 2);
@@ -88,28 +89,28 @@ public class MealPlanActivityTest {
         solo.enterText((EditText)solo.getView(R.id.addMealServingsCount), "4");
         solo.clickOnButton("Submit");
 
-        solo.waitForText("Apple", 1, 2000);
+        // give it a second to update properly
+        solo.waitForText("eggz", 1, 2000);
 
         // Invalid entry
-        solo.clickOnView(addButton);
-        solo.clickOnView((RadioButton) solo.getView(R.id.recipeRadioButton));
-        // give it a few seconds to update
+//        solo.clickOnView(addButton);
+//        solo.clickOnView((RadioButton) solo.getView(R.id.recipeRadioButton));
+//        // give it a few seconds to update
         solo.sleep(2000);
-        solo.pressSpinnerItem(0, 1);
-        solo.enterText((EditText)solo.getView(R.id.addMealServingsCount), "1");
-        solo.setDatePicker((DatePicker)solo.getView(R.id.addMealPlanDatePicker), 2021, 10, 0);
-        solo.clickOnButton("Submit");
-        solo.waitForText("new rexipeeee", 1, 2000);
+//        solo.pressSpinnerItem(0, 1);
+//        solo.enterText((EditText)solo.getView(R.id.addMealServingsCount), "1");
+//        solo.setDatePicker((DatePicker)solo.getView(R.id.addMealPlanDatePicker), 2021, 10, 0);
+//        solo.clickOnButton("Submit");
+//        solo.waitForText("new rexipeeee", 1, 2000);
 
         // try to find it
         ArrayList<MealPlanItem> mealPlans = rule.getActivity().getMealPlanData();
         boolean found = false;
-        // testing if one of the valid entries is in the list
-        // and the invalid entry is not in the list
+        // testing if one of the valid entries is in the list and the invalid entry is not in the list
         for (MealPlanItem mealPlan : mealPlans) {
             System.out.println(mealPlan.getName());
             assertNotEquals(mealPlan.getName(), "new rexipeeee");
-            if (mealPlan.getName().equals("Cream cheese")) {
+            if (mealPlan.getName().equals("eggz")) {
                 found = true;
             }
         }

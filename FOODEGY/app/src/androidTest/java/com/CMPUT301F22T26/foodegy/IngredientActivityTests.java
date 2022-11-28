@@ -78,11 +78,11 @@ public class IngredientActivityTests {
     @After
     public void takeDown() throws Exception {
         // remove the mock ingredient from the database afterwards<3
-        String ingred = mockIngredientView.getDescription();
-        System.out.println("ingred: "+ ingred);
-//        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
-//        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
-//        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
+//        String ingred = mockIngredientView.getDescription();
+//        System.out.println("ingred: "+ ingred);
+        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
+        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
     }
 
     @Test
