@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class RecipeAdapter extends ArrayAdapter<Recipe>{
     private Context context;
     private ArrayList<Recipe> recipeArrayList;
-    final private DatabaseManager dbm = DatabaseManager.getInstance();
 
     private ImageView foodpic;
     /**
@@ -76,21 +75,8 @@ public class RecipeAdapter extends ArrayAdapter<Recipe>{
         unit.setText("Servings: "+ currentRecipe.getServingValue());
         comment.setText(currentRecipe.getComments());
 
-        Picasso.get().load(currentRecipe.getRecipeImage()).into(foodpic);
-        //Glide.with(getContext()).load(currentRecipe.getRecipeImage()).into(foodpic);
-        // load in the image
-//        String imageFileName = currentRecipe.getImageFileName();
-//        if (imageFileName != null && !"".equals(imageFileName)) {
-//            Context context = getContext();
-//            dbm.getUserFilesRef().child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
-//                    String url = uri.toString();
-//                    Glide.with(context).load(url).into(foodpic);
-//                }
-//            });
-//        }
+        //Picasso.get().load(currentRecipe.getRecipeImage()).into(foodpic);
+        Glide.with(getContext()).load(currentRecipe.getRecipeImage()).into(foodpic);
 
         return listview;
     }

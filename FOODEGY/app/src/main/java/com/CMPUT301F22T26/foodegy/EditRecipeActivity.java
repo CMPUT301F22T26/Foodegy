@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -117,11 +119,13 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         String comments = bundle.getString("comments");
         String currentid = bundle.getString("id");
         String imageUriString = bundle.getString("imageUri");
+
         ingredientsList = bundle.getParcelableArrayList("ingredients");
         ingredientsListView = findViewById(R.id.ingredients_listview);
         ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
         ingredientsListView.setAdapter(ingredientsAdapter);
-
+        ingredientsAdapter.notifyDataSetChanged();
+        
         titleText.setText(title);
         hourText.setText(hours);
         minuteText.setText(minutes);
@@ -140,18 +144,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
             Uri u = Uri.parse(imageUriString);
             Glide.with(getApplicationContext()).load(u).into(activityBackground);
         }
-
-//        if (fileName != null && !"".equals(fileName)) {
-//            Context context = this;
-//            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
-//                    String url = uri.toString();
-//                    Glide.with(context).load(url).into(activityBackground);
-//                }
-//            });
-//        }
 
         // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
@@ -245,8 +237,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                     dbm.deleteRecipeFromDatabase(currentid, "");
                     dbm.addRecipeToDatabase(recipe, null);
                 }
-
-
                 finish();
             }
         });
@@ -274,6 +264,8 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 return true;
             }
         });
+
+
     }
 
     /**
@@ -317,6 +309,12 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 }
             });
 
+    /**
+     * When an image is captured, keep it
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -349,6 +347,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     public void onOkPressed(RecipeIngredient newIngredient) {
         ingredientsList.add(newIngredient);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
     }
 
     // Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
@@ -375,6 +374,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
     }
 
     /**
@@ -388,5 +388,26 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
