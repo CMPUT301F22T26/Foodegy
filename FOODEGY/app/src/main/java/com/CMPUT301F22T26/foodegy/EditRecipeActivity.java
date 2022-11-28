@@ -3,6 +3,7 @@ package com.CMPUT301F22T26.foodegy;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityEditRecipeBinding;
@@ -58,6 +60,7 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
     private Button ingredientsButton;
     private Button submitButton;
     private Button cancelButton;
+    private Uri imageUri;
 
     private Spinner categorySpinner;
     private ActivityEditRecipeBinding binding;
@@ -168,8 +171,19 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageChooser();
+                String fileName = "new-photo-name.jpg";
+                // Create parameters for Intent with filename
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, fileName);
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                imageUri =
+                        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, 1231);
             }
+
         });
 
         // submit button to create & add the recipe
@@ -302,6 +316,32 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                     }
                 }
             });
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //if (requestCode == 1231 && resultCode == Activity.RESULT_OK) {
+        if (true) {
+            try {
+                ContentResolver cr = getContentResolver();
+                try {
+                    // Creating a Bitmap with the image Captured
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
+                    selectedImage = imageUri;
+                    // Setting the bitmap as the image of the
+                    activityBackground.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage() != null)
+                    Log.e("Exception", e.getMessage());
+                else
+                    Log.e("Exception", "Exception");
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     // Adds new ingredient when ok is pressed from AddRecipeFragment

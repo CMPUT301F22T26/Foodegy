@@ -119,7 +119,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             }
         });
 
-        // choose an image from gallery
+        // take photo
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
