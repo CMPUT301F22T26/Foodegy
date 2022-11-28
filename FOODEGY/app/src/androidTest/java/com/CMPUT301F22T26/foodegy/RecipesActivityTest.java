@@ -1,11 +1,15 @@
 package com.CMPUT301F22T26.foodegy;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -27,12 +31,15 @@ import java.util.ArrayList;
 public class RecipesActivityTest {
     private Solo solo;
     private RecipesActivity activity;
+    private MainActivity mainActivity;
+    private DatabaseManager dbms;
 
     @Rule
-    public ActivityTestRule<RecipesActivity> rule =
-            new ActivityTestRule<>(RecipesActivity.class, true, true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class, true, true);
     public Recipe recipe1;
     public Recipe recipe2;
+    public Recipe mockRecipeView;
 
     final private String android_id = "TEST_ID";
     final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
@@ -41,8 +48,12 @@ public class RecipesActivityTest {
 
     @Before
     public void setup() throws Exception {
-        activity = rule.getActivity();
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
+        mainActivity = rule.getActivity();
+        dbms = DatabaseManager.getInstance();
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), mainActivity);
+        //    activity = rule.getActivity();
+        //    solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
+
 
         ArrayList<RecipeIngredient> ingredients1 = new ArrayList<RecipeIngredient>();
         ingredients1.add(new RecipeIngredient("ramen", "Grain", "1", "1"));
@@ -57,6 +68,22 @@ public class RecipesActivityTest {
 
         recipe2 = new Recipe("French toast", 0, 20, 3, "Breakfast",
                 "", "Sweeeet! french toast!for breakfast!!", ingredients2);
+
+        ArrayList<RecipeIngredient> ingredients3 = new ArrayList<RecipeIngredient>();
+        ingredients3.add(new RecipeIngredient("Dosa Batter","Grain","1","1"));
+        mockRecipeView = new Recipe("Dosa",0,5,3,"Breakfast","","Mock Recipe",ingredients3);
+        // The AddRecipeToDatabase shows a problem since it also expects the Image URI as a parameter.
+
+        dbms.addRecipeToDatabase(recipe1, recipe1.getRecipeImage());
+        dbms.addRecipeToDatabase(recipe2,recipe2.getRecipeImage());
+        dbms.addRecipeToDatabase(mockRecipeView,mockRecipeView.getRecipeImage());
+
+        solo.clickOnButton("RECIPES");
+        solo.waitForActivity("RecipesActivity",3000);
+        solo.assertCurrentActivity("This must be Recipes Activity",RecipesActivity.class);
+
+        activity = (RecipesActivity) solo.getCurrentActivity();
+
     }
     /**
      * Test adding a Recipe with all valid parameters
@@ -149,4 +176,46 @@ public class RecipesActivityTest {
                     });
         }
     }
+
+    @Test
+    public void testViewRecipe(){
+        solo.assertCurrentActivity("Your are still on RecipesActivity",RecipesActivity.class);
+        solo.waitForText("Mock Recipe", 1, 2000);
+
+        ArrayList<Recipe> recipes = activity.getListViewRecipe();
+        int pos = 1;  // clickInList is indexed by 1 for some reason
+        for (Recipe recipe : recipes) {
+            if ("Mock Recipe".equals(recipe.getComments())) {
+                break;
+            }
+            pos++;
+        }
+
+        // click on the mock recipe "Dosa" named mockRecipeView
+        if (pos>3)
+            solo.scrollDown();
+        solo.clickLongInList(pos);
+        // long clicking on list view should result in launching View Recipe Activity
+        // asserts that the activity launches is ViewRecipeActitvity
+        solo.assertCurrentActivity("You are viewing ViewRecipeActivity", ViewRecipeActivity.class);
+        TextView titleText = (TextView) solo.getView(R.id.titleText);
+        TextView  servingsText = (TextView) solo.getView(R.id.servingsText);
+        TextView categoryText = (TextView) solo.getView(R.id.categoryText);
+        TextView commentsText = (TextView) solo.getView(R.id.commentText);
+        TextView timeText = (TextView) solo.getView(R.id.timeText);
+
+        //  ListView ingredientsList = (ListView) solo.getView(R.id.ingredientList);
+
+        // make sure they all match up
+        assertEquals("Title Matches", mockRecipeView.getTitle(), titleText.getText().toString());
+        assertEquals("Servings Matches", mockRecipeView.getServingValue(), Integer.parseInt(servingsText.getText().toString()));
+        assertEquals("Category Matches", mockRecipeView.getCategory(), categoryText.getText().toString());
+        assertEquals("Comments Matches", mockRecipeView.getComments(), commentsText.getText().toString());
+
+
+
+    }
+
+
+
 }
