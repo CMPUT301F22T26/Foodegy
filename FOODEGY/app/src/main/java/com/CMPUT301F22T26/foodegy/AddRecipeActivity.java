@@ -224,6 +224,9 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         });
     }
 
+    /**
+     * When the camera app returns, get the image URI
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -301,14 +304,19 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ;
     }
 
-    // Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
+    /**
+     * Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
+     */
     @Override
     public void onEditOkPressed(RecipeIngredient newIngredient, int i) {
         ingredientsList.set(i, newIngredient);
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    // Show details of ingredient when long pressed
+    /**
+     * Show details of ingredient when long pressed
+     * @param pos
+     */
     @Override
     public void onShowRecipeIngredientOkPressed(int pos) {
         Bundle args = new Bundle();
@@ -320,7 +328,10 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
     }
 
-    // Deletes ingredient when delete is pressed from ShowRecipeIngredientFragment
+    /**
+     * Deletes ingredient when delete is pressed from ShowRecipeIngredientFragment
+     * @param pos
+     */
     @Override
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);

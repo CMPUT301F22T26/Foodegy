@@ -36,9 +36,19 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
     private AddIngredientToRecipeFragment.OnFragmentInteractionListener listener;
 
     private RecipeIngredient recipeIngredient;
+
+    /**
+     * Constructor for creating a RecipeIngredient
+     */
     public AddIngredientToRecipeFragment() {
         super();
     }
+
+    /**
+     * Constructor for editing a RecipeIngredient, pass in the recipe
+     * @param r
+     *  The RecipeIngredient to be edited
+     */
     public AddIngredientToRecipeFragment(RecipeIngredient r) {
         super();
         recipeIngredient = r;
@@ -138,7 +148,6 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
                             }
                             RecipeIngredient newIngredient = new RecipeIngredient(description, category, unit);
                             listener.onOkPressed(newIngredient);
-
                         }
                     }).create();
         }

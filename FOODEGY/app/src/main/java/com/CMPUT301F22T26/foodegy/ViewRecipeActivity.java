@@ -1,6 +1,7 @@
 package com.CMPUT301F22T26.foodegy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -146,7 +147,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
                     intent.putExtra("imageFileName",imageFileName );
                     intent.putExtra("comments",comments);
                     intent.putExtra("id",id);*/
-                    startActivity(intent2);
+                    startActivityForResult(intent2, 10);
                 }
             }
         );
@@ -194,5 +195,17 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
         recipeIngredients.set(i, newIngredient);
         dbm.editRecipeIngredient(id, recipeIngredients);
         recipeIngredientListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * When done editing, close this activity as well
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        finish();
     }
 }

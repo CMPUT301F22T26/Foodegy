@@ -30,6 +30,11 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
         super();
     }
 
+    /**
+     * Fragment to display details of a recipe
+     * @param r
+     *  The recipe to show
+     */
     public ShowRecipeIngredientFragment(RecipeIngredient r) {
         super();
         recipeIngredient = r;

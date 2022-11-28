@@ -145,18 +145,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
             Glide.with(getApplicationContext()).load(u).into(activityBackground);
         }
 
-//        if (fileName != null && !"".equals(fileName)) {
-//            Context context = this;
-//            userFilesRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Log.d("RecipeAdapter", "Got download URL for " + uri.toString());
-//                    String url = uri.toString();
-//                    Glide.with(context).load(url).into(activityBackground);
-//                }
-//            });
-//        }
-
         // (quick)add an ingredient to the recipe
         ingredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,8 +237,6 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                     dbm.deleteRecipeFromDatabase(currentid, "");
                     dbm.addRecipeToDatabase(recipe, null);
                 }
-
-
                 finish();
             }
         });
@@ -323,6 +309,12 @@ public class EditRecipeActivity extends AppCompatActivity implements AddIngredie
                 }
             });
 
+    /**
+     * When an image is captured, keep it
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -115,13 +115,14 @@ public class RecipesActivity extends AppCompatActivity {
                 intent.putExtra("id", r.getId());
                 intent.putExtra("imageUri", r.getRecipeImage() == null ? null : r.getRecipeImage().toString());
                 intent.putParcelableArrayListExtra("ingredients",r.getIngredients());
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, 10);
             }
         });
         addbutton = findViewById(R.id.addRecipe);
         addbutton.setOnClickListener((v) -> {
             Intent intent = new Intent(RecipesActivity.this, AddRecipeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 11);
         });
 
 
@@ -193,7 +194,6 @@ public class RecipesActivity extends AppCompatActivity {
             ArrayList<RecipeIngredient> ings = new ArrayList<>();
             for(Map<String, Object> ingredient : documentIngredients) {
                 String unit = (String)ingredient.get("unit");
-                String amount = (String)ingredient.get("amount");
                 String desc = (String)ingredient.get("description");
                 String category = (String)ingredient.get("category");
                 ings.add(new RecipeIngredient(desc, category, unit));
@@ -238,5 +238,23 @@ public class RecipesActivity extends AppCompatActivity {
      */
     public ArrayList<Recipe> getListViewRecipe() {
         return listViewRecipe;
+    }
+
+    /**
+     * When we come back to this activity, reload the list
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     *  No data, should be null
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sortedRecipes.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+             @Override
+             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                 reloadRecipes(queryDocumentSnapshots);
+             }
+         });
     }
 }
