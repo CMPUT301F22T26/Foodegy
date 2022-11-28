@@ -52,4 +52,9 @@
         <item>Servings</item>
         <item>Category</item>
     </string-array>
+
+    <string-array name="sort_shopping_cart">
+        <item>Description</item>
+        <item>Category</item>
+    </string-array>
 </resources>
