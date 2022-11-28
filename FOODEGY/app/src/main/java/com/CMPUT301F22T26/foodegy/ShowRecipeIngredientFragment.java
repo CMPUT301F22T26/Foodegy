@@ -20,13 +20,20 @@ import java.util.ArrayList;
  * This class is responsible for displaying the details of a RecipeIngredient as a DialogFragment
  */
 public class ShowRecipeIngredientFragment extends DialogFragment {
-    private ArrayList<RecipeIngredient> dataList = ViewRecipeActivity.recipeIngredients;
     private TextView name;
     private TextView category;
     private TextView unit;
-
+    private RecipeIngredient recipeIngredient;
     private ShowRecipeIngredientFragment.OnFragmentInteractionListener listener;
 
+    public ShowRecipeIngredientFragment() {
+        super();
+    }
+
+    public ShowRecipeIngredientFragment(RecipeIngredient r) {
+        super();
+        recipeIngredient = r;
+    }
     /**
      * Functions handling Interactions with the RecipeIngredient
      * (user may either click ok, and close the fragment, or they may choose
@@ -59,13 +66,10 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
 
         Bundle mArgs = getArguments();
         int pos = mArgs.getInt("pos");
-        if (dataList == null)
-            System.out.println("DATALIST IS NULL!!!");
-        RecipeIngredient currentIngredient = dataList.get(pos);
 
-        name.setText(currentIngredient.getDescription());
-        category.setText(currentIngredient.getCategory());
-        unit.setText(currentIngredient.getUnit());
+        name.setText(recipeIngredient.getDescription());
+        category.setText(recipeIngredient.getCategory());
+        unit.setText(recipeIngredient.getUnit());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder

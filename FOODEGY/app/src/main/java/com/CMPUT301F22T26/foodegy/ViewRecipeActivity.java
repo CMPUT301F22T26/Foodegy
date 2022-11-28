@@ -49,14 +49,12 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
     private String imageFileName;
     private String comments;
     private String id;
-    public static ArrayList<RecipeIngredient> recipeIngredients;
+    private ArrayList<RecipeIngredient> recipeIngredients;
     private RecipeIngredientListAdapter recipeIngredientListAdapter;
     private ListView ingredientsListView;
 
 
     final private DatabaseManager dbm = DatabaseManager.getInstance();
-    final private StorageReference userFilesRef = dbm.getUserFilesRef();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,18 +97,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
             System.out.println(u.toString());
             Glide.with(this).load(u).into(binding.foodImage);
         }
-        // get download url & put it in the imageview
-//        Context context = this;
-//        if (imageFileName != null && !"".equals(imageFileName)) {
-//            userFilesRef.child(imageFileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Log.d("ViewRecipeActivity", "Got download URL for " + uri.toString());
-//                    String url = uri.toString();
-//                    Glide.with(context).load(url).into(binding.foodImage);
-//                }
-//            });
-//        }
+
         binding.commentText.setText(comments);
         cancel = findViewById(R.id.cancelButton);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +157,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
                 Bundle args = new Bundle();
                 args.putInt("pos", i);
 
-                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment();
+                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment(recipeIngredients.get(i));
                 fragment.setArguments(args);
                 fragment.show(getSupportFragmentManager(), "SHOW_INGREDIENT");
                 return true;
@@ -184,7 +171,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements ShowRecipeI
         args.putInt("pos", pos);
         args.putString("eval", "Edit");
 
-        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment();
+        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment(recipeIngredients.get(pos));
         fragment.setArguments(args);
         fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
     }

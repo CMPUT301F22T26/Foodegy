@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 
 public class AddIngredientToRecipeFragment extends DialogFragment {
-    private ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
     private TextView titleText;
     private EditText descriptionText;
     private Spinner categorySpinner;
@@ -36,6 +35,14 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
     private AddIngredientToRecipeFragment.OnFragmentInteractionListener listener;
 
+    private RecipeIngredient recipeIngredient;
+    public AddIngredientToRecipeFragment() {
+        super();
+    }
+    public AddIngredientToRecipeFragment(RecipeIngredient r) {
+        super();
+        recipeIngredient = r;
+    }
     /**
      * Listener for when the user is finished entering information and we can pass it back to
      * the AddRecipeActivity.
@@ -80,13 +87,11 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
         if (eval == "Edit") {
             int pos = mArgs.getInt("pos");
-            dataList = ViewRecipeActivity.recipeIngredients;
-            RecipeIngredient currentIngredient = dataList.get(pos);
-            descriptionText.setText(currentIngredient.getDescription());
-            unitText.setText(currentIngredient.getUnit());
+            descriptionText.setText(recipeIngredient.getDescription());
+            unitText.setText(recipeIngredient.getUnit());
 
             // Set spinner to current ingredient's category
-            String currentLocation = currentIngredient.getCategory();
+            String currentLocation = recipeIngredient.getCategory();
             ArrayAdapter myAdap = (ArrayAdapter) categorySpinner.getAdapter();
             int spinnerPosition = myAdap.getPosition(currentLocation);
             categorySpinner.setSelection(spinnerPosition);

@@ -22,6 +22,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.robotium.solo.Solo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -82,6 +83,12 @@ public class RecipesActivityTest {
         activity = (RecipesActivity) solo.getCurrentActivity();
 
     }
+    @After
+    public void takedown() {
+        dbms.deleteRecipeFromDatabase(recipe1.getId(), recipe1.getImageFileName());
+        dbms.deleteRecipeFromDatabase(recipe2.getId(), recipe2.getImageFileName());
+        dbms.deleteRecipeFromDatabase(mockRecipeView.getId(), mockRecipeView.getImageFileName());
+    }
     /**
      * Test adding a Recipe with all valid parameters
      */
@@ -130,7 +137,7 @@ public class RecipesActivityTest {
 
         if (foundRecipe != null) {
             // delete from the database afterwards
-            deleteRecipeFromDatabase(foundRecipe);
+            dbms.deleteRecipeFromDatabase(foundRecipe.getId(), foundRecipe.getImageFileName());
         }
         assertTrue("Recipe was not added", foundRecipe!=null);
     }
@@ -208,8 +215,5 @@ public class RecipesActivityTest {
         assertEquals("Servings Matches", mockRecipeView.getServingValue(), Integer.parseInt(servingsText.getText().toString()));
         assertEquals("Category Matches", mockRecipeView.getCategory(), categoryText.getText().toString());
         assertEquals("Comments Matches", mockRecipeView.getComments(), commentsText.getText().toString());
-
-
-
     }
 }
