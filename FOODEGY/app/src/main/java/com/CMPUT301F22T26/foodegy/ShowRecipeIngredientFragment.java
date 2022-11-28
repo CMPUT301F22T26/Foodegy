@@ -23,7 +23,6 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
     private ArrayList<RecipeIngredient> dataList = ViewRecipeActivity.recipeIngredients;
     private TextView name;
     private TextView category;
-    private TextView amount;
     private TextView unit;
 
     private ShowRecipeIngredientFragment.OnFragmentInteractionListener listener;
@@ -56,7 +55,6 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
 
         name = view.findViewById(R.id.show_ingredient_title);
         category = view.findViewById(R.id.show_ingredient_category);
-        amount = view.findViewById(R.id.show_ingredient_amount);
         unit = view.findViewById(R.id.show_ingredient_unit);
 
         Bundle mArgs = getArguments();
@@ -67,7 +65,6 @@ public class ShowRecipeIngredientFragment extends DialogFragment {
 
         name.setText(currentIngredient.getDescription());
         category.setText(currentIngredient.getCategory());
-        amount.setText(currentIngredient.getAmount());
         unit.setText(currentIngredient.getUnit());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

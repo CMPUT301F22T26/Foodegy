@@ -33,30 +33,64 @@
     </FrameLayout>
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_Calendar_Visibility"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/square_white_button"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="@string/hide"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        />
 
-    <CalendarView
-        android:id="@+id/calendar_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_gravity="center"
-        android:dateTextAppearance="@style/CustomCalendarDay"
-        android:theme="@style/CalenderViewCustom"
-        android:weekDayTextAppearance="@style/CustomCalendarWeek"
-        />
-    <Button
-        android:id="@+id/btn_Calendar_Visibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hide/Show Calendar"
-        android:layout_gravity="center"
-        />
+        android:background="#DCDCDC">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/shadow_drawable"
+            >
+        </View>
+    </LinearLayout>
 
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#DCDCDC">
 
+        <LinearLayout
+            android:id="@+id/calendar_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <CalendarView
+                android:id="@+id/calendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dateTextAppearance="@style/CustomCalendarDay"
+                android:theme="@style/CalenderViewCustom"
+                android:visibility="visible"
+                android:weekDayTextAppearance="@style/CustomCalendarWeek" />
+
+            <ListView
+                android:id="@+id/meal_plan_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="3dp"
+                android:divider="@android:color/transparent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:paddingTop="5dp"/>
+
+        </LinearLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
@@ -66,7 +100,7 @@
             android:background="@color/yellow"
             app:itemIconTint="@drawable/selector"
             app:itemTextColor="@drawable/selector"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/meal_plan_items"
             app:labelVisibilityMode="labeled"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -77,33 +111,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="60dp"
             android:clickable="true"
-            android:focusable="auto"
-            android:focusableInTouchMode="false"
+            android:focusable="true"
+            android:paddingRight="5dp"
+            android:layout_marginBottom="50dp"
+            app:srcCompat="@android:drawable/ic_input_add"
             app:backgroundTint="@color/yellow"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-
-
-
-        <ListView
-            android:id="@+id/meal_plan_items"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"
-            android:padding="5dp"
-            android:paddingBottom="20dp">
-
-        </ListView>
-
-
-
+            app:useCompatPadding="true"/>
     </FrameLayout>
+
+
+
+
 
 
 

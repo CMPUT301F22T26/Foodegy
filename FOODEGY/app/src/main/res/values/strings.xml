@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Foodegy</string>
+    <string name="hide">Hide Calendar</string>
+    <string name="show">Show Calendar</string>
     <string-array name="categories_array">
         <item>Meat</item>
         <item>Dairy</item>

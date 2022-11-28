@@ -141,13 +141,13 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
 
         String category = currentItem.getCategory();
         View indicator = view.findViewById(R.id.shopping_cat_indicator);
-        if (category.equals("vegetable") | category.equals("fruit")) {
+        if (category.equals("Vegetable") | category.equals("Fruit")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));
-        } else if (category.equals("dairy") | category.equals("condiment") | category.equals("drink")) {
+        } else if (category.equals("Dairy") | category.equals("Condiment") | category.equals("Drink")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.dairy));
-        } else if (category.equals("grain") | category.equals("carb")) {
+        } else if (category.equals("Grain") | category.equals("Carb")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.grain));
-        } else if (category.equals("meat") | category.equals("protein")) {
+        } else if (category.equals("Meat") | category.equals("Protein")) {
             indicator.setBackgroundColor(view.getResources().getColor(R.color.meat));
         }
 
