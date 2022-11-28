@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class RecipesActivityTest {
     public Recipe recipe1;
     public Recipe recipe2;
     public Recipe mockRecipeView;
+    public Recipe mockRecipeEdit;
 
     final private String android_id = "TEST_ID";
     final private CollectionReference RecipesCollection = FirebaseFirestore.getInstance()
@@ -71,10 +73,11 @@ public class RecipesActivityTest {
         ingredients3.add(new RecipeIngredient("Dosa Batter","Grain","1"));
         mockRecipeView = new Recipe("Dosa",0,5,3,"Breakfast","","Mock Recipe",ingredients3);
         // The AddRecipeToDatabase shows a problem since it also expects the Image URI as a parameter.
-
+        mockRecipeEdit = new Recipe("Edit1",0,8,4,"Breakfast","","Edit this Recipe",ingredients3);
         dbms.addRecipeToDatabase(recipe1, recipe1.getRecipeImage());
         dbms.addRecipeToDatabase(recipe2,recipe2.getRecipeImage());
         dbms.addRecipeToDatabase(mockRecipeView,mockRecipeView.getRecipeImage());
+        dbms.addRecipeToDatabase(mockRecipeEdit, mockRecipeEdit.getRecipeImage());
 
         solo.clickOnButton("RECIPES");
         solo.waitForActivity("RecipesActivity",3000);
@@ -149,6 +152,7 @@ public class RecipesActivityTest {
      * @param r
      *  Recipe to be deleted
      */
+    @Test
     private void deleteRecipeFromDatabase(Recipe r) {
         String id = r.getId();
         String imageFileName = r.getImageFileName();
@@ -217,5 +221,65 @@ public class RecipesActivityTest {
         assertEquals("Servings Matches", mockRecipeView.getServingValue(), Integer.parseInt(servingsText.getText().toString()));
         assertEquals("Category Matches", mockRecipeView.getCategory(), categoryText.getText().toString());
         assertEquals("Comments Matches", mockRecipeView.getComments(), commentsText.getText().toString());
+    }
+    @Test
+/**
+ * test to edit a recipe. The
+ */
+    public void testEditRecipe(){
+        solo.waitForText("Edit this Recipe", 1, 2000);
+        // find the ingredient in the list
+        ArrayList<Recipe> recipes = activity.getListViewRecipe();
+        int pos = 1;  // clickInList is indexed by 1 for some reason
+        for (Recipe rec : recipes) {
+            if ("Edit this Recipe".equals(rec.getComments())) {
+                break;
+            }
+            pos++;
+        }
+
+        // click on the mock ingredient
+        if (pos>=3)
+            solo.scrollDown();
+        solo.clickLongInList(pos);
+        solo.sleep(500);
+        solo.assertCurrentActivity("You are viewing ViewRecipeActivity", ViewRecipeActivity.class);
+       /* TextView titleText = (TextView) solo.getView(R.id.titleText);
+        TextView  servingsText = (TextView) solo.getView(R.id.servingsText);
+        TextView categoryText = (TextView) solo.getView(R.id.categoryText);
+        TextView commentsText = (TextView) solo.getView(R.id.commentText);
+        TextView timeText = (TextView) solo.getView(R.id.timeText);*/
+        solo.clickOnButton("Edit");
+
+        solo.assertCurrentActivity("This is the EditRecipeActivity",EditRecipeActivity.class);
+
+        EditText editComment = (EditText)solo.getView(R.id.comment_text);
+
+
+
+        // clear data
+        solo.clearEditText(editComment);
+
+
+
+        solo.enterText(editComment, "Edited the recipe!");
+
+        solo.clickOnButton("Submit");
+
+        solo.waitForText("Edited the recipe!", 1, 2000);
+        // find the ingredient again
+        recipes = activity.getListViewRecipe();
+        Recipe newRecipe = null;
+        for (int i=0; i<recipes.size(); i++) {
+            Recipe rec = recipes.get(i);
+            if ("Edited the recipe!".equals(rec.getComments())) {
+                newRecipe = rec;
+            }
+        }
+
+        // give it a second for it to update
+        solo.waitForText("Edited the recipe!", 1, 2000);
+        assertEquals("Recipe Edited", "Edited the recipe!", newRecipe.getComments());
+
     }
 }
