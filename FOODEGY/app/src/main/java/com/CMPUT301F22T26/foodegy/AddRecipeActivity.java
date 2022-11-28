@@ -1,13 +1,18 @@
 package com.CMPUT301F22T26.foodegy;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
@@ -19,8 +24,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -60,6 +68,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     final private DatabaseManager dbm = DatabaseManager.getInstance();
     private CollectionReference RecipesCollection = dbm.getRecipesCollection();
     private StorageReference userFilesRef = dbm.getUserFilesRef();
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +123,25 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageChooser();
+                String fileName = "new-photo-name.jpg";
+                // Create parameters for Intent with filename
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, fileName);
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                imageUri =
+                        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, 1231);
             }
-        });
+
+        }
+
+
+
+
+        );
 
         // submit button to create & add the recipe
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +227,31 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //if (requestCode == 1231 && resultCode == Activity.RESULT_OK) {
+        if (true) {
+            try {
+                ContentResolver cr = getContentResolver();
+                try {
+                    // Creating a Bitmap with the image Captured
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
+                    selectedImage = imageUri;
+                    // Setting the bitmap as the image of the
+                    activityBackground.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage() != null)
+                    Log.e("Exception", e.getMessage());
+                else
+                    Log.e("Exception", "Exception");
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Opens the user's gallery where they can choose an image for the recipe
      */
@@ -224,7 +275,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     // do your operation from here....
                     if (data != null
                             && data.getData() != null) {
-                        selectedImage = data.getData();
+                       selectedImage = data.getData();
                         Bitmap selectedImageBitmap = null;
                         try {
                             selectedImageBitmap
