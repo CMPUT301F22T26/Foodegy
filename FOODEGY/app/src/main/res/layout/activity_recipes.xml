@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#131313"
     android:orientation="vertical"
-    tools:context=".RecipesActivity">
+    tools:context=".RecipesActivity"
+    android:id="@+id/recipes_view_activity">
 
     <FrameLayout
         android:layout_width="match_parent"

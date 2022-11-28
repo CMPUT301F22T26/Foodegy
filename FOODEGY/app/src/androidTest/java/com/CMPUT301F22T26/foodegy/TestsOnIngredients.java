@@ -5,8 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.widget.Button;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Test class for features of the Ingredients activity
  */
-public class IngredientsActivityTest {
+public class TestsOnIngredients {
     private Solo solo;
     private FloatingActionButton addButton;
     private MainActivity mainActivity;
@@ -104,7 +106,17 @@ public class IngredientsActivityTest {
         // enter dummy data
         solo.enterText(editDescription, "aTestIngredient!!");
         solo.pressSpinnerItem(0,1);
+//        View view1 = solo.getView(Spinner.class, 0);
+//        solo.clickOnView(view1);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.pressSpinnerItem(1,0);
+//        View view2 = solo.getView(Spinner.class, 1);
+//        solo.clickOnView(view2);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.enterText(editQuantity, "15");
         solo.enterText(editUnit, "4");
         solo.setDatePicker(datePicker, 2023, 4, 19);

@@ -222,8 +222,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:hint="Select from gallery..."
                 android:backgroundTint="#36707070"
+                android:hint="Take photo...."
                 android:textColorHint="@color/white"
                 android:textSize="11sp" />
         </LinearLayout>
