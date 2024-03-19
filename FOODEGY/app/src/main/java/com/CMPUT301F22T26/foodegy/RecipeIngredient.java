@@ -13,6 +13,7 @@ public class RecipeIngredient implements Parcelable {
     private String description;
     private String category;
     private String unit;
+    private String amount;
 
     /**
      * Initialize a RecipeIngredient!
@@ -20,16 +21,18 @@ public class RecipeIngredient implements Parcelable {
      * @param category the category of this ingredient
      * @param unit the price of this ingredient
      */
-    public RecipeIngredient(String description, String category, String unit) {
+    public RecipeIngredient(String description, String category, String unit, String amount) {
         this.description = description;
         this.category = category;
         this.unit = unit;
+        this.amount = amount;
     }
 
     protected RecipeIngredient(Parcel in) {
         description = in.readString();
         category = in.readString();
         unit = in.readString();
+        amount = in.readString();
     }
 
     public static final Creator<RecipeIngredient> CREATOR = new Creator<RecipeIngredient>() {
@@ -91,6 +94,14 @@ public class RecipeIngredient implements Parcelable {
      */
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     @Override
