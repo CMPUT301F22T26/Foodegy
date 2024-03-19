@@ -18,5 +18,6 @@
     <color name="dairy">#6D72EA</color>
     <color name="grain">#ffae6b</color>
     <color name="translucent_bright">#C1FFFFFF</color>
+    <color name="cancel_red">#D7FB5D51</color>
 
 </resources>

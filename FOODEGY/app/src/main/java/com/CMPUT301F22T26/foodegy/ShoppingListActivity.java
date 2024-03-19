@@ -4,19 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.CMPUT301F22T26.foodegy.databinding.ActivityRecipesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,39 +44,64 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     private ListView shoppingListView;
     private ArrayAdapter<ShoppingListItem> shoppingListItemArrayAdapter;
     private ArrayList<ShoppingListItem> shoppingListData;
+    private Spinner sortingSpinner;
+    private String sortingAttribute = "description_insensitive";
 
-    private NavigationBarView bottomNavBar;
+    private BottomNavigationView bottomNavBar;
 
     ArrayList<StorageIngredient> storageIngredientData;
     ArrayList<MealPlanItem> mealPlanData;
 
     // initialize the firebase
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
-
-    //giving some inital values
-    // since for now, the ShoppingList is not hooked up to the MealPlan list
-    List<String> names = Arrays.asList("Apple", "Bread", "Cream cheese");
-    List<Integer> amounts = Arrays.asList(3, 3, 2);
-    List<String> units = Arrays.asList("apples", "loaves", "oz");
-
-
-    List<String> cates = Arrays.asList("Vegetable", "Grain", "Dairy");
-
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
+    final private CollectionReference MealPlans = dbm.getMealPlansCollection();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list_activity);
 
+        sortingSpinner = findViewById(R.id.shoppingCartSortSpinner);
         shoppingListData = new ArrayList<ShoppingListItem>();
         shoppingListView = findViewById(R.id.shopping_list);
 
+        shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
+        shoppingListView.setAdapter(shoppingListItemArrayAdapter);
+
+        // handle sorting
+        sortingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] attributes = getResources().getStringArray(R.array.sort_shopping_cart);
+                if ("Description".equals(attributes[i])) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(shoppingListData, Comparator.comparing(ShoppingListItem::getItemName));
+                    }
+                    // sort by description
+                }
+                else if ("Category".equals(attributes[i])) {
+                    // sort by category
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(shoppingListData, Comparator.comparing(ShoppingListItem::getCategory));
+                    }
+                }
+                // reload the list!!
+                shoppingListItemArrayAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         // populate shoppingListData
+        //
+//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
+//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
+//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
+
 
         // first, query ingredients to find which ingredients user currently has in storage
         storageIngredientData = new ArrayList<StorageIngredient>();
@@ -125,7 +156,7 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                                                             String startDate = (String) data.get("startDate");
                                                             String name = (String) data.get("name");
                                                             Long servings = (Long) data.get("servings");
-                                                            Map ingredients = (Map) data.get("ingredients");
+                                                            ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                                             mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                                         }
@@ -134,7 +165,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                                                         Log.d("Query", "Error reading document", e);
                                                     }
                                                 }
-                                                System.out.println("FINISHED FETCHING DOCUMENTS" + storageIngredientData + "====" + mealPlanData);
                                                 compareIngredientAndMealPlanContents(storageIngredientData, mealPlanData);
                                             } else {
                                                 Log.d("Query", "Error getting documents: ", task.getException());
@@ -144,10 +174,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
 
                             );
-
-
-
-                            System.out.println("GRABBED INGREDIENT DATA INSIDE QUERY" + storageIngredientData);
                         } else {
                             Log.d("Query", "Error getting documents: ", task.getException());
                         }
@@ -159,27 +185,26 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
 
         );
 
-//
-//        shoppingListData.add(new ShoppingListItem(names.get(0), amounts.get(0), units.get(0), cates.get(0)));
-//        shoppingListData.add(new ShoppingListItem(names.get(1), amounts.get(1), units.get(1), cates.get(1)));
-//        shoppingListData.add(new ShoppingListItem(names.get(2), amounts.get(2), units.get(2), cates.get(2)));
-
-        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar = findViewById(R.id.bottom_nav);
+        bottomNavBar.setSelectedItemId(R.id.shopping_cart);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.ingredients:
                         startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
                     case R.id.meal_plan:
                         startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
                     case R.id.shopping_cart:
                         break;
                     case R.id.recipes:
                         startActivity(new Intent(getBaseContext(), RecipesActivity.class));
-                        break;
+                        overridePendingTransition(0,1);
+                        return true;
 
                 }
 
@@ -187,9 +212,6 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
             }
         });
 
-        System.out.println("GRABBED INGREDIENT DATA" + storageIngredientData);
-        shoppingListItemArrayAdapter = new ShoppingList(this, shoppingListData);
-        shoppingListView.setAdapter(shoppingListItemArrayAdapter);
     }
 
     /**
@@ -243,20 +265,15 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
     public void compareIngredientAndMealPlanContents(ArrayList<StorageIngredient> storageIngredientData, ArrayList<MealPlanItem>mealPlanData){
 
         // generate information for first set of MealPlan ingredients
-
         for (int i = 0; i < mealPlanData.size(); i++){
-            Map<String, ArrayList> mealPlanIngredients = mealPlanData.get(i).getIngredients();
-            Object[] keyList = mealPlanIngredients.keySet().toArray();
-            for (int k = 0; k < keyList.length; k++){
+            ArrayList<ShoppingListItem> mealPlanIngredients = (ArrayList<ShoppingListItem>) mealPlanData.get(i).getIngredients();
+            //Object[] keyList = mealPlanIngredients.keySet().toArray();
+            for (int k = 0; k < mealPlanIngredients.size(); k++){
                 // iterate through all ingredients in the mealPlan
-                String key = (String)keyList[k];
-                ArrayList values = mealPlanIngredients.get(key);
-                Integer requiredAmount = 0;
-                if (values.get(0) instanceof Long) {
-                    requiredAmount = Math.toIntExact((Long) values.get(0));
-                } else if (values.get(0) instanceof Double) {
-                    requiredAmount = Math.toIntExact(Math.round((Double) values.get(0)));
-                }
+                //String key = (String)keyList[k];
+                Map<String, Object> currentIngredient = (Map<String, Object>) mealPlanIngredients.get(k);
+                String key = (String) currentIngredient.get("itemName");
+                Integer requiredAmount = Math.toIntExact((Long) currentIngredient.get("amount"));
 
                 // will need to calculate
                 for (int j = 0; j < storageIngredientData.size(); j++){
@@ -268,9 +285,13 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
                     }
                     if (j == (storageIngredientData.size() - 1)){
                         // means we haven't matched the key in our n - 1 iterations
-                        // NOT FINISHED!!!
+                        // so must display it in shopping cart
                         if (requiredAmount > 0){
-                            shoppingListData.add(new ShoppingListItem(key,  requiredAmount, (String) values.get(1), (String) values.get(2)));
+                            // grab remaining required attributes
+                            String unit = (String) currentIngredient.get("measurementUnit");
+                            String category = (String) currentIngredient.get("category");
+                            ShoppingListItem newShopppingListItem = new ShoppingListItem(key, requiredAmount, unit, category);
+                            shoppingListData.add(newShopppingListItem);
 
                         }
                     }
@@ -280,6 +301,19 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         shoppingListItemArrayAdapter.notifyDataSetChanged();
         // for each mealPlan, see what items are NOT in ingredientStorage and append those to list
         // of returned values
+    }
+
+    public void addItemToShoppingList(ShoppingListItem item){
+        shoppingListData.add(item);
+    }
+
+    public void deleteItemFromShoppingList(ShoppingListItem item){
+        shoppingListData.remove(item);
+    }
+
+    public ArrayList<ShoppingListItem> getShoppingListData() {
+
+        return shoppingListData;
     }
 
 

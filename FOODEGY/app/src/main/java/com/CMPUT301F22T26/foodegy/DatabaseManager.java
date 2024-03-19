@@ -1,6 +1,8 @@
 package com.CMPUT301F22T26.foodegy;
 
+import android.content.Context;
 import android.net.Uri;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,24 +16,22 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Singleton class to handle interacting with the database, adding/editing/deleting
  *   ingredients/recipes/meal plans
  */
 public class DatabaseManager {
-    final private static DatabaseManager dbm = new DatabaseManager();
-
-    private String android_id = "TEST_ID";
+    private static DatabaseManager dbm;
+    private static String android_id;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-
     // different collections for each user
-    final private CollectionReference RecipesCollection = firestore.collection("users")
-            .document(android_id).collection("Recipes");
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
+    private CollectionReference RecipesCollection;
+    private CollectionReference IngredientStorage;
+    private CollectionReference MealPlans;
 
     // firebase storage to hold images for recipes
     private StorageReference userFilesRef = FirebaseStorage.getInstance().getReference().child(android_id);
@@ -39,13 +39,28 @@ public class DatabaseManager {
 
     private DatabaseManager() {
         // constructor is PRIVATE!! use getInstance() to get the manager
+        RecipesCollection = firestore.collection("users")
+                .document(android_id).collection("Recipes");
+        IngredientStorage = firestore.collection("users")
+                .document(android_id).collection("IngredientStorage");
+        MealPlans = firestore.collection("users")
+                .document(android_id).collection("MealPlans");
     }
-
+    public static void setAndroid_id(String id) {
+        android_id = id;
+        Log.d("DatabaseManager", "Device id is: "+android_id);
+    }
     public static DatabaseManager getInstance() {
-        return dbm;
+        if (android_id != null) {
+            if (dbm == null) {
+                dbm = new DatabaseManager();
+            }
+            return dbm;
+        }
+        else {
+            throw new NullPointerException("android_id cannot be null!");
+        }
     }
-
-
     // getters for collection references
     public CollectionReference getRecipesCollection() {
         return RecipesCollection;
@@ -185,6 +200,11 @@ public class DatabaseManager {
                 });
     }
 
+    /**
+     * Deletes a Recipe object from the firebase
+     * @param id id of Recipe to delete
+     * @param imageFileName the name of the image that goes with each recipe
+     */
     public void deleteRecipeFromDatabase(String id, String imageFileName) {
         // delete the recipe! from the firestore!
         RecipesCollection.document(id).delete()
@@ -217,5 +237,54 @@ public class DatabaseManager {
                         }
                     });
         }
+    }
+
+    // MEAL PLAN METHODS
+
+    /**
+     * Add meal plan item to the MealPlans collection
+     * @param mealPlanItem the meal plan item to be added to the collection
+     */
+    public void addMealPlanToDatabase(MealPlanItem mealPlanItem){
+        MealPlans
+                .add(mealPlanItem)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
+                    }})
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("DatabaseManager", "Failed to add Meal Plan to database"+e);
+                        }
+                    });
+        }
+    
+
+
+    /**
+     * Edit an existing storage ingredient in firebase
+     * @param id the firebase id of storage ingredient that's being modified
+     * @param ingredients array of existing ingredients
+     */
+
+    public void editRecipeIngredient(String id, ArrayList<RecipeIngredient> ingredients) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("ingredients", ingredients);
+        RecipesCollection.document(id)
+                .update("ingredients",ingredients)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("DatabaseManager", "Successfully edited recipe ingredients for "+id);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DatabaseManager", "Failed to update recipe ingredients for "+id+": "+e);
+                    }
+                });
     }
 }

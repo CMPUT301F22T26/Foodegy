@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     android:background="#131313"
     android:orientation="vertical"
-    tools:context=".RecipesActivity">
+    tools:context=".RecipesActivity"
+    android:id="@+id/recipes_view_activity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp">
+        android:layout_height="90dp"
+        >
 
         <ImageView
             android:layout_width="match_parent"
@@ -18,32 +20,23 @@
             android:layout_gravity="top"
             android:scaleType="centerCrop"
             android:src="@drawable/butterchicken"
-            android:alpha="0.4"/>
+            android:alpha="0.5"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="90dp"
                 android:gravity="center"
                 android:text="Recipes"
+                android:fontFamily="@font/montserrat_light"
                 android:textColor="#D2FFFFFF"
-                android:textSize="30sp"/>
+                android:textSize="32sp"/>
 
-            <TextView
-                android:id="@+id/highlightsTag"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:text="Highlights and Recently Added"
-                android:textStyle="italic"
-                android:textAlignment="center"
-                android:textColor="#D2FFFFFF"
-                android:textSize="13sp" />
         </LinearLayout>
 
     </FrameLayout>
@@ -52,42 +45,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="5"
-        android:paddingBottom="10dp">
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sort_button"
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_weight="4"
-            android:text="Sort"
-            android:background="@drawable/square_purple_button"
-            android:textSize="10sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/category_button"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:text="By:Category"
-            android:layout_gravity="right"
-            android:background="@drawable/square_purple_button"
-            android:textSize="10sp" />
+            android:layout_height="30dp"
+            android:paddingLeft="10dp"
+            android:text="Sort by :"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/sortRecipesSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_height="30dp"
+            android:background="@color/white"
             android:entries="@array/sort_recipes"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DCDCDC">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/shadow_drawable"
+            >
+        </View>
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
->
+        android:background="#DCDCDC">
 
         <ListView
             android:id="@+id/foodList"
@@ -96,9 +91,10 @@
             tools:listitem="@layout/recipe_activity_listview"
             android:divider="@android:color/transparent"
             android:paddingBottom="50dp"
-            android:dividerHeight="5.0sp"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"/>
+            android:dividerHeight="3.0sp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addRecipe"
@@ -118,15 +114,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="#5D03FF"
-            app:itemIconTint="#ffff"
-            app:itemTextColor="#ffff"
+            android:background="@color/yellow"
             app:labelVisibilityMode="labeled"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
             app:menu="@menu/bottom_nav_menu" />
-
-
     </FrameLayout>
 
 

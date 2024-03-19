@@ -3,10 +3,16 @@ package com.CMPUT301F22T26.foodegy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
@@ -42,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The activity for viewing & interacting with the user's MealPlans. Handles storing
@@ -56,21 +64,21 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
     private String timeStampDate;
 
     // each device has a unique id, use that as their own personal collection name
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference MealPlans = firestore.collection("users")
-            .document(android_id).collection("MealPlans");
-
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference MealPlans = dbm.getMealPlansCollection();
 
     //calendar related variables
     private CalendarView calendarView;
     private TextView headerText;
-    private NavigationBarView bottomNavBar;
+    private BottomNavigationView bottomNavBar;
+    private LinearLayout calendar_list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_plan_activity);
+
+
 
         // find the items planned for today
         Calendar calendar = Calendar.getInstance();
@@ -92,7 +100,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                                         String startDate = (String) data.get("startDate");
                                         String name = (String) data.get("name");
                                         Long servings = (Long) data.get("servings");
-                                        Map ingredients = (Map) data.get("ingredients");
+                                        ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                         mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                         mealPlanItemsAdapter.notifyDataSetChanged();
@@ -115,26 +123,47 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
         );
 
 
-        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar = findViewById(R.id.bottom_nav);
+        bottomNavBar.setSelectedItemId(R.id.meal_plan);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.ingredients:
                         startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.meal_plan:
                         break;
                     case R.id.shopping_cart:
                         startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.recipes:
                         startActivity(new Intent(getBaseContext(), RecipesActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
 
                 }
 
                 return false;
+            }
+        });
+
+
+        // visibility of CalendarView
+        Button btnCalVisibility = findViewById(R.id.btn_Calendar_Visibility);
+        calendar_list = findViewById(R.id.calendar_list_layout);
+        btnCalVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btnCalVisibility.getText() == getText(R.string.hide) ){
+                    slideUp(calendarView, calendar_list);
+                    btnCalVisibility.setText("Show Calendar");
+                }else{
+                    slideDown(calendarView, calendar_list);
+                    btnCalVisibility.setText(R.string.hide);
+                }
             }
         });
 
@@ -174,6 +203,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int intYear, int intMonth, int intDay) {
                 // put date in DD-MM-YYYY FOR DISPLAY PURPOSES
+                System.out.println("ON SELECTED DAY CHANGE EXECUTE");
                 String month = String.valueOf(intMonth); // do NOT have to increment month by 1 here
                 String day = String.valueOf(intDay);
                 if (month.length() == 1) month = "0" + month;
@@ -199,7 +229,6 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                 // query mealPlans & order by endDate
 
                 // must call endAt to limit
-                // timeStampDate = currentDate
 
                 MealPlans.whereLessThanOrEqualTo("startDate", timeStampDate).orderBy("startDate").get().addOnCompleteListener(
                         new OnCompleteListener<QuerySnapshot>() {
@@ -216,7 +245,7 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
                                                 String startDate = (String) data.get("startDate");
                                                 String name = (String) data.get("name");
                                                 Long servings = (Long) data.get("servings");
-                                                Map ingredients = (Map) data.get("ingredients");
+                                                ArrayList<ShoppingListItem> ingredients = (ArrayList<ShoppingListItem>) data.get("ingredients");
 
                                                 mealPlanData.add(new MealPlanItem(startDate, endDate, name, servings, ingredients));
                                                 mealPlanItemsAdapter.notifyDataSetChanged();
@@ -244,21 +273,9 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
 
     @Override
     public void onSubmitPressed(MealPlanItem mealPlanItem) {
+        System.out.println("MEAL PLAN ACTIVITY!!!! ADDING THROUGH DM" + mealPlanItem);
         mealPlanItemsAdapter.add(mealPlanItem);
-        MealPlans
-                .add(mealPlanItem)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("MealPlanActivity", "Added meal plan item" +mealPlanItem.getName());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("MealPlanActivity", "Failed to add meal plan item"+mealPlanItem.getName());
-                    }
-                });
+        dbm.addMealPlanToDatabase(mealPlanItem);
     }
 
     /**
@@ -268,5 +285,31 @@ public class MealPlanActivity extends AppCompatActivity implements AddMealPlanFr
      */
     public ArrayList<MealPlanItem> getMealPlanData() {
         return mealPlanData;
+    }
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view, View view2){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,  // fromYDelta
+                -view.getHeight());                // toYDelta
+
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view2.startAnimation(animate);
+
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view, View view2){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                -view.getHeight(),                 // fromYDelta
+                0); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view2.startAnimation(animate);
     }
 }

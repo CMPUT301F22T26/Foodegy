@@ -1,7 +1,11 @@
 package com.CMPUT301F22T26.foodegy;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,30 +14,29 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -59,14 +62,14 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     private Spinner categorySpinner;
 
     // Ingredients list to be used by quick add ingredients and added to recipe
-    public static ArrayList<RecipeIngredient> ingredientsList;
+    private ArrayList<RecipeIngredient> ingredientsList;
     private ListView ingredientsListView;
     private RecipeIngredientListAdapter ingredientsAdapter;
 
     // database things
     final private DatabaseManager dbm = DatabaseManager.getInstance();
-    private CollectionReference RecipesCollection = dbm.getRecipesCollection();
-    private StorageReference userFilesRef = dbm.getUserFilesRef();
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ingredientsAdapter = new RecipeIngredientListAdapter(this, ingredientsList);
         ingredientsListView.setAdapter(ingredientsAdapter);
 
+
         titleText = findViewById(R.id.title_text);
         hourText = findViewById(R.id.hour_text);
         minuteText = findViewById(R.id.minute_text);
@@ -88,14 +92,13 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
 
         imageButton = findViewById(R.id.image_button);
 
-
         ingredientsButton = findViewById(R.id.ingredient_button);
         submitButton = findViewById(R.id.submit_button);
         cancelButton = findViewById(R.id.cancel_button);
 
         // Category spinner
         categorySpinner = findViewById(R.id.category_spinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.test_array, R.layout.category_spinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.recipe_categories_array, R.layout.category_spinner);
         // Specify the layout to use when the list of choices appears
         spinnerAdapter.setDropDownViewResource(R.layout.category_dropdown_items);
         // Apply the adapter to the spinner
@@ -116,13 +119,26 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
             }
         });
 
-        // choose an image from gallery
+        // take photo
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageChooser();
+                String fileName = "new-photo-name.jpg";
+                // Create parameters for Intent with filename
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, fileName);
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+                imageUri =
+                        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                values);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, 1231);
             }
-        });
+
+        }
+
+        );
 
         // submit button to create & add the recipe
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +216,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                 Bundle args = new Bundle();
                 args.putInt("pos", i);
 
-                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment();
+                ShowRecipeIngredientFragment fragment = new ShowRecipeIngredientFragment(ingredientsList.get(i));
                 fragment.setArguments(args);
                 fragment.show(getSupportFragmentManager(), "SHOW_INGREDIENT");
                 return true;
@@ -208,6 +224,34 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         });
     }
 
+    /**
+     * When the camera app returns, get the image URI
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //if (requestCode == 1231 && resultCode == Activity.RESULT_OK) {
+        if (true) {
+            try {
+                ContentResolver cr = getContentResolver();
+                try {
+                    // Creating a Bitmap with the image Captured
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
+                    selectedImage = imageUri;
+                    // Setting the bitmap as the image of the
+                    activityBackground.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage() != null)
+                    Log.e("Exception", e.getMessage());
+                else
+                    Log.e("Exception", "Exception");
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Opens the user's gallery where they can choose an image for the recipe
      */
@@ -231,7 +275,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
                     // do your operation from here....
                     if (data != null
                             && data.getData() != null) {
-                        selectedImage = data.getData();
+                       selectedImage = data.getData();
                         Bitmap selectedImageBitmap = null;
                         try {
                             selectedImageBitmap
@@ -256,32 +300,44 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
     public void onOkPressed(RecipeIngredient newIngredient) {
         ingredientsList.add(newIngredient);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
+        ;
     }
 
-    // Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
+    /**
+     * Edits ingredient when ok is pressed from AddRecipeFragment when accessed from ShowRecipeIngredientsFragment
+     */
     @Override
     public void onEditOkPressed(RecipeIngredient newIngredient, int i) {
         ingredientsList.set(i, newIngredient);
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    // Show details of ingredient when long pressed
+    /**
+     * Show details of ingredient when long pressed
+     * @param pos
+     */
     @Override
     public void onShowRecipeIngredientOkPressed(int pos) {
         Bundle args = new Bundle();
         args.putInt("pos", pos);
         args.putString("eval", "Edit");
 
-        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment();
+        AddIngredientToRecipeFragment fragment = new AddIngredientToRecipeFragment(ingredientsList.get(pos));
         fragment.setArguments(args);
         fragment.show(getSupportFragmentManager(), "EDIT_INGREDIENT");
     }
 
-    // Deletes ingredient when delete is pressed from ShowRecipeIngredientFragment
+    /**
+     * Deletes ingredient when delete is pressed from ShowRecipeIngredientFragment
+     * @param pos
+     */
     @Override
     public void onShowRecipeIngredientDeletePressed(int pos) {
         ingredientsList.remove(pos);
         ingredientsAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(ingredientsListView);
+        ;
     }
 
     /**
@@ -295,5 +351,26 @@ public class AddRecipeActivity extends AppCompatActivity implements AddIngredien
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }

@@ -28,15 +28,31 @@ import java.util.ArrayList;
  */
 
 public class AddIngredientToRecipeFragment extends DialogFragment {
-    private ArrayList<RecipeIngredient> dataList = AddRecipeActivity.ingredientsList;
     private TextView titleText;
     private EditText descriptionText;
     private Spinner categorySpinner;
-    private EditText amountText;
     private EditText unitText;
 
     private AddIngredientToRecipeFragment.OnFragmentInteractionListener listener;
 
+    private RecipeIngredient recipeIngredient;
+
+    /**
+     * Constructor for creating a RecipeIngredient
+     */
+    public AddIngredientToRecipeFragment() {
+        super();
+    }
+
+    /**
+     * Constructor for editing a RecipeIngredient, pass in the recipe
+     * @param r
+     *  The RecipeIngredient to be edited
+     */
+    public AddIngredientToRecipeFragment(RecipeIngredient r) {
+        super();
+        recipeIngredient = r;
+    }
     /**
      * Listener for when the user is finished entering information and we can pass it back to
      * the AddRecipeActivity.
@@ -65,7 +81,6 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
         titleText = view.findViewById(R.id.add_ingredient_title);
         descriptionText = view.findViewById(R.id.quick_add_ingredient_description);
-        amountText = view.findViewById(R.id.quick_add_ingredient_amount);
         unitText = view.findViewById(R.id.quick_add_ingredient_unit);
 
         // category spinner
@@ -82,13 +97,11 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
 
         if (eval == "Edit") {
             int pos = mArgs.getInt("pos");
-            RecipeIngredient currentIngredient = dataList.get(pos);
-            descriptionText.setText(currentIngredient.getDescription());
-            amountText.setText(currentIngredient.getAmount());
-            unitText.setText(currentIngredient.getUnit());
+            descriptionText.setText(recipeIngredient.getDescription());
+            unitText.setText(recipeIngredient.getUnit());
 
             // Set spinner to current ingredient's category
-            String currentLocation = currentIngredient.getCategory();
+            String currentLocation = recipeIngredient.getCategory();
             ArrayAdapter myAdap = (ArrayAdapter) categorySpinner.getAdapter();
             int spinnerPosition = myAdap.getPosition(currentLocation);
             categorySpinner.setSelection(spinnerPosition);
@@ -103,15 +116,14 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String description = descriptionText.getText().toString();
                             String category = categorySpinner.getSelectedItem().toString();
-                            String amount = amountText.getText().toString();
                             String unit = unitText.getText().toString();
 
                             // validate input
-                            if (description.length() == 0 || amount.length() == 0 || unit.length() == 0) {
+                            if (description.length() == 0 ||  unit.length() == 0) {
                                 Toast.makeText(getContext(), "Field(s) cannot be empty", Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            RecipeIngredient newIngredient = new RecipeIngredient(description, category, amount, unit);
+                            RecipeIngredient newIngredient = new RecipeIngredient(description, category, unit);
                             listener.onEditOkPressed(newIngredient, pos);
 
                         }
@@ -127,17 +139,15 @@ public class AddIngredientToRecipeFragment extends DialogFragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String description = descriptionText.getText().toString();
                             String category = categorySpinner.getSelectedItem().toString();
-                            String amount = amountText.getText().toString();
                             String unit = unitText.getText().toString();
 
                             // validate input
-                            if (description.length() == 0 || amount.length() == 0 || unit.length() == 0) {
+                            if (description.length() == 0 ||  unit.length() == 0) {
                                 Toast.makeText(getContext(), "Field(s) cannot be empty", Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            RecipeIngredient newIngredient = new RecipeIngredient(description, category, amount, unit);
+                            RecipeIngredient newIngredient = new RecipeIngredient(description, category, unit);
                             listener.onOkPressed(newIngredient);
-
                         }
                     }).create();
         }

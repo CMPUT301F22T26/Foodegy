@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#131313"
     tools:context=".IngredientsActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/ingredients_activity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,34 +28,77 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="52dp"
                 android:gravity="center"
-                android:text="My Ingredients"
+                android:fontFamily="@font/montserrat_light"
+                android:text="Ingredients"
                 android:textColor="#D2FFFFFF"
                 android:textSize="30sp" />
-
+            <TextView
+                android:id="@+id/highlightsTag"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:text="Your current storage"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:textColor="#D2FFFFFF"
+                android:textSize="13sp" />
         </LinearLayout>
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="10dp"
+            android:text="Sort by :"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/ingredientSortSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/sort_ingredients"
-            />
-    </FrameLayout>
+            android:layout_height="30dp"
+            android:entries="@array/sort_ingredients" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DCDCDC">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/shadow_drawable"
+            >
+        </View>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#DCDCDC">
 
         <ListView
             android:id="@+id/ingredientList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_marginBottom="60dp"
+            android:paddingBottom="50dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="5.0sp"/>
+            android:dividerHeight="3.0sp"
+            android:outlineSpotShadowColor="@color/black"
+            android:outlineAmbientShadowColor="@color/black"
+            android:scrollbars="none"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -63,7 +107,9 @@
             android:layout_gravity="bottom|end"
             app:srcCompat="@android:drawable/ic_input_add"
             android:backgroundTint="@color/yellow"
+            android:foregroundTint="@color/white"
             android:layout_marginBottom="50dp"
+            app:borderWidth="0dp"
             app:useCompatPadding="true"
             android:clickable="true"
             android:focusable="true" />
@@ -73,9 +119,9 @@
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
             android:layout_height="50dp"
-            android:background="#5D03FF"
-            app:itemIconTint="#ffff"
-            app:itemTextColor="#ffff"
+            android:background="@color/yellow"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -83,6 +129,7 @@
             app:menu="@menu/bottom_nav_menu" />
 
     </FrameLayout>
+
 
 
 

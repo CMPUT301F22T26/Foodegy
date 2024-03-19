@@ -1,72 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#DCFFFFFF">
+    android:layout_height="wrap_content"
+    android:background="#00FFFFFF"
+    android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/recipeHighlight"
-        android:layout_width="273dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="6dp"
-        android:text="Item#"
-        android:textStyle="bold"
-        android:textColor="@color/yellow"
-        android:textSize="15sp" />
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/recipeDescription"
-        android:layout_width="273dp"
-        android:layout_height="31dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="28dp"
-        android:text="Recipe description"
-        android:textColor="@color/black"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_margin="5dp">
 
+            <TextView
+                android:id="@+id/recipeHighlight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Item#"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/cookTime"
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="60dp"
-        android:text="Preparation time; "
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/recipeServings"
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="83dp"
-        android:textColor="@color/black"
-        android:text="Unit: " />
-
-    <ImageView
-        android:id="@+id/foodimageView"
-        android:layout_width="95dp"
-        android:layout_height="95dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/default_recipe_image" />
+            <TextView
+                android:id="@+id/recipeDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Recipe description"
+                android:fontFamily="@font/montserrat_regular"
+                android:layout_weight="1"
+                android:textColor="@color/black" />
 
 
+            <TextView
+                android:id="@+id/cookTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preparation time: "
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/recipeServings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Servings: "
+                android:fontFamily="@font/montserrat_regular"
+                android:layout_weight="1"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/foodimageView"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/default_recipe_image" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow_drawable"
+        android:layout_weight="1">
+    </View>
+
+</LinearLayout>

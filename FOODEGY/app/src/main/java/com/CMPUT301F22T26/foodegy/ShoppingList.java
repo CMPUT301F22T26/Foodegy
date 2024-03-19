@@ -81,6 +81,10 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         }
         Button buyIngredient = view.findViewById(R.id.remove_ingredient);
 
+
+
+
+
         bought.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -134,6 +138,19 @@ public class ShoppingList extends ArrayAdapter<ShoppingListItem>  {
         itemAmountView.setText(String.valueOf(currentItem.getAmount()));
         itemUnitCostView.setText(currentItem.getMeasurementUnit());
         itemCategoryView.setText(currentItem.getCategory());
+
+        String category = currentItem.getCategory();
+        View indicator = view.findViewById(R.id.shopping_cat_indicator);
+        if (category.equals("Vegetable") | category.equals("Fruit")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.vegetable));
+        } else if (category.equals("Dairy") | category.equals("Condiment") | category.equals("Drink")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.dairy));
+        } else if (category.equals("Grain") | category.equals("Carb")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.grain));
+        } else if (category.equals("Meat") | category.equals("Protein")) {
+            indicator.setBackgroundColor(view.getResources().getColor(R.color.meat));
+        }
+
         return view;
 
     }

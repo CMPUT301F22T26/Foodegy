@@ -47,15 +47,13 @@ public class RecipeIngredientListAdapter extends ArrayAdapter<RecipeIngredient> 
         }
         TextView descriptionText = view.findViewById(R.id.ingredient_description);
         TextView categoryText = view.findViewById(R.id.ingredient_category);
-        TextView amountText = view.findViewById(R.id.ingredient_amount);
         TextView unitText = view.findViewById(R.id.ingredient_unit);
 
         RecipeIngredient currentIngredient = dataList.get(position);
 
         descriptionText.setText(currentIngredient.getDescription());
         categoryText.setText("Category: " + currentIngredient.getCategory());
-        amountText.setText("- " + currentIngredient.getAmount());
-        unitText.setText(currentIngredient.getUnit());
+        unitText.setText("Unit: " + currentIngredient.getUnit());
 
 
         return view;

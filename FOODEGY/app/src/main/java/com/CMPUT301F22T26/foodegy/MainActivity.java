@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // give context to database manager so it has the device id
+        DatabaseManager.setAndroid_id(Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
 
         // locate the 4 buttons & respond to button click by starting the appropriate activity
         Button buttonToIngredientActivity = (Button) findViewById(R.id.buttonToIngredientActivity);

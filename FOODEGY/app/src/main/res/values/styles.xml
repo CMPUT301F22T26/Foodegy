@@ -4,15 +4,15 @@
 
 
     <style name="CustomCalendarMonth" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
     <style name="CustomCalendarDay" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="CustomCalendarWeek" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat">

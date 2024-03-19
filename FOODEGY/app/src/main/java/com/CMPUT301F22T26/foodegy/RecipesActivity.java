@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
@@ -56,7 +57,7 @@ public class RecipesActivity extends AppCompatActivity {
     private Query sortedRecipes = RecipesCollection.orderBy(sortingAttribute);
 
     // the navbar for navigating between activities
-    private NavigationBarView bottomNavBar;
+    private BottomNavigationView bottomNavBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,8 @@ public class RecipesActivity extends AppCompatActivity {
 
         binding = ActivityRecipesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        bottomNavBar = (NavigationBarView) findViewById(R.id.bottom_nav);
+        bottomNavBar = findViewById(R.id.bottom_nav);
+        bottomNavBar.setSelectedItemId(R.id.recipes);
         bottomNavBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             // see which navbar item has been clicked
@@ -73,13 +75,16 @@ public class RecipesActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.ingredients:
                         startActivity(new Intent(getBaseContext(), IngredientsActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.meal_plan:
                         startActivity(new Intent(getBaseContext(), MealPlanActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.shopping_cart:
                         startActivity(new Intent(getBaseContext(), ShoppingListActivity.class));
-                        break;
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.recipes:
                         break;
 
@@ -108,17 +113,16 @@ public class RecipesActivity extends AppCompatActivity {
                 intent.putExtra("imageFileName", r.getImageFileName());
                 intent.putExtra("comments", r.getComments());
                 intent.putExtra("id", r.getId());
-                /*
-                   leaving the line below as a commented line since we are not dealing with viewing list of ingredients.
-                       */
-                //intent.putExtra("ingredients",listViewRecipe.get(position).getIngredients());
-                startActivity(intent);
+                intent.putExtra("imageUri", r.getRecipeImage() == null ? null : r.getRecipeImage().toString());
+                intent.putParcelableArrayListExtra("ingredients",r.getIngredients());
+                //startActivity(intent);
+                startActivityForResult(intent, 10);
             }
         });
         addbutton = findViewById(R.id.addRecipe);
         addbutton.setOnClickListener((v) -> {
             Intent intent = new Intent(RecipesActivity.this, AddRecipeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 11);
         });
 
 
@@ -152,7 +156,7 @@ public class RecipesActivity extends AppCompatActivity {
                             .orderBy("minutes", Query.Direction.ASCENDING);
                 }
                 else {
-                    sortedRecipes = RecipesCollection
+                    sortedRecipes
                             .orderBy(sortingAttribute, Query.Direction.ASCENDING);
                 }
 
@@ -190,10 +194,9 @@ public class RecipesActivity extends AppCompatActivity {
             ArrayList<RecipeIngredient> ings = new ArrayList<>();
             for(Map<String, Object> ingredient : documentIngredients) {
                 String unit = (String)ingredient.get("unit");
-                String amount = (String)ingredient.get("amount");
                 String desc = (String)ingredient.get("description");
                 String category = (String)ingredient.get("category");
-                ings.add(new RecipeIngredient(desc, category, amount, unit));
+                ings.add(new RecipeIngredient(desc, category, unit));
             }
 
             // get other data fields
@@ -235,5 +238,23 @@ public class RecipesActivity extends AppCompatActivity {
      */
     public ArrayList<Recipe> getListViewRecipe() {
         return listViewRecipe;
+    }
+
+    /**
+     * When we come back to this activity, reload the list
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     *  No data, should be null
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sortedRecipes.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+             @Override
+             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                 reloadRecipes(queryDocumentSnapshots);
+             }
+         });
     }
 }

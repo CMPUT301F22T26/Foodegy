@@ -54,12 +54,9 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
     private AddMealPlanFragment.OnFragmentInteractionListener listener;
 
     // user id
-    final private String android_id = "TEST_ID";
-    final private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    final private CollectionReference IngredientStorage = firestore.collection("users")
-            .document(android_id).collection("IngredientStorage");
-    final private CollectionReference RecipeStorage = firestore.collection("users")
-            .document(android_id).collection("Recipes");
+    final private DatabaseManager dbm = DatabaseManager.getInstance();
+    final private CollectionReference IngredientStorage = dbm.getIngredientStorageCollection();
+    final private CollectionReference RecipeStorage = dbm.getRecipesCollection();
 
     /**
      * Interface that will allow the fragment to pass information back to the activity
@@ -192,7 +189,16 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         servings = view.findViewById(R.id.addMealServingsCount);
-                        int numberOfServings = Integer.parseInt(servings.getText().toString());
+                        String servingInputValue = servings.getText().toString();
+
+
+//                        // validate input!
+                        if (servingInputValue.length() == 0) {
+                            Toast.makeText(getActivity(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        int numberOfServings = Integer.parseInt(servingInputValue);
                         foodSelection = view.findViewById(R.id.addMealItemName);
                         String foodSelectionName = foodSelection.getSelectedItem().toString();
 
@@ -209,67 +215,96 @@ public class AddMealPlanFragment extends androidx.fragment.app.DialogFragment {
                         calendar.set(year, month, day);
                         Long endTime = calendar.getTimeInMillis();
 
+                        if (endTime < Long.parseLong(timeStampDate)) {
+                            Toast.makeText(getActivity(), "Invalid end date", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
+
+
                         // get ingredients
                         int selectedOptionId = mealPlanType.getCheckedRadioButtonId();
                         RadioButton selectedButton = mealPlanType.findViewById(selectedOptionId);
                         String selectedOption = selectedButton.getText().toString();
                         assert (selectedOption.equals("Ingredient") || selectedOption.equals("Recipe"));
-                        Map<String, Integer> ingredients = new HashMap<>(); // will store ingredients
-                        // in format:
-                        // {
-                        // ingredient: amount,
-                        // ingredient2: amount2, }
-                        if (selectedOption == "Ingredient"){
-                            ingredients.put(foodSelectionName, 1);
+
+
+                        ArrayList<ShoppingListItem> ingredients = new ArrayList<>();
+
+                        System.out.println("SELECTED OPTION ISSSS" + selectedOption);
+                        if (selectedOption.equals("Ingredient")){
+                            IngredientStorage.whereEqualTo("description", foodSelectionName).get().addOnCompleteListener(
+                                    new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                try {
+                                                    // grab first result for simplicity
+                                                    Map<String, Object> doc = task.getResult().getDocuments().get(0).getData();
+                                                    // save this ingredient as a ShoppingListItem
+                                                    ingredients.add(new ShoppingListItem((String) doc.get("description"), numberOfServings, (String) doc.get("measurementUnit"), (String) doc.get("category")));
+                                                } catch (Exception e) {
+
+                                                    System.out.println("EXCEPTION OCCURRED! " + e);
+                                                }
+
+
+                                            }
+
+                                            listener.onSubmitPressed(
+                                                    new MealPlanItem(
+                                                            timeStampDate, String.valueOf(endTime), foodSelectionName, Long.valueOf(numberOfServings), ingredients
+                                                    ));
+
+                                        };
+                                    });
+
+
                         } else {
                             // query firebase for recipe based on name; (first occurrence)
                             // grab its list of ingredients
                             // & set the current list of ingredients to that list
-                            System.out.println("MEAL PLAN QUERY. ABOUT TO EXECUTE");
                             RecipeStorage.whereEqualTo("title", foodSelectionName).get().addOnCompleteListener(
                                     new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 try {
-                                                    System.out.println("MEAL PLAN QUERY WAS ALLEGEDLY SUCCESSFUL");
                                                     // grab first result for simplicity
                                                     Map<String, Object> doc = task.getResult().getDocuments().get(0).getData();
-                                                    System.out.println("MEAL PLAN QUERY RETURNED" + doc);
-                                                    Map<String, Integer> result = (Map) doc.get("ingredients");
-                                                    System.out.println("MEAL PLAN QUERY " + result);
-                                                    for (Map.Entry<String, Integer> entry : result.entrySet()) {
-                                                        ingredients.put(entry.getKey(), entry.getValue());
+                                                    ArrayList<Map<String, Object>> ingredientsArray = (ArrayList<Map<String, Object>>) doc.get("ingredients");
+                                                    for (int k = 0; k < ingredientsArray.size(); k++){
+                                                        // go through each ingredient that the recipe has
+                                                        // access map fields using attributes of recipeIngredient
+                                                        Map<String, Object> currentIngredient = ingredientsArray.get(k); // get current value
+                                                        String itemName = (String) currentIngredient.get("description");
+                                                        Integer amount = Integer.valueOf((String) currentIngredient.get("amount"));
+                                                        String unit = (String) currentIngredient.get("unit");
+                                                        String category = (String) currentIngredient.get("category");
+                                                        ingredients.add(new ShoppingListItem(itemName, amount, unit, category));
                                                     }
 
                                                 } catch (Exception e) {
 
                                                 }
                                             }
-                                        }
 
-                                        ;
+
+                                            listener.onSubmitPressed(
+                                                    new MealPlanItem(
+                                                            timeStampDate, String.valueOf(endTime), foodSelectionName, Long.valueOf(numberOfServings), ingredients
+                                                    ));
+                                        };
                                     });
 
 
-//                        // validate input!
-                            if (servings.length() == 0) {
-                                Toast.makeText(getActivity(), "Servings cannot be empty", Toast.LENGTH_LONG).show();
-                                return;
-                            }
 
-                            if (endTime < Long.parseLong(timeStampDate)) {
-                                Toast.makeText(getActivity(), "Invalid end date", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            listener.onSubmitPressed(
-                                    new MealPlanItem(
-                                            timeStampDate, String.valueOf(endTime), foodSelectionName, Long.valueOf(numberOfServings), ingredients
-                                    ));
                         }
 
-                    };
+
+                        System.out.println("INGREDIENTS!" + ingredients);
+                    }
                 }).create();
 
 

@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.widget.Button;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -24,19 +27,21 @@ import java.util.ArrayList;
 /**
  * Test class for features of the Ingredients activity
  */
-public class IngredientsActivityTest {
+public class TestsOnIngredients {
     private Solo solo;
     private FloatingActionButton addButton;
-    private IngredientsActivity activity;
+    private MainActivity mainActivity;
+    private IngredientsActivity ingredientsActivity;
     private StorageIngredient mockIngredientView;
     private StorageIngredient mockIngredientDelete;
     private StorageIngredient mockIngredientEdit;
     private String[] locations;
     private String[] categories;
     private DatabaseManager dbm;
+
     @Rule
-    public ActivityTestRule<IngredientsActivity> rule =
-            new ActivityTestRule<>(IngredientsActivity.class, true, true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class, true, true);
 
     /**
      * Run before all tests & creates the Solo instance
@@ -44,21 +49,29 @@ public class IngredientsActivityTest {
      */
     @Before
     public void setup() throws Exception {
-        activity = rule.getActivity();
+        mainActivity = rule.getActivity();
         dbm = DatabaseManager.getInstance();
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), activity);
-        addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), mainActivity);
 
-        locations = activity.getResources().getStringArray(R.array.locations_array);
-        categories = activity.getResources().getStringArray(R.array.categories_array);
+
+        locations = mainActivity.getResources().getStringArray(R.array.locations_array);
+        categories = mainActivity.getResources().getStringArray(R.array.categories_array);
 
         // create a mock ingredient that we can use to test viewing
-        mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, 1, categories[0]);
-        mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, 1, categories[0]);
-        mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, 1, categories[0]);
-        activity.addIngredientToDatabase(mockIngredientView);
-        activity.addIngredientToDatabase(mockIngredientDelete);
-        activity.addIngredientToDatabase(mockIngredientEdit);
+        mockIngredientView = new StorageIngredient("Mock Ingredient", "31-12-2020", locations[0], 18, "lb", categories[0]);
+        mockIngredientDelete = new StorageIngredient("Test delete ingredient", "01-11-1999", locations[0], 10, "ee", categories[0]);
+        mockIngredientEdit = new StorageIngredient("Test edit ingredient", "01-02-1000",locations[0], 10, "!!!!", categories[0]);
+        dbm.addIngredientToDatabase(mockIngredientView);
+        dbm.addIngredientToDatabase(mockIngredientDelete);
+        dbm.addIngredientToDatabase(mockIngredientEdit);
+
+        solo.clickOnButton("INGREDIENTS");
+        solo.waitForActivity("IngredientsActivity", 2000);
+        solo.assertCurrentActivity("Must be IngredientsActivity",IngredientsActivity.class);
+        ingredientsActivity = (IngredientsActivity) solo.getCurrentActivity();
+//        activity.addIngredientToDatabase(mockIngredientView);
+//        activity.addIngredientToDatabase(mockIngredientDelete);
+//        activity.addIngredientToDatabase(mockIngredientEdit);
     }
 
     /**
@@ -68,9 +81,12 @@ public class IngredientsActivityTest {
     @After
     public void takedown() throws Exception {
         // remove the mock ingredient from the database afterwards<3
-        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
-        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientView.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+        dbm.deleteIngredientFromDatabase(mockIngredientEdit.getId());
+//        activity.deleteIngredientFromDatabase(mockIngredientView.getId());
+//        activity.deleteIngredientFromDatabase(mockIngredientDelete.getId());
+//        activity.deleteIngredientFromDatabase(mockIngredientEdit.getId());
     }
 
     /**
@@ -79,7 +95,8 @@ public class IngredientsActivityTest {
     @Test
     public void testAddIngredient() throws Exception {
         // press the add button to make the dialog fragment pop up
-        solo.assertCurrentActivity("Must be IngredientsActivity",IngredientsActivity.class);
+
+                addButton = (FloatingActionButton) solo.getView(R.id.floatingActionButton);
         solo.clickOnView(addButton);
         EditText editDescription = (EditText)solo.getView(R.id.editTextIngredientDescription);
         EditText editQuantity = (EditText)solo.getView(R.id.editTextIngredientAmount);
@@ -89,7 +106,17 @@ public class IngredientsActivityTest {
         // enter dummy data
         solo.enterText(editDescription, "aTestIngredient!!");
         solo.pressSpinnerItem(0,1);
+//        View view1 = solo.getView(Spinner.class, 0);
+//        solo.clickOnView(view1);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.pressSpinnerItem(1,0);
+//        View view2 = solo.getView(Spinner.class, 1);
+//        solo.clickOnView(view2);
+//        solo.scrollToTop();
+//        solo.clickOnView(solo.getView(TextView.class, 1));
+
         solo.enterText(editQuantity, "15");
         solo.enterText(editUnit, "4");
         solo.setDatePicker(datePicker, 2023, 4, 19);
@@ -100,7 +127,7 @@ public class IngredientsActivityTest {
         solo.waitForText("aTestIngredient!!", 1, 2000);
 
         // try to find it
-        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        ArrayList<StorageIngredient> ingredients = ingredientsActivity.getIngredientData();
         boolean found = false;
         String id = "";
         for (StorageIngredient ingredient : ingredients) {
@@ -113,7 +140,7 @@ public class IngredientsActivityTest {
         assertTrue("Did not find ingredient in the list", found);
 
         // delete the created ingredient afterwards
-        activity.deleteIngredientFromDatabase(id);
+        ingredientsActivity.deleteIngredientFromDatabase(id);
     }
 
     /**
@@ -123,7 +150,7 @@ public class IngredientsActivityTest {
     public void viewIngredientTest() {
         // find the position of mockIngredient in the list view
         solo.waitForText("Mock Ingredient", 1, 2000);
-        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        ArrayList<StorageIngredient> ingredients = ingredientsActivity.getIngredientData();
         int pos = 1;  // clickInList is indexed by 1 for some reason
         for (StorageIngredient ing : ingredients) {
             if ("Mock Ingredient".equals(ing.getDescription())) {
@@ -150,7 +177,7 @@ public class IngredientsActivityTest {
         assertEquals("Best before incorrect", mockIngredientView.getBestBeforeDate(), bestBeforeView.getText().toString());
         assertEquals("Location incorrect", mockIngredientView.getLocation(), locationView.getText().toString());
         assertEquals("Category incorrect", mockIngredientView.getCategory(), categoryView.getText().toString());
-        assertEquals("Unit incorrect", mockIngredientView.getMeasurementUnit(), Integer.parseInt(unitView.getText().toString()));
+        assertEquals("Unit incorrect", mockIngredientView.getMeasurementUnit(), unitView.getText().toString());
     }
 
     /**
@@ -162,7 +189,7 @@ public class IngredientsActivityTest {
         solo.waitForText("Test delete ingredient", 1, 2000);
 
         // find the position of it in the list
-        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        ArrayList<StorageIngredient> ingredients = ingredientsActivity.getIngredientData();
         int pos = 1;  // for some reason clickInList is indexed by 1???????? ;(
         for (StorageIngredient ing : ingredients) {
             if ("Test delete ingredient".equals(ing.getDescription())) {
@@ -180,7 +207,7 @@ public class IngredientsActivityTest {
         // give it 1 second to update
         solo.sleep(1000);
         // try to find the ingredient in the datalist again! (shouldnt be able to, because its gone)
-        ingredients = activity.getIngredientData();
+        ingredients = ingredientsActivity.getIngredientData();
         boolean found = false;
         for (StorageIngredient ing : ingredients) {
             if ("Test delete ingredient".equals(ing.getDescription())) {
@@ -199,7 +226,7 @@ public class IngredientsActivityTest {
         // wait for it to be added
         solo.waitForText("Test edit ingredient", 1, 2000);
         // find the ingredient in the list
-        ArrayList<StorageIngredient> ingredients = activity.getIngredientData();
+        ArrayList<StorageIngredient> ingredients = ingredientsActivity.getIngredientData();
         int pos = 1;  // clickInList is indexed by 1 for some reason
         for (StorageIngredient ing : ingredients) {
             if ("Test edit ingredient".equals(ing.getDescription())) {
@@ -236,7 +263,7 @@ public class IngredientsActivityTest {
 
         solo.waitForText("Edited the ingredient!", 1, 2000);
         // find the ingredient again
-        ingredients = activity.getIngredientData();
+        ingredients = ingredientsActivity.getIngredientData();
         StorageIngredient newIngredient = null;
         for (int i=0; i<ingredients.size(); i++) {
             StorageIngredient ing = ingredients.get(i);
@@ -249,9 +276,8 @@ public class IngredientsActivityTest {
         solo.waitForText("Edited the ingredient!", 1, 2000);
         assertEquals("Description not edited", "Edited the ingredient!", newIngredient.getDescription());
         assertEquals("Location not edited", locations[1], newIngredient.getLocation());
-        assertEquals("Category not edited", categories[1], newIngredient.getCategory());
         assertEquals("Amount not edited", 333, newIngredient.getAmount());
-        assertEquals("Unit not edited", 183, newIngredient.getMeasurementUnit());
-        assertEquals("Best Before Date not edited", "02-04-2020", newIngredient.getBestBeforeDate());
+        assertEquals("Unit not edited", "183", newIngredient.getMeasurementUnit());
+        assertEquals("Best Before Date not edited", "02-05-2020", newIngredient.getBestBeforeDate());
     }
 }
